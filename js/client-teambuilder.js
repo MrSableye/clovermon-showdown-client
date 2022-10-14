@@ -2013,6 +2013,7 @@
 				case 'Vivillon':
 				case 'Eccosmic':
 				case 'Fontaba':
+				case 'Fucker':
 					break;
 				default:
 					smogdexid += '-' + toID(species.forme);
