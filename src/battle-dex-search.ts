@@ -913,6 +913,7 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		else if (format === 'doublesou' && dex.gen > 4) tierSet = tierSet.slice(slices.DOU);
 		else if (format === 'doublesuu') tierSet = tierSet.slice(slices.DUU);
 		else if (format === 'doublesnu') tierSet = tierSet.slice(slices.DNU || slices.DUU);
+		else if (format === 'nfe') tierSet = tierSet.slice(slices.NFE);
 		else if (this.formatType === 'letsgo') tierSet = tierSet.slice(slices.Uber);
 		// else if (isDoublesOrBS) tierSet = tierSet;
 		else if (!isDoublesOrBS) {
