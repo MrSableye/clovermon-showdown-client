@@ -1941,6 +1941,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	}
 	const buf = 'exports.BattleItems = ' + es3stringify(Items) + ';';
 	fs.writeFileSync('data/items.js', buf);
+	fs.writeFileSync('data/items.json', JSON.stringify(Items));
 }
 
 /*********************************************************
@@ -1956,6 +1957,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	}
 	const buf = 'exports.BattleAbilities = ' + es3stringify(Abilities) + ';';
 	fs.writeFileSync('data/abilities.js', buf);
+	fs.writeFileSync('data/abilities.json', JSON.stringify(Abilities));
 }
 
 /*********************************************************
@@ -1966,6 +1968,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const TypeChart = requireNoCache('../data/clovermon-showdown/.data-dist/typechart.js').TypeChart;
 	const buf = 'exports.BattleTypeChart = ' + es3stringify(TypeChart) + ';';
 	fs.writeFileSync('data/typechart.js', buf);
+	fs.writeFileSync('data/typechart.json', JSON.stringify(TypeChart));
 }
 
 /*********************************************************
@@ -1976,6 +1979,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const Aliases = requireNoCache('../data/clovermon-showdown/.data-dist/aliases.js').Aliases;
 	const buf = 'exports.BattleAliases = ' + es3stringify(Aliases) + ';';
 	fs.writeFileSync('data/aliases.js', buf);
+	fs.writeFileSync('data/aliases.json', JSON.stringify(Aliases));
 }
 
 /*********************************************************
@@ -1986,6 +1990,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const FormatsData = requireNoCache('../data/clovermon-showdown/.data-dist/formats-data.js').FormatsData;
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('data/formats-data.js', buf);
+	fs.writeFileSync('data/formats-data.json', JSON.stringify(FormatsData));
 }
 
 /*********************************************************
@@ -1996,6 +2001,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const Formats = requireNoCache('../data/clovermon-showdown/.config-dist/formats.js').Formats;
 	const buf = 'exports.Formats = ' + es3stringify(Formats) + ';';
 	fs.writeFileSync('data/formats.js', buf);
+	fs.writeFileSync('data/formats.json', JSON.stringify(Formats));
 }
 
 /*********************************************************
@@ -2006,6 +2012,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const Learnsets = requireNoCache('../data/clovermon-showdown/.data-dist/learnsets.js').Learnsets;
 	const buf = 'exports.BattleLearnsets = ' + es3stringify(Learnsets) + ';';
 	fs.writeFileSync('data/learnsets.js', buf);
+	fs.writeFileSync('data/learnsets.json', JSON.stringify(Learnsets));
 }
 
 /*********************************************************
@@ -2037,6 +2044,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 
 	const buf = 'exports.BattleText = ' + es3stringify(Text) + ';';
 	fs.writeFileSync('data/text.js', buf);
+	fs.writeFileSync('data/text.json', JSON.stringify(Text));
 }
 
 console.log("DONE");
