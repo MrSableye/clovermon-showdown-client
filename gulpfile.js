@@ -5,6 +5,7 @@ function streamTask() {
     'audio/**/*.mp3',
     'config/config.js',
     'data/*.js',
+    'data/*.json',
     'fx/**/*',
     'js/**/*',
     'sprites/**/*',
