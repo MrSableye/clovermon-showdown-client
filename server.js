@@ -4,6 +4,7 @@ const http = require('http');
 const https = require('https');
 const axios = require('axios');
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const yargs = require('yargs');
 
@@ -17,6 +18,7 @@ const argv = yargs.option('httpOnly', {
 }).parse();
 
 const app = express();
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.post(`/~~${defaultserver.id}/action.php`, (request, response, next) => {
