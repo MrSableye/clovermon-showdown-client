@@ -1820,7 +1820,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			}
 			if (baseEntry.shortDesc !== modEntry.shortDesc) {
 				overrideMoveDesc[moveId] = modEntry.shortDesc;
-			} else if (baseEntry.shortDesc !== modDescs.shortDesc) {
+			} else if (modDescs && (baseEntry.shortDesc !== modDescs.shortDesc)) {
 				overrideMoveDesc[moveId] = modDescs.shortDesc;
 			}
 			if (baseEntry.isNonstandard !== modEntry.isNonstandard) {
@@ -1835,19 +1835,19 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 
 			if ((baseEntry.shortDesc || baseEntry.desc) !== (modEntry.shortDesc || modEntry.desc)) {
 				overrideItemDesc[itemId] = (modEntry.shortDesc || modEntry.desc);
-			} else if ((baseEntry.shortDesc || baseEntry.desc) !== (modDescs.shortDesc || modDescs.desc)) {
+			} else if (modDescs && (baseEntry.shortDesc || baseEntry.desc) !== (modDescs.shortDesc || modDescs.desc)) {
 				overrideItemDesc[itemId] = (modDescs.shortDesc || modDescs.desc);
 			}
 		}
 
 		for (const abilityId in modData.Abilities) {
-			const modDescs = moddedDex.getDescs('Abiities', abilityId, {});
+			const modDescs = moddedDex.getDescs('Abilities', abilityId, {});
 			const baseEntry = baseData.Abilities[abilityId];
 			const modEntry = modData.Abilities[abilityId];
 
 			if ((baseEntry.shortDesc || baseEntry.desc) !== (modEntry.shortDesc || modEntry.desc)) {
 				overrideAbilityDesc[abilityId] = (modEntry.shortDesc || modEntry.desc);
-			} else if ((baseEntry.shortDesc || baseEntry.desc) !== (modDescs.shortDesc || modDescs.desc)) {
+			} else if (modDescs && (baseEntry.shortDesc || baseEntry.desc) !== (modDescs.shortDesc || modDescs.desc)) {
 				overrideItemDesc[abilityId] = (modDescs.shortDesc || modDescs.desc);
 			}
 		}
