@@ -1802,10 +1802,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			const baseEntry = baseData.Moves[moveId];
 			const modEntry = modData.Moves[moveId];
 
-			if (baseEntry.shortDesc || modEntry.shortDesc) {
-				console.log(moveId, baseEntry.shortDesc, modEntry.shortDesc)
-			}
-
 			if (baseEntry.basePower !== modEntry.basePower) {
 				overrideBP[moveId] = modEntry.basePower;
 			}
