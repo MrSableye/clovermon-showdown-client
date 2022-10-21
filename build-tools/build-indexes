@@ -1798,8 +1798,13 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const overrideAbilityDesc = {};
 
 		for (const moveId in modData.Moves) {
+			const modDescs = moddedDex.getDescs('Moves', moveId, {});
 			const baseEntry = baseData.Moves[moveId];
 			const modEntry = modData.Moves[moveId];
+
+			if (baseEntry.shortDesc || modEntry.shortDesc) {
+				console.log(moveId, baseEntry.shortDesc, modEntry.shortDesc)
+			}
 
 			if (baseEntry.basePower !== modEntry.basePower) {
 				overrideBP[moveId] = modEntry.basePower;
@@ -1815,6 +1820,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			}
 			if (baseEntry.shortDesc !== modEntry.shortDesc) {
 				overrideMoveDesc[moveId] = modEntry.shortDesc;
+			} else if (pastEntry.shortDesc !== modDescs.shortDesc) {
+				overrideMoveDesc[moveId] = modDescs.shortDesc;
 			}
 			if (baseEntry.isNonstandard !== modEntry.isNonstandard) {
 				overrideMoveIsNonstandard[moveId] = modEntry.isNonstandard;
@@ -1822,20 +1829,26 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		for (const itemId in modData.Items) {
+			const modDescs = moddedDex.getDescs('Items', itemId, {});
 			const baseEntry = baseData.Items[itemId];
 			const modEntry = modData.Items[itemId];
 
 			if ((baseEntry.shortDesc || baseEntry.desc) !== (modEntry.shortDesc || modEntry.desc)) {
 				overrideItemDesc[itemId] = (modEntry.shortDesc || modEntry.desc);
+			} else if ((baseEntry.shortDesc || baseEntry.desc) !== (modDescs.shortDesc || modDescs.desc)) {
+				overrideItemDesc[itemId] = (modDescs.shortDesc || modDescs.desc);
 			}
 		}
 
 		for (const abilityId in modData.Abilities) {
+			const modDescs = moddedDex.getDescs('Abiities', abilityId, {});
 			const baseEntry = baseData.Abilities[abilityId];
 			const modEntry = modData.Abilities[abilityId];
 
 			if ((baseEntry.shortDesc || baseEntry.desc) !== (modEntry.shortDesc || modEntry.desc)) {
 				overrideAbilityDesc[abilityId] = (modEntry.shortDesc || modEntry.desc);
+			} else if ((baseEntry.shortDesc || baseEntry.desc) !== (modDescs.shortDesc || modDescs.desc)) {
+				overrideItemDesc[abilityId] = (modDescs.shortDesc || modDescs.desc);
 			}
 		}
 
