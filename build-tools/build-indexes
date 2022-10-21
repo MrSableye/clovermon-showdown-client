@@ -1820,7 +1820,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			}
 			if (baseEntry.shortDesc !== modEntry.shortDesc) {
 				overrideMoveDesc[moveId] = modEntry.shortDesc;
-			} else if (pastEntry.shortDesc !== modDescs.shortDesc) {
+			} else if (baseEntry.shortDesc !== modDescs.shortDesc) {
 				overrideMoveDesc[moveId] = modDescs.shortDesc;
 			}
 			if (baseEntry.isNonstandard !== modEntry.isNonstandard) {
