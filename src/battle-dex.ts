@@ -888,7 +888,7 @@ class ModdedDex {
 					break;
 				}
 			}
-			if (id in table.overrideMoveDesc[id]) {
+			if (id in table.overrideMoveDesc) {
 				data.shortDesc = table.overrideMoveDesc[id];
 			}
 
