@@ -888,6 +888,9 @@ class ModdedDex {
 					break;
 				}
 			}
+			if (id in table.overrideMoveDesc[id]) {
+				data.shortDesc = table.overrideMoveDesc[id];
+			}
 
 			const move = new Move(id, name, data);
 			this.cache.Moves[id] = move;
@@ -914,6 +917,9 @@ class ModdedDex {
 				}
 			}
 
+			const table = window.BattleTeambuilderTable[this.modid];
+			if (id in table.overrideItemDesc) data.shortDesc = table.overrideItemDesc[id];
+
 			const item = new Item(id, name, data);
 			this.cache.Items[id] = item;
 			return item;
@@ -938,6 +944,9 @@ class ModdedDex {
 					break;
 				}
 			}
+
+			const table = window.BattleTeambuilderTable[this.modid];
+			if (id in table.overrideAbilityDesc) data.shortDesc = table.overrideItemDesc[id];
 
 			const ability = new Ability(id, name, data);
 			this.cache.Abilities[id] = ability;
