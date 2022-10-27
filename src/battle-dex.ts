@@ -946,7 +946,7 @@ class ModdedDex {
 			}
 
 			const table = window.BattleTeambuilderTable[this.modid];
-			if (id in table.overrideAbilityDesc) data.shortDesc = table.overrideItemDesc[id];
+			if (id in table.overrideAbilityDesc) data.shortDesc = table.overrideAbilityDesc[id];
 
 			const ability = new Ability(id, name, data);
 			this.cache.Abilities[id] = ability;
