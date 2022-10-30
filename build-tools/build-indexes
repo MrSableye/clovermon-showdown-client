@@ -772,6 +772,23 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		blobbossneed: 1379 + (50 * 12) + 47,
 		blobbossus: 1379 + (50 * 12) + 48,
 		blobbostandor: 1379 + (50 * 12) + 49,
+		blobbosayylien: 1379+ (50 * 12) + 50,
+		blobbosmimikyu: 1379+ (50 * 12) + 51,
+		blobbosbloody: 1379+ (50 * 12) + 52,
+		blobboscandycorn: 1379+ (50 * 12) + 53,
+		blobboscreature: 1379+ (50 * 12) + 54,
+		blobbostriforce: 1379+ (50 * 12) + 55,
+		blobbosexe: 1379+ (50 * 12) + 56,
+		blobboseye: 1379+ (50 * 12) + 57,
+		blobbosinfected: 1379+ (50 * 12) + 58,
+		blobbosmoniker: 1379+ (50 * 12) + 59,
+		blobbosmummy: 1379+ (50 * 12) + 60,
+		blobbosshadow: 1379+ (50 * 12) + 61,
+		blobbosskeleton: 1379+ (50 * 12) + 62,
+		blobbosspooky: 1379+ (50 * 12) + 63,
+		blobbosvampire: 1379+ (50 * 12) + 64,
+		blobbossexy: 1379+ (50 * 12) + 65,
+		blobbosinfectedzombie: 1379+ (50 * 12) + 66,
 	};
 	
 	const BattlePokemonIconIndexesLeft = {
@@ -1842,6 +1859,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			const modEntry = modData.Abilities[abilityId];
 
 			if ((baseEntry.shortDesc || baseEntry.desc) !== (modEntry.shortDesc || modEntry.desc)) {
+				if (abilityId === 'illuminate') console.log(modEntry.shortDesc || modEntry.desc);
 				overrideAbilityDesc[abilityId] = (modEntry.shortDesc || modEntry.desc);
 			} else if (modDescs && (baseEntry.shortDesc || baseEntry.desc) !== (modDescs.shortDesc || modDescs.desc)) {
 				overrideItemDesc[abilityId] = (modDescs.shortDesc || modDescs.desc);
