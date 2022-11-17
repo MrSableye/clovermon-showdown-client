@@ -1,10 +1,10 @@
 {
 	"id": "showdown",
-	"host": "clover.weedl.es",
+	"host": "localhost",
 	"port": 8443,
 	"httpport": 8000,
 	"altport": 80,
 	"registered": true,
-	"https": true,
+	"https": false,
 	"afd": false
 }
