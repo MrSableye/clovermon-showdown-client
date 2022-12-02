@@ -1859,6 +1859,12 @@ class BattleTooltips {
 		if (move.recoil || move.hasCrashDamage) {
 			value.abilityModify(1.2, 'Reckless');
 		}
+		if (move.type === 'Poison') {
+			value.abilityModify(1.5, 'Pozzed');
+		}
+		if (move.type === 'Ghost') {
+			value.abilityModify(1.5, 'Phantasma');
+		}
 
 		if (move.category !== 'Status') {
 			let auraBoosted = '';
