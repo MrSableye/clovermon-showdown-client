@@ -1,6 +1,6 @@
 {
     "root": "clover.weedl.es",
-    "client": "localhost: 4280",
+    "client": "localhost:4280",
     "clientProtocol": "http",
     "dex": "dex.pokemonshowdown.com",
     "replays": "replay.pokemonshowdown.com",
