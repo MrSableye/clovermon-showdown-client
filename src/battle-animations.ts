@@ -1613,6 +1613,7 @@ class BattleScene {
 		switch (bgmNum) {
 		case -1:
 			this.bgm = BattleSound.loadBgm('audio/strand-type-music.mp3', 92778, 107077, this.bgm);
+			break;
 		case 1:
 			this.bgm = BattleSound.loadBgm('audio/edgie.mp3', 88923, 189889, this.bgm);
 			break;
