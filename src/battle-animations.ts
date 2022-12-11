@@ -1907,6 +1907,7 @@ class PokemonSprite extends Sprite {
 		// Gen 1
 		lightscreen: ['Light Screen', 'good'],
 		reflect: ['Reflect', 'good'],
+		bridge: ['Bridging', 'good'],
 	};
 	forme = '';
 	cryurl: string | undefined = undefined;
