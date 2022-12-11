@@ -931,6 +931,7 @@ class BattleScene {
 				hail: 'Hail',
 				deltastream: 'Strong Winds',
 				densefog: 'Dense Fog',
+				timefall: 'Timefall',
 			};
 			weatherhtml = `${weatherNameTable[this.battle.weather] || this.battle.weather}`;
 			if (this.battle.weatherMinTimeLeft !== 0) {

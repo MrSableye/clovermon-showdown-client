@@ -1358,6 +1358,10 @@ class Battle {
 				this.weatherTimeLeft = (this.gen <= 3 ? 5 : 8);
 				this.weatherMinTimeLeft = (this.gen <= 3 ? 0 : 5);
 			}
+			if (weather === 'timefall') {
+				this.weatherTimeLeft = 5;
+				this.weatherMinTimeLeft = 5;
+			}
 		}
 		this.weather = weather;
 		this.scene.updateWeather();
