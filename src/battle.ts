@@ -1360,7 +1360,7 @@ class Battle {
 			}
 			if (weather === 'timefall') {
 				this.weatherTimeLeft = 5;
-				this.weatherMinTimeLeft = 5;
+				this.weatherMinTimeLeft = 0;
 			}
 		}
 		this.weather = weather;
