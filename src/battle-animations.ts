@@ -1611,6 +1611,8 @@ class BattleScene {
 		this.bgmNum = bgmNum;
 
 		switch (bgmNum) {
+		case -1:
+			this.bgm = BattleSound.loadBgm('audio/strand-type-music.mp3', 92778, 107077, this.bgm);
 		case 1:
 			this.bgm = BattleSound.loadBgm('audio/edgie.mp3', 88923, 189889, this.bgm);
 			break;
@@ -2340,6 +2342,8 @@ class PokemonSprite extends Sprite {
 			top: this.statbarTop,
 			opacity: 1,
 		}, 400 / this.scene.acceleration);
+
+		this.kojimaCheck(pokemon);
 	}
 	animDragIn(pokemon: Pokemon, slot: number) {
 		if (!this.scene.animating) return;
@@ -2376,6 +2380,8 @@ class PokemonSprite extends Sprite {
 			left: this.statbarLeft,
 			opacity: 1,
 		}, 400);
+
+		this.kojimaCheck(pokemon);
 	}
 	animDragOut(pokemon: Pokemon) {
 		if (!this.scene.animating) return this.animUnsummon(pokemon, true);
@@ -2673,6 +2679,16 @@ class PokemonSprite extends Sprite {
 		for (const id in this.effects) this.removeEffect(id as ID, true);
 		this.animSubFade(true);
 		this.removeTransform();
+	}
+
+	kojimaCheck(pokemon: Pokemon) {
+		if (pokemon.side.isFar) return;
+
+		if (pokemon.speciesForme === 'Blobbos-Strand') {
+			this.scene.setBgm(-1);
+		} else if (this.scene.bgmNum === -1) {
+			this.scene.rollBgm();
+		}
 	}
 
 	// Statbar
