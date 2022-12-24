@@ -788,7 +788,7 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		blobbosspooky: 1379 + (53 * 12) + 63,
 		blobbosvampire: 1379 + (53 * 12) + 64,
 		blobbossexy: 1379 + (53 * 12) + 65,
-		blobbosinfectedzombie: 1379 + (53 * 12) + 66,
+		blobboszombie: 1379 + (53 * 12) + 66,
 		blobbosartist: 1379 + (53 * 12) + 67,
 		blobbosbee: 1379 + (53 * 12) + 68,
 		blobboshologram: 1379 + (53 * 12) + 69,
