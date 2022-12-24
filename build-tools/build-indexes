@@ -747,7 +747,7 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		blobbostherian: 1379 + (53 * 12) + 22,
 		blobbospostmodern: 1379 + (53 * 12) + 23,
 		blobbosfnaf: 1379 + (53 * 12) + 24,
-		blobbostrips: 1379 + (53 * 12) + 25,
+		blobbostriple: 1379 + (53 * 12) + 25,
 		blobbosbirb: 1379 + (53 * 12) + 26,
 		blobbosathlete: 1379 + (53 * 12) + 27,
 		blobbosgay: 1379 + (53 * 12) + 28,
@@ -805,6 +805,9 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		blobbosplok: 1379 + (53 * 12) + 80,
 		blobboswack: 1379 + (53 * 12) + 81,
 		blobboszero: 1379 + (53 * 12) + 82,
+		blobbosmushroom:  1379 + (53 * 12) + 83,
+		blobbosnegatandor:  1379 + (53 * 12) + 84,
+		blobbospaper:  1379 + (53 * 12) + 85,
 	};
 	
 	const BattlePokemonIconIndexesLeft = {
