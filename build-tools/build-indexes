@@ -1881,7 +1881,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if ((baseEntry.shortDesc || baseEntry.desc) !== (modEntry.shortDesc || modEntry.desc)) {
 				overrideAbilityDesc[abilityId] = (modEntry.shortDesc || modEntry.desc);
 			} else if (modDescs && (baseEntry.shortDesc || baseEntry.desc) !== (modDescs.shortDesc || modDescs.desc)) {
-				overrideItemDesc[abilityId] = (modDescs.shortDesc || modDescs.desc);
+				overrideAbilityDesc[abilityId] = (modDescs.shortDesc || modDescs.desc);
 			}
 		}
 
