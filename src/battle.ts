@@ -2285,6 +2285,7 @@ class Battle {
 					break;
 				case 'powerofalchemy':
 				case 'receiver':
+				case 'copypower':
 					this.activateAbility(poke, effect.name);
 					this.scene.wait(500);
 					this.activateAbility(poke, ability.name, true);
