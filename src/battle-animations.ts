@@ -1861,6 +1861,7 @@ class PokemonSprite extends Sprite {
 		watersport: ['Water Sport', 'good'],
 		mudsport: ['Mud Sport', 'good'],
 		waitforit: ['Wait For It', 'neutral'],
+		onaquest: ['Questing', 'neutral'],
 		substitute: null,
 		livewire: ['Livewire', 'bad'],
 		faradaycage: ['Faraday Cage', 'good'],

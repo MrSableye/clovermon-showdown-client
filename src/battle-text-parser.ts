@@ -495,6 +495,7 @@ class BattleTextParser {
 				case 'minior': id = 'shieldsdown'; templateName = 'transformEnd'; break;
 				case 'eiscuenoice': id = 'iceface'; break;
 				case 'eiscue': id = 'iceface'; templateName = 'transformEnd'; break;
+				case 'blobbosadventurerlegendary': id = 'onaquest'; break;
 				}
 			} else if (newSpecies) {
 				id = 'transform';
@@ -584,6 +585,13 @@ class BattleTextParser {
 				const template = this.template('activate', 'perishsong');
 				return line1 + template.replace('[POKEMON]', this.pokemon(pokemon)).replace('[NUMBER]', num);
 			}
+			if (id === 'onaquest') {
+				const template = this.template('start', 'onaquest');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[QUESTNAME]', kwArgs.questname)
+					.replace('[QUESTTEXT]', kwArgs.questtext);
+			}
 			let templateId = 'start';
 			if (kwArgs.already) templateId = 'alreadyStarted';
 			if (kwArgs.fatigue) templateId = 'startFromFatigue';
@@ -606,6 +614,12 @@ class BattleTextParser {
 			if (id === 'doomdesire' || id === 'futuresight' || id === 'finalhour') {
 				const template = this.template('activate', effect);
 				return line1 + template.replace('[TARGET]', this.pokemon(pokemon));
+			}
+			if (id === 'onaquest') {
+				const template = this.template('end', 'onaquest');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[QUESTNAME]', kwArgs.questname);
 			}
 			let templateId = 'end';
 			let template = '';
@@ -847,6 +861,16 @@ class BattleTextParser {
 			if (id === 'dispenser') {
 				const template = this.template('activate', effect);
 				return template.replace('[SOURCE]', this.pokemon(kwArgs.of)).replace('[TARGET]', this.pokemon(pokemon)).replace('[MOVE]', kwArgs.move);
+			}
+
+			if (id === 'onaquest') {
+				const template = this.template('activate', 'onaquest');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[QUESTNAME]', kwArgs.questname)
+					.replace('[QUESTPROGRESS]', kwArgs.questprogress)
+					.replace('[QUESTREQUIREMENT]', kwArgs.questrequirement)
+					.replace('[QUESTPROGRESSTEXT]', kwArgs.questprogresstext);
 			}
 
 			let templateId = 'activate';
