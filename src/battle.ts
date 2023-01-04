@@ -2788,6 +2788,12 @@ class Battle {
 				if (isNaN(pp)) pp = 4;
 				poke.rememberMove(move, pp);
 				break;
+			case 'drinkpotion':
+				move = this.dex.moves.get(kwArgs.move).name;
+				pp = Number(kwArgs.number);
+				if (isNaN(pp)) pp = 4;
+				poke.rememberMove(move, pp - 1);
+				break;
 			case 'gravity':
 				poke.removeVolatile('magnetrise' as ID);
 				poke.removeVolatile('telekinesis' as ID);
