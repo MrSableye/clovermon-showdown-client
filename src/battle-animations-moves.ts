@@ -42220,3 +42220,5 @@ BattleMoveAnims['hyperbeamd'] = {anim: BattleMoveAnims['hyperbeam'].anim};
 BattleMoveAnims['wrapd'] = {anim: BattleMoveAnims['wrap'].anim};
 BattleMoveAnims['agilityd'] = {anim: BattleMoveAnims['agility'].anim};
 BattleMoveAnims['eternalwalk'] = {anim: BattleMoveAnims['thunderouskick'].anim};
+BattleMoveAnims['susteelstrike'] = {anim: BattleMoveAnims['sunsteelstrike'].anim};
+BattleMoveAnims['penetrate'] = {anim: BattleMoveAnims['leechlife'].anim};
