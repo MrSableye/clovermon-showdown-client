@@ -592,6 +592,13 @@ class BattleTextParser {
 					.replace('[QUESTNAME]', kwArgs.questname)
 					.replace('[QUESTTEXT]', kwArgs.questtext);
 			}
+			if (id === 'taskoriented') {
+				const template = this.template('start', 'taskoriented');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[TASKNAME]', kwArgs.taskname)
+					.replace('[TASKTEXT]', kwArgs.tasktext);
+			}
 			let templateId = 'start';
 			if (kwArgs.already) templateId = 'alreadyStarted';
 			if (kwArgs.fatigue) templateId = 'startFromFatigue';
@@ -620,6 +627,11 @@ class BattleTextParser {
 				return line1 + template
 					.replace('[POKEMON]', this.pokemon(pokemon))
 					.replace('[QUESTNAME]', kwArgs.questname);
+			}
+			if (id === 'taskoriented') {
+				const template = this.template('end', 'taskoriented');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon));
 			}
 			let templateId = 'end';
 			let template = '';
@@ -871,6 +883,15 @@ class BattleTextParser {
 					.replace('[QUESTPROGRESS]', kwArgs.questprogress)
 					.replace('[QUESTREQUIREMENT]', kwArgs.questrequirement)
 					.replace('[QUESTPROGRESSTEXT]', kwArgs.questprogresstext);
+			}
+			if (id === 'taskoriented') {
+				const template = this.template('activate', 'taskoriented');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[TASKNAME]', kwArgs.taskname)
+					.replace('[TASKPROGRESS]', kwArgs.taskprogress)
+					.replace('[TASKREQUIREMENT]', kwArgs.taskrequirement)
+					.replace('[TASKPROGRESSTEXT]', kwArgs.taskprogresstext);
 			}
 
 			let templateId = 'activate';
