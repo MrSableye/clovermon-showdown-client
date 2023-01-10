@@ -38972,6 +38972,583 @@ const BattleMoveAnims: AnimTable = {
 			}, 'swing');
 		},
 	},
+	metalblade: {
+		anim(scene, [attacker, defender]) {
+			let xf = [1, -1, 1, -1];
+			let yf = [1, -1, -1, 1];
+			let xf2 = [1, 0, -1, 0];
+			let yf2 = [0, 1, 0, -1];
+
+			for (let i = 0; i < 4; i++) {
+				scene.showEffect('iceball', {
+					x: attacker.x,
+					y: attacker.y,
+					z: attacker.z,
+					scale: 0.15,
+					yscale: 0.1,
+					opacity: 0.5,
+				}, {
+					x: attacker.x + 240 * xf[i],
+					y: attacker.y,
+					z: attacker.z + 137 * yf[i],
+					scale: 1,
+					yscale: 0.66,
+					opacity: 1,
+					time: 800,
+				}, 'accel', 'fade');
+				scene.showEffect('iceball', {
+					x: attacker.x,
+					y: attacker.y,
+					z: attacker.z,
+					scale: 0.15,
+					yscale: 0.1,
+					opacity: 0.5,
+				}, {
+					x: attacker.x + 339 * xf2[i],
+					y: attacker.y,
+					z: attacker.z + 194 * yf2[i],
+					scale: 1,
+					yscale: 0.66,
+					opacity: 1,
+					time: 800,
+				}, 'accel', 'fade');
+			}
+		},
+	},
+	airshooter: {
+		anim(scene, [attacker, defender]) {
+			scene.showEffect('wisp', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.5,
+				opacity: 0.5,
+				time: 0,
+			}, {
+				x: defender.x,
+				y: defender.y + 10,
+				z: defender.z,
+				scale: 1,
+				opacity: 1,
+				time: 400,
+			}, 'linear');
+			scene.showEffect('wisp', {
+				x: defender.leftof(-20),
+				y: defender.y + 10,
+				z: defender.behind(20),
+				scale: 1.2,
+				opacity: 0.8,
+				time: 400,
+			}, {
+				y: defender.y + 80,
+				opacity: 1,
+				time: 500,
+			}, 'decel', 'explode');
+			defender.delay(380);
+			defender.anim({
+				y: defender.y + 100,
+				z: defender.behind(5),
+				opacity: 0.5,
+				time: 300,
+			}, 'decel');
+			defender.anim({
+				time: 250,
+			}, 'accel');
+			defender.anim({
+				x: defender.x,
+				y: defender.y - 30,
+				yscale: 0.25,
+				time: 50,
+			}, 'swing');
+			defender.anim({
+				time: 300,
+			}, 'swing');
+		},
+	},
+	bubblelead: {
+		anim(scene, [attacker, defender]) {
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.8,
+				opacity: 0.8,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.behind(0),
+				opacity: 0.7,
+				time: 400,
+			}, 'decel', 'explode');
+			scene.showEffect('blackwisp', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.4,
+				opacity: 0.3,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.behind(0),
+				opacity: 0.7,
+				time: 400,
+			}, 'decel', 'explode');
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.8,
+				opacity: 0.8,
+				time: 300,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.behind(0),
+				opacity: 0.7,
+				time: 700,
+			}, 'decel', 'explode');
+			scene.showEffect('blackwisp', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.4,
+				opacity: 0.3,
+				time: 300,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.behind(0),
+				opacity: 0.7,
+				time: 700,
+			}, 'decel', 'explode');
+		},
+	},
+	quickboomerang: {
+		anim(scene, [attacker, defender]) {
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0,
+				time: 0,
+			}, {
+				z: defender.behind(20),
+				opacity: 1,
+				time: 300,
+			}, 'ballistic2');
+			scene.showEffect('iceball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.behind(20),
+				scale: 0.6,
+				opacity: 1,
+				time: 300,
+			}, {
+				z: attacker.z,
+				opacity: 0,
+				time: 600,
+			}, 'ballistic2Under', 'fade');
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0,
+				time: 100,
+			}, {
+				z: defender.behind(20),
+				opacity: 1,
+				time: 400,
+			}, 'ballistic2');
+			scene.showEffect('iceball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.behind(20),
+				scale: 0.6,
+				opacity: 1,
+				time: 400,
+			}, {
+				z: attacker.z,
+				opacity: 0,
+				time: 700,
+			}, 'ballistic2Under', 'fade');
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0,
+				time: 200,
+			}, {
+				z: defender.behind(20),
+				opacity: 1,
+				time: 500,
+			}, 'ballistic2');
+			scene.showEffect('iceball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.behind(20),
+				scale: 0.6,
+				opacity: 1,
+				time: 500,
+			}, {
+				z: attacker.z,
+				opacity: 0,
+				time: 800,
+			}, 'ballistic2Under', 'fade');
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0,
+				time: 300,
+			}, {
+				z: defender.behind(20),
+				opacity: 1,
+				time: 600,
+			}, 'ballistic2');
+			scene.showEffect('iceball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.behind(20),
+				scale: 0.6,
+				opacity: 1,
+				time: 600,
+			}, {
+				z: attacker.z,
+				opacity: 0,
+				time: 900,
+			}, 'ballistic2Under', 'fade');
+		},
+	},
+	crashbomber: {
+		anim(scene, [attacker, defender]) {
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.2,
+				opacity: 0.6,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 300,
+			}, 'linear', 'explode');
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.4,
+				opacity: 0.6,
+				time: 30,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 330,
+			}, 'linear', 'fade');
+		},
+	},
+	timestopper: {
+		anim(scene) {
+			scene.backgroundEffect('#000000', 300, 0.2);
+			scene.backgroundEffect('#000000', 300, 0.3, 200);
+		},
+	},
+	atomicfire: {
+		anim(scene, [attacker, defender]) {
+			scene.backgroundEffect('linear-gradient(#421800 40%, #B8652F)', 800, 0.7);
+			scene.backgroundEffect('#ffffff', 200, 0.7, 700);
+			scene.backgroundEffect('#000000', 800, 0.7, 900);
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				scale: 0,
+			}, {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				scale: 2,
+				time: 200,
+			}, 'accel', 'fade');
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				opacity: 0.4,
+				scale: 0,
+				time: 150,
+			}, {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				scale: 3,
+				opacity: 0,
+				time: 800,
+			}, 'linear');
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				opacity: 0.8,
+				scale: 2,
+				time: 200,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 2.5,
+				time: 500,
+			}, 'accel', 'fade');
+
+			scene.showEffect('flareball', {
+				x: defender.x,
+				y: defender.y - 50,
+				z: defender.z,
+				scale: 1,
+				xscale: 3,
+				opacity: 0.5,
+				time: 550,
+			}, {
+				scale: 3,
+				xscale: 8,
+				opacity: 0.1,
+				time: 1000,
+			}, 'linear', 'fade');
+			scene.showEffect('flareball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.3,
+				scale: 0,
+				time: 500,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 4,
+				opacity: 0,
+				time: 800,
+			}, 'linear');
+			scene.showEffect('flareball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.7,
+				scale: 0,
+				time: 700,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 4,
+				opacity: 0,
+				time: 1000,
+			}, 'linear');
+
+			scene.showEffect('fireball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 1,
+				opacity: 0.3,
+				time: 800
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 0.6,
+				opacity: 1,
+				time: 900,
+			}, 'accel', 'fade');
+			scene.showEffect('fireball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 1,
+				opacity: 0.3,
+				time: 900,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 0.6,
+				opacity: 1,
+				time: 1000,
+			}, 'accel', 'fade');
+			scene.showEffect('fireball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 1,
+				opacity: 0.3,
+				time: 1000,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 0.6,
+				opacity: 1,
+				time: 1100,
+			}, 'accel', 'fade');
+			scene.showEffect('fireball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 1,
+				opacity: 0.3,
+				time: 1100,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 0.6,
+				opacity: 1,
+				time: 1200,
+			}, 'accel', 'fade');
+
+			scene.showEffect('flareball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 3,
+				opacity: 0.3,
+				time: 800
+			}, {
+				scale: 0.6,
+				opacity: 1,
+				time: 1100,
+			}, 'decel', 'fade');
+			scene.showEffect('flareball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 3,
+				opacity: 0.3,
+				time: 900,
+			}, {
+				scale: 0.8,
+				opacity: 0.6,
+				time: 1200,
+			}, 'decel', 'fade');
+			scene.showEffect('flareball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 0.6,
+				opacity: 0.8,
+				time: 1200,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 5,
+				opacity: 0.8,
+				time: 1600,
+			}, 'accel', 'explode');
+
+			scene.showEffect('flareball', {
+				x: defender.x,
+				y: defender.y - 60,
+				z: defender.z,
+				scale: 1,
+				xscale: 3,
+				opacity: 0.5,
+				time: 1700,
+			}, {
+				scale: 3,
+				xscale: 8,
+				opacity: 0.1,
+				time: 2100,
+			}, 'linear', 'fade');
+			scene.showEffect('electroball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 1,
+				scale: 1,
+				time: 1700,
+			}, {
+				scale: 6,
+				opacity: 0,
+				time: 1900,
+			}, 'linear');
+			scene.showEffect('flareball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 1,
+				scale: 1,
+				time: 1800,
+			}, {
+				scale: 6,
+				opacity: 0,
+				time: 2100,
+			}, 'linear');
+			scene.showEffect('wisp', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 1,
+				scale: 5,
+				time: 1600,
+			}, {
+				scale: 12,
+				opacity: 0.5,
+				time: 2300,
+			}, 'linear', 'fade');
+
+			scene.showEffect('fireball', {
+				x: defender.x + 40,
+				y: defender.y,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 1600,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+			scene.showEffect('fireball', {
+				x: defender.x - 40,
+				y: defender.y - 20,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 1750,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+			scene.showEffect('fireball', {
+				x: defender.x + 10,
+				y: defender.y + 20,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 1900,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+
+			defender.delay(825);
+			defender.anim({
+				z: defender.behind(20),
+				time: 1100,
+			}, 'swing');
+			defender.anim({
+				time: 1200,
+			}, 'swing');
+		},
+		prepareAnim: BattleOtherAnims.atomize.anim,
+	},
 	leafshield: {
 		anim(scene, [attacker]) {
 			let xf = [1, -1, 1, -1];
@@ -39051,6 +39628,177 @@ const BattleMoveAnims: AnimTable = {
 					time: 800,
 				}, 'accel');
 			}
+		},
+	},
+	lemons: {
+		anim(scene, [attacker, defender]) {
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.2,
+				opacity: 0.6,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 300,
+			}, 'linear', 'explode');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.4,
+				opacity: 0.6,
+				time: 20,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 320,
+			}, 'linear', 'fade');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.2,
+				opacity: 0.6,
+				time: 40,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 340,
+			}, 'linear', 'fade');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.2,
+				opacity: 0.6,
+				time: 200,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 500,
+			}, 'linear', 'explode');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.4,
+				opacity: 0.6,
+				time: 220,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 520,
+			}, 'linear', 'fade');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.2,
+				opacity: 0.6,
+				time: 240,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 540,
+			}, 'linear', 'fade');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.2,
+				opacity: 0.6,
+				time: 400,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 700,
+			}, 'linear', 'explode');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.4,
+				opacity: 0.6,
+				time: 420,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 720,
+			}, 'linear', 'fade');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.2,
+				opacity: 0.6,
+				time: 440,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 740,
+			}, 'linear', 'fade');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.2,
+				opacity: 0.6,
+				time: 600,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 900,
+			}, 'linear', 'explode');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.4,
+				opacity: 0.6,
+				time: 620,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 920,
+			}, 'linear', 'fade');
+			scene.showEffect('electroball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.2,
+				opacity: 0.6,
+				time: 640,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.6,
+				time: 940,
+			}, 'linear', 'fade');
 		},
 	},
 	badeggs: {
