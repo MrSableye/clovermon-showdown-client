@@ -1857,6 +1857,7 @@ class PokemonSprite extends Sprite {
 		doomdesire: null,
 		futuresight: null,
 		finalhour: null,
+		crashbomber: null,
 		mimic: ['Mimic', 'good'],
 		watersport: ['Water Sport', 'good'],
 		mudsport: ['Mud Sport', 'good'],
@@ -4634,6 +4635,96 @@ const BattleOtherAnims: AnimTable = {
 				x: defender.x,
 				time: 100,
 			});
+		},
+	},
+	crashbomberhit: {
+		anim(scene, [defender]) {
+			scene.backgroundEffect('#ffffff', 600, 0.6);
+			scene.showEffect('fireball', {
+				x: defender.x + 40,
+				y: defender.y,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+			scene.showEffect('fireball', {
+				x: defender.x - 40,
+				y: defender.y - 20,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 150,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+			scene.showEffect('fireball', {
+				x: defender.x + 10,
+				y: defender.y + 20,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 300,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+
+			defender.delay(100);
+			defender.anim({
+				x: defender.x - 30,
+				time: 75,
+			});
+			defender.anim({
+				x: defender.x + 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x - 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x + 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x,
+				time: 100,
+			});
+		},
+	},
+	atomize: {
+		anim(scene, [attacker]) {
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				scale: 0,
+			}, {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				scale: 2,
+				time: 200,
+			}, 'accel', 'fade');
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				opacity: 0.4,
+				scale: 0,
+				time: 150,
+			}, {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				scale: 3,
+				opacity: 0,
+				time: 800,
+			}, 'linear');
 		},
 	},
 	poisonpulse: {
