@@ -20,7 +20,7 @@ child_process.execSync('npm run build', {cwd: 'data/clovermon-showdown'});
 console.log("DONE");
 
 const Dex = require('../data/clovermon-showdown/.sim-dist/dex').Dex;
-const Tags = require('../data/clovermon-showdown/.data-dist/tags').Tags;
+const Tags = require('../data/clovermon-showdown/dist/data/tags').Tags;
 const toID = Dex.toID;
 process.stdout.write("Loading gen 6 data... ");
 Dex.includeData();
@@ -1938,7 +1938,7 @@ console.log("DONE");
 process.stdout.write("Building `data/pokedex.js`... ");
 
 {
-	const Pokedex = requireNoCache('../data/clovermon-showdown/.data-dist/pokedex.js').Pokedex;
+	const Pokedex = requireNoCache('../data/clovermon-showdown/dist/data/pokedex.js').Pokedex;
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
 		if (Dex.data.FormatsData[id]) {
@@ -1963,7 +1963,7 @@ console.log("DONE");
 process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.js`...");
 
 {
-	const Moves = requireNoCache('../data/clovermon-showdown/.data-dist/moves.js').Moves;
+	const Moves = requireNoCache('../data/clovermon-showdown/dist/data/moves.js').Moves;
 	for (const id in Moves) {
 		const move = Dex.moves.get(Moves[id].name);
 		if (move.desc) Moves[id].desc = move.desc;
@@ -1979,7 +1979,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Items = requireNoCache('../data/clovermon-showdown/.data-dist/items.js').Items;
+	const Items = requireNoCache('../data/clovermon-showdown/dist/data/items.js').Items;
 	for (const id in Items) {
 		const item = Dex.items.get(Items[id].name);
 		if (item.desc) Items[id].desc = item.desc;
@@ -1995,7 +1995,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Abilities = requireNoCache('../data/clovermon-showdown/.data-dist/abilities.js').Abilities;
+	const Abilities = requireNoCache('../data/clovermon-showdown/dist/data/abilities.js').Abilities;
 	for (const id in Abilities) {
 		const ability = Dex.abilities.get(Abilities[id].name);
 		if (ability.desc) Abilities[id].desc = ability.desc;
@@ -2011,7 +2011,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const TypeChart = requireNoCache('../data/clovermon-showdown/.data-dist/typechart.js').TypeChart;
+	const TypeChart = requireNoCache('../data/clovermon-showdown/dist/data/typechart.js').TypeChart;
 	const buf = 'exports.BattleTypeChart = ' + es3stringify(TypeChart) + ';';
 	fs.writeFileSync('data/typechart.js', buf);
 	fs.writeFileSync('data/typechart.json', JSON.stringify(TypeChart));
@@ -2022,7 +2022,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Aliases = requireNoCache('../data/clovermon-showdown/.data-dist/aliases.js').Aliases;
+	const Aliases = requireNoCache('../data/clovermon-showdown/dist/data/aliases.js').Aliases;
 	const buf = 'exports.BattleAliases = ' + es3stringify(Aliases) + ';';
 	fs.writeFileSync('data/aliases.js', buf);
 	fs.writeFileSync('data/aliases.json', JSON.stringify(Aliases));
@@ -2033,7 +2033,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const FormatsData = requireNoCache('../data/clovermon-showdown/.data-dist/formats-data.js').FormatsData;
+	const FormatsData = requireNoCache('../data/clovermon-showdown/dist/data/formats-data.js').FormatsData;
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('data/formats-data.js', buf);
 	fs.writeFileSync('data/formats-data.json', JSON.stringify(FormatsData));
@@ -2055,7 +2055,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Learnsets = requireNoCache('../data/clovermon-showdown/.data-dist/learnsets.js').Learnsets;
+	const Learnsets = requireNoCache('../data/clovermon-showdown/dist/data/learnsets.js').Learnsets;
 	const buf = 'exports.BattleLearnsets = ' + es3stringify(Learnsets) + ';';
 	fs.writeFileSync('data/learnsets.js', buf);
 	fs.writeFileSync('data/learnsets.json', JSON.stringify(Learnsets));
