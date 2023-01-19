@@ -1960,9 +1960,6 @@ class BattleTooltips {
 				value.abilityModify(1.2, "Normalize");
 			}
 		}
-		if (move.flags['punch']) {
-			value.abilityModify(1.2, 'Iron Fist');
-		}
 		if (move.flags['kick']) {
 			value.abilityModify(1.2, 'Striker');
 		}
