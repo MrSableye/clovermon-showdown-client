@@ -19,7 +19,7 @@ child_process.execSync('git pull', {cwd: 'data/clovermon-showdown'});
 child_process.execSync('npm run build', {cwd: 'data/clovermon-showdown'});
 console.log("DONE");
 
-const Dex = require('../data/clovermon-showdown/.sim-dist/dex').Dex;
+const Dex = require('../data/clovermon-showdown/dist/sim/dex').Dex;
 const Tags = require('../data/clovermon-showdown/dist/data/tags').Tags;
 const toID = Dex.toID;
 process.stdout.write("Loading gen 6 data... ");
@@ -2044,7 +2044,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Formats = requireNoCache('../data/clovermon-showdown/.config-dist/formats.js').Formats;
+	const Formats = requireNoCache('../data/clovermon-showdown/dist/config/formats.js').Formats;
 	const buf = 'exports.Formats = ' + es3stringify(Formats) + ';';
 	fs.writeFileSync('data/formats.js', buf);
 	fs.writeFileSync('data/formats.json', JSON.stringify(Formats));
