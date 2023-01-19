@@ -193,7 +193,7 @@ const Dex = new class implements ModdedDex {
 
 	mod(gen: number, modid?: ID): ModdedDex {
 		if (!modid) modid = `gen${gen}` as ID;
-		if (modid === 'gen8') return this;
+		if (modid === 'gen9') return this;
 		if (!window.BattleTeambuilderTable) return this;
 		if (modid in this.moddedDexes) {
 			return this.moddedDexes[modid];
