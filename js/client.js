@@ -218,7 +218,7 @@ function toId() {
 		getActionPHP: function () {
 			var ret = '/~~' + Config.server.id + '/action.php';
 			if (Config.testclient) {
-				ret = 'https://' + Config.routes.client + ret;
+				ret = Config.routes.clientProtocol + '://' + Config.routes.client + ret;
 			}
 			return (this.getActionPHP = function () {
 				return ret;
@@ -745,7 +745,8 @@ function toId() {
 
 			var self = this;
 			var constructSocket = function () {
-				var protocol = (Config.server.port === 443 || Config.server.https) ? 'https' : 'http';
+				var protocol = Config.server.https ? 'https' : 'http';
+				var port = Config.server.https ? Config.server.port : Config.server.httpport;
 				Config.server.host = $.trim(Config.server.host);
 				try {
 					if (Config.server.host === 'localhost') {
@@ -759,14 +760,14 @@ function toId() {
 						// We need to bypass the port as well because on most modern browsers, http gets forced
 						// to https, which means a ws connection is made to port 443 instead of wherever it's actually running,
 						// thus ensuring a failed connection.
-						var port = possiblePort || Config.server.port;
+						port = possiblePort || port;
 						console.log("Bypassing SockJS for localhost");
 						var url = 'ws://' + Config.server.host + ':' + port + Config.sockjsprefix + '/websocket';
 						console.log(url);
 						return new WebSocket(url);
 					}
 					return new SockJS(
-						protocol + '://' + Config.server.host + ':' + Config.server.port + Config.sockjsprefix,
+						protocol + '://' + Config.server.host + ':' + port + Config.sockjsprefix,
 						[], {timeout: 5 * 60 * 1000}
 					);
 				} catch (err) {
@@ -1465,9 +1466,9 @@ function toId() {
 				}
 				if (this.rel === 'noopener') {
 					var formatOptions = Dex.prefs('chatformatting') || {};
-					if (!formatOptions.hideinterstice && !BattleLog.interstice.isWhitelisted(this.href)) {
-						this.href = BattleLog.interstice.getURI(this.href);
-					}
+					// if (!formatOptions.hideinterstice && !BattleLog.interstice.isWhitelisted(this.href)) {
+					// 	this.href = BattleLog.interstice.getURI(this.href);
+					// }
 				} else if (this.target === '_blank') {
 					// for performance reasons, there's no reason to ever have an opener
 					this.rel = 'noopener';
@@ -2653,10 +2654,32 @@ function toId() {
 				}
 			}
 			var ownUserid = app.user.get('userid');
+			var badges = data.badges;
 
 			var buf = '<div class="userdetails">';
 			if (avatar) buf += '<img class="trainersprite' + (userid === ownUserid ? ' yours' : '') + '" src="' + Dex.resolveAvatar(avatar) + '" />';
 			buf += '<strong><a href="//' + Config.routes.users + '/' + userid + '" target="_blank">' + BattleLog.escapeHTML(name) + '</a></strong><br />';
+			if (badges && badges.length) {
+				let badgeBuffer = '<span class="userbadges">';
+				badges.forEach((badge) => {
+					const server = Config.server || Config.defaultserver;
+					const protocol = server.https ? 'https' : 'http';
+					const port = server.https ? server.port : server.httpport;
+					const badgeSrc = protocol + '://' + server.host + ':' + port +
+						'/badges/' + encodeURIComponent(badge.file_name).replace(/\%3F/g, '?');
+					badgeBuffer += '<img class="userbadge" height="16" width="16" alt="' + badge.badge_name + '" title="' + badge.badge_name + '" src="' + badgeSrc + '" />';
+				});
+				badgeBuffer += '</span>';
+
+				if (badges.length >= 8) {
+					buf += '<span class="badge-marquee-wrapper" style="width: 128px">'
+					buf += '<span class="badge-marquee">';
+					buf += badgeBuffer + badgeBuffer;
+					buf += '</span></span><br />';
+				} else {
+					buf += badgeBuffer + '<br />';
+				}
+			}
 			var offline = data.rooms === false;
 			if (data.status || offline) {
 				var status = offline ? '(Offline)' : data.status.startsWith('!') ? data.status.slice(1) : data.status;

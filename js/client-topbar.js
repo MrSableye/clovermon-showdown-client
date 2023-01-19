@@ -717,9 +717,8 @@
 			buf += '<p>Choose an avatar or <button name="close">Cancel</button></p>';
 
 			buf += '<div class="avatarlist">';
-			for (var i = 1; i <= 293; i++) {
-				if (i === 162 || i === 168) continue;
-				var offset = '-' + (((i - 1) % 16) * 80 + 1) + 'px -' + (Math.floor((i - 1) / 16) * 80 + 1) + 'px';
+			for (var i = 69000; i <= 69092; i++) {
+				var offset = '-' + (((i - 69000) % 16) * 80 + 1) + 'px -' + (Math.floor((i - 69000) / 16) * 80 + 1) + 'px';
 				buf += '<button name="setAvatar" value="' + i + '" style="background-position:' + offset + '"' + (i === cur ? ' class="cur"' : '') + ' title="/avatar ' + i + '"></button>';
 			}
 			buf += '</div><div style="clear:left"></div>';
@@ -800,12 +799,15 @@
 			buf += '<p><strong>Official</strong></p>';
 			buf += '<div class="bglist">';
 
-			buf += '<button name="setBg" value="charizards"' + (cur === 'charizards' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 0) + 'px"></span>Charizards</button>';
-			buf += '<button name="setBg" value="horizon"' + (cur === 'horizon' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 1) + 'px"></span>Horizon</button>';
-			buf += '<button name="setBg" value="waterfall"' + (cur === 'waterfall' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 2) + 'px"></span>Waterfall</button>';
-			buf += '<button name="setBg" value="ocean"' + (cur === 'ocean' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 3) + 'px"></span>Ocean</button>';
-			buf += '<button name="setBg" value="shaymin"' + (cur === 'shaymin' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 4) + 'px"></span>Shaymin</button>';
-			buf += '<button name="setBg" value="solidblue"' + (cur === 'solidblue' ? ' class="cur"' : '') + '><span class="bg" style="background: #344b6c"></span>Solid blue</button>';
+			buf += '<button name="setBg" value="blobbos-beach"' + (cur === 'blobbos-beach' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 0) + 'px"></span>Blobbos Beach</button>';
+			buf += '<button name="setBg" value="team-forest"' + (cur === 'team-forest' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 1) + 'px"></span>Team Forest</button>';
+			buf += '<button name="setBg" value="kymmi-beach"' + (cur === 'kymmi-beach' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 2) + 'px"></span>Kymmi Beach</button>';
+			buf += '<button name="setBg" value="brock-space"' + (cur === 'brock-space' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 3) + 'px"></span>Brock in Space</button>';
+			buf += '<button name="setBg" value="creepy-keks"' + (cur === 'creepy-keks' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 4) + 'px"></span>Creepy Keksandra</button>';
+			buf += '<button name="setBg" value="dude-weed-lmao"' + (cur === 'dude-weed-lmao' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 5) + 'px"></span>Dude. Weed. Lmao.</button>';
+			buf += '<button name="setBg" value="demiwaifu"' + (cur === 'demiwaifu' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 6) + 'px"></span>Demiwaifu</button>';
+			buf += '<button name="setBg" value="aesthetic-marleyzard"' + (cur === 'aesthetic-marleyzard' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 7) + 'px"></span>Aesthetic Marleyzard</button>';
+			buf += '<button name="setBg" value="friday-night"' + (cur === 'friday-night' ? ' class="cur"' : '') + '><span class="bg" style="background-position:0 -' + (90 * 8) + 'px"></span>Friday Night</button>';
 
 			buf += '</div><div style="clear:left"></div>';
 			buf += '<p><strong>Custom</strong></p>';

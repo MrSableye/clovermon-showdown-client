@@ -479,6 +479,14 @@ License: GPLv2
 	background: #DDAAEE url(../fx/weather-wonderroom.png) no-repeat scroll left top;
 	color: #661155;
 }
+.densefogweather {
+	background: #AAAAAA url(../fx/weather-densefog.png) no-repeat scroll left top;
+	color: #666666;
+}
+.timefallweather {
+	background: #AAAAAA url(../fx/weather-timefall.png) no-repeat scroll left top;
+	color: #666666;
+}
 
 .battle .result {
 	display: none;

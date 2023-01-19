@@ -148,7 +148,7 @@ class BattleTextParser {
 				kwArgs.ability = arg3;
 				kwArgs.ability2 = arg4;
 			} else if ([
-				'eeriespell', 'gmaxdepletion', 'spite', 'grudge', 'forewarn', 'sketch', 'leppaberry', 'mysteryberry',
+				'eeriespell', 'gmaxdepletion', 'spite', 'grudge', 'forewarn', 'sketch', 'leppaberry', 'mysteryberry', 'dispenser', 'drinkpotion',
 			].includes(id)) {
 				kwArgs.move = arg3;
 				kwArgs.number = arg4;
@@ -176,7 +176,7 @@ class BattleTextParser {
 
 		case 'cant': {
 			let [, pokemon, effect, move] = args;
-			if (['ability: Damp', 'ability: Dazzling', 'ability: Queenly Majesty', 'ability: Armor Tail'].includes(effect)) {
+			if (['ability: Damp', 'ability: Dazzling', 'ability: Queenly Majesty', 'ability: Armor Tail', 'ability: Supportive'].includes(effect)) {
 				args[0] = '-block';
 				return {args: ['-block', pokemon, effect, move, kwArgs.of], kwArgs: {}};
 			}
@@ -496,6 +496,7 @@ class BattleTextParser {
 				case 'minior': id = 'shieldsdown'; templateName = 'transformEnd'; break;
 				case 'eiscuenoice': id = 'iceface'; break;
 				case 'eiscue': id = 'iceface'; templateName = 'transformEnd'; break;
+				case 'blobbosadventurerlegendary': id = 'onaquest'; break;
 				}
 			} else if (newSpecies) {
 				id = 'transform';
@@ -590,6 +591,20 @@ class BattleTextParser {
 				const template = this.template('start', id.slice(0, id.length - 3));
 				return line1 + template.replace('[POKEMON]', this.pokemon(pokemon)).replace('[STAT]', BattleTextParser.stat(stat));
 			}
+			if (id === 'onaquest') {
+				const template = this.template('start', 'onaquest');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[QUESTNAME]', kwArgs.questname)
+					.replace('[QUESTTEXT]', kwArgs.questtext);
+			}
+			if (id === 'taskoriented') {
+				const template = this.template('start', 'taskoriented');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[TASKNAME]', kwArgs.taskname)
+					.replace('[TASKTEXT]', kwArgs.tasktext);
+			}
 			let templateId = 'start';
 			if (kwArgs.already) templateId = 'alreadyStarted';
 			if (kwArgs.fatigue) templateId = 'startFromFatigue';
@@ -610,9 +625,20 @@ class BattleTextParser {
 			let [, pokemon, effect] = args;
 			const line1 = this.maybeAbility(effect, pokemon) || this.maybeAbility(kwArgs.from, kwArgs.of || pokemon);
 			let id = BattleTextParser.effectId(effect);
-			if (id === 'doomdesire' || id === 'futuresight') {
+			if (id === 'doomdesire' || id === 'futuresight' || id === 'finalhour') {
 				const template = this.template('activate', effect);
 				return line1 + template.replace('[TARGET]', this.pokemon(pokemon));
+			}
+			if (id === 'onaquest') {
+				const template = this.template('end', 'onaquest');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[QUESTNAME]', kwArgs.questname);
+			}
+			if (id === 'taskoriented') {
+				const template = this.template('end', 'taskoriented');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon));
 			}
 			let templateId = 'end';
 			let template = '';
@@ -856,6 +882,30 @@ class BattleTextParser {
 				line1 += this.ability(id === 'mummy' ? 'Mummy' : 'Lingering Aroma', target);
 				const template = this.template('changeAbility', id);
 				return line1 + template.replace('[TARGET]', this.pokemon(target));
+			}
+
+			if (id === 'dispenser') {
+				const template = this.template('activate', effect);
+				return template.replace('[SOURCE]', this.pokemon(kwArgs.of)).replace('[TARGET]', this.pokemon(pokemon)).replace('[MOVE]', kwArgs.move);
+			}
+
+			if (id === 'onaquest') {
+				const template = this.template('activate', 'onaquest');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[QUESTNAME]', kwArgs.questname)
+					.replace('[QUESTPROGRESS]', kwArgs.questprogress)
+					.replace('[QUESTREQUIREMENT]', kwArgs.questrequirement)
+					.replace('[QUESTPROGRESSTEXT]', kwArgs.questprogresstext);
+			}
+			if (id === 'taskoriented') {
+				const template = this.template('activate', 'taskoriented');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[TASKNAME]', kwArgs.taskname)
+					.replace('[TASKPROGRESS]', kwArgs.taskprogress)
+					.replace('[TASKREQUIREMENT]', kwArgs.taskrequirement)
+					.replace('[TASKPROGRESSTEXT]', kwArgs.taskprogresstext);
 			}
 
 			let templateId = 'activate';

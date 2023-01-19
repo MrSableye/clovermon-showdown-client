@@ -279,16 +279,22 @@
 	white-space: nowrap;
 	padding-top: 8px;
 	font-size: 8pt;
-	width: 488px;
+	width: 1000px;
 	height: 21px;
 	overflow: hidden;
 	color: #777777;
 }
-.utilichart .movedesccol {
-	width: 284px;
+
+.utilichart .teambuildercol.movedesccol {
+	width: 284px !important;
 }
-.utilichart .itemdesccol {
-	width: 464px;
+
+.utilichart .teambuildercol.itemdesccol {
+	width: 464px !important;
+}
+
+.utilichart .teambuildercol.abilitydesccol {
+	width: 488px !important;
 }
 
 .utilichart .sortrow {

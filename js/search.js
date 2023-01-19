@@ -488,7 +488,7 @@
 		}
 
 		// desc
-		buf += '<span class="col itemdesccol">' + BattleLog.escapeHTML(item.shortDesc) + '</span> ';
+		buf += '<span class="col teambuildercol teambuildercol itemdesccol">' + BattleLog.escapeHTML(item.shortDesc) + '</span> ';
 
 		buf += '</a></li>';
 
@@ -514,7 +514,7 @@
 			return buf;
 		}
 
-		buf += '<span class="col abilitydesccol">' + BattleLog.escapeHTML(ability.shortDesc) + '</span> ';
+		buf += '<span class="col teambuildercol abilitydesccol">' + BattleLog.escapeHTML(ability.shortDesc) + '</span> ';
 
 		buf += '</a></li>';
 
@@ -567,7 +567,7 @@
 		buf += '<span class="col pplabelcol"><em>PP</em><br />' + pp + '</span> ';
 
 		// desc
-		buf += '<span class="col movedesccol">' + BattleLog.escapeHTML(move.shortDesc) + '</span> ';
+		buf += '<span class="col teambuildercol movedesccol">' + BattleLog.escapeHTML(move.shortDesc) + '</span> ';
 
 		buf += '</a></li>';
 
@@ -604,7 +604,7 @@
 		buf += '<span class="col pplabelcol"><em>PP</em><br />' + pp + '</span> ';
 
 		// desc
-		buf += '<span class="col movedesccol">' + BattleLog.escapeHTML(move.shortDesc || move.desc) + '</span> ';
+		buf += '<span class="col teambuildercol movedesccol">' + BattleLog.escapeHTML(move.shortDesc || move.desc) + '</span> ';
 
 		buf += '</a>';
 
@@ -641,7 +641,7 @@
 		buf += '<span class="col pplabelcol"><em>PP</em><br />' + (move.pp !== 1 ? move.pp * 8 / 5 : move.pp) + '</span> ';
 
 		// desc
-		buf += '<span class="col movedesccol">' + BattleLog.escapeHTML(move.shortDesc || move.desc) + '</span> ';
+		buf += '<span class="col teambuildercol movedesccol">' + BattleLog.escapeHTML(move.shortDesc || move.desc) + '</span> ';
 
 		buf += '</a></li>';
 
@@ -716,9 +716,9 @@
 
 		// article
 		if (isSearchType) {
-			buf += '<span class="col movedesccol">(search type)</span> ';
+			buf += '<span class="col teambuildercol movedesccol">(search type)</span> ';
 		} else {
-			buf += '<span class="col movedesccol">(article)</span> ';
+			buf += '<span class="col teambuildercol movedesccol">(article)</span> ';
 		}
 
 		// error

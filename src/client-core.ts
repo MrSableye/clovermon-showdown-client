@@ -82,7 +82,7 @@ if (!window.console) {
  *********************************************************************/
 // PS's model classes are defined here
 
-const PSURL = `${document.location!.protocol !== 'http:' ? 'https:' : ''}//${Config.routes.client}/`;
+const PSURL = `${Config.routes.clientProtocol}://${Config.routes.client}/`;
 
 class PSSubscription {
 	observable: PSModel | PSStreamModel<any>;
@@ -213,9 +213,9 @@ const PSBackground = new class extends PSStreamModel {
 			if (location.host === 'smogtours.psim.us') {
 				bgid = 'shaymin';
 			} else if (location.host === Config.routes.client) {
-				const bgs = ['horizon', 'ocean', 'waterfall', 'shaymin', 'charizards'];
-				bgid = bgs[Math.floor(Math.random() * 5)];
-				if (bgid === this.curId) bgid = bgs[Math.floor(Math.random() * 5)];
+				const bgs = ['blobbos-beach', 'team-forest', 'brock-space', 'kymmi-beach', 'creepy-keks', 'dude-weed-lmao', 'demiwaifu', 'aesthetic-marleyzard', 'friday-night'];
+				bgid = bgs[Math.floor(Math.random() * bgs.length)];
+				if (bgid === this.curId) bgid = bgs[Math.floor(Math.random() * bgs.length)];
 			}
 		}
 		this.curId = bgid;

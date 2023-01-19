@@ -22,10 +22,10 @@
 				this.curTeam.gen = this.getGen(this.curTeam.format);
 				this.curTeam.dex = Dex.forGen(this.curTeam.gen);
 				if (this.curTeam.format.includes('letsgo')) {
-					this.curTeam.dex = Dex.mod('gen7letsgo');
+					this.curTeam.dex = Dex.mod(7, 'gen7letsgo');
 				}
 				if (this.curTeam.format.includes('bdsp')) {
-					this.curTeam.dex = Dex.mod('gen8bdsp');
+					this.curTeam.dex = Dex.mod(8, 'gen8bdsp');
 				}
 				Storage.activeSetList = this.curSetList;
 			}
@@ -689,10 +689,10 @@
 			this.curTeam.gen = this.getGen(this.curTeam.format);
 			this.curTeam.dex = Dex.forGen(this.curTeam.gen);
 			if (this.curTeam.format.includes('letsgo')) {
-				this.curTeam.dex = Dex.mod('gen7letsgo');
+				this.curTeam.dex = Dex.mod(7, 'gen7letsgo');
 			}
 			if (this.curTeam.format.includes('bdsp')) {
-				this.curTeam.dex = Dex.mod('gen8bdsp');
+				this.curTeam.dex = Dex.mod(8, 'gen8bdsp');
 			}
 			Storage.activeSetList = this.curSetList = Storage.unpackTeam(this.curTeam.team);
 			this.curTeamIndex = i;
@@ -844,6 +844,14 @@
 			}
 			document.getElementById("pokepasteForm").submit();
 		},
+		cloverPokepasteExport: function () {
+			var team = Storage.exportTeam(this.curSetList);
+			if (!team) return app.addPopupMessage("Add a Pokémon to your team before uploading it!");
+			document.getElementById("cloverPasteData").value = team;
+			document.getElementById("cloverPasteTitle").value = this.curTeam.name;
+			document.getElementById("cloverPasteAuthor").value = app.user.get('name');
+			document.getElementById("cloverPokepasteForm").submit();
+		},
 
 		// drag and drop
 
@@ -870,7 +878,7 @@
 			var urlprefix = "data:text/plain;base64,";
 			if (document.location.protocol === 'https:') {
 				// Chrome is dumb and doesn't support data URLs in HTTPS
-				urlprefix = "https://" + Config.routes.client + "/action.php?act=dlteam&team=";
+				urlprefix = Config.routes.clientProtocol + "://" + Config.routes.client + "/action.php?act=dlteam&team=";
 			}
 			var contents = Storage.exportTeam(team.team, team.gen).replace(/\n/g, '\r\n');
 			var downloadurl = "text/plain:" + filename + ":" + urlprefix + encodeURIComponent(window.btoa(unescape(encodeURIComponent(contents))));
@@ -1157,6 +1165,11 @@
 					buf += '<li><button name="addPokemon" class="button big"><i class="fa fa-plus"></i> Add Pok&eacute;mon</button></li>';
 				}
 				buf += '</ol>';
+				buf += '<form id="cloverPokepasteForm" style="display:inline" method="post" action="https://paste.weedl.es/create" target="_blank">';
+				buf += '<input type="hidden" name="title" id="cloverPasteTitle">';
+				buf += '<input type="hidden" name="paste" id="cloverPasteData">';
+				buf += '<input type="hidden" name="author" id="cloverPasteAuthor">';
+				buf += '<button name="cloverPokepasteExport" type="submit" class="button exportbutton"><i class="fa fa-upload"></i> Upload to paste.weedl.es</button></form>';
 				buf += '<form id="pokepasteForm" style="display:inline" method="post" action="https://pokepast.es/create" target="_blank">';
 				buf += '<input type="hidden" name="title" id="pasteTitle">';
 				buf += '<input type="hidden" name="paste" id="pasteData">';
@@ -1316,8 +1329,7 @@
 					type: 'GET',
 					url: url,
 					success: function (data) {
-						if (/^https?:\/\/pokepast\.es\/.*\/json\s*$/.test(url)) {
-
+						if (/^https?:\/\/(pokepast\.es|paste\.weedl\.es)\/.*\/json\s*$/.test(url)) {
 							var notes = data.notes.split('\n');
 							if (notes[0].startsWith('Format: ')) {
 								var formatid = toID(notes[0].slice(8));
@@ -1351,7 +1363,7 @@
 			}
 		},
 		importableUrl: function (value) {
-			var match = value.match(/^https?:\/\/(pokepast\.es|gist\.github(?:usercontent)?\.com)\/(.*)\s*$/);
+			var match = value.match(/^https?:\/\/(pokepast\.es|clover\.weedl\.es|gist\.github(?:usercontent)?\.com)\/(.*)\s*$/);
 			if (!match) return;
 
 			var host = match[1];
@@ -1360,6 +1372,8 @@
 			switch (host) {
 			case 'pokepast.es':
 				return 'https://pokepast.es/' + path.replace(/\/.*/, '') + '/json';
+			case 'clover.weedl.es':
+				return 'https://clover.weedl.es/' + path.replace(/\/.*/, '') + '/json';
 			default: // gist
 				var split = path.split('/');
 				return split.length < 2 ? undefined : 'https://gist.githubusercontent.com/' + split[0] + '/' + split[1] + '/raw';
@@ -1484,10 +1498,10 @@
 			this.curTeam.gen = this.getGen(this.curTeam.format);
 			this.curTeam.dex = Dex.forGen(this.curTeam.gen);
 			if (this.curTeam.format.includes('letsgo')) {
-				this.curTeam.dex = Dex.mod('gen7letsgo');
+				this.curTeam.dex = Dex.mod(7, 'gen7letsgo');
 			}
 			if (this.curTeam.format.includes('bdsp')) {
-				this.curTeam.dex = Dex.mod('gen8bdsp');
+				this.curTeam.dex = Dex.mod(8, 'gen8bdsp');
 			}
 			this.save();
 			if (this.curTeam.gen === 5 && !Dex.loadedSpriteData['bw']) Dex.loadSpriteData('bw');
@@ -1664,7 +1678,7 @@
 			// We fetch this as 'text' and JSON.parse it ourserves in order to have consistent behavior
 			// between the localdev CORS helper and the real jQuery.get function, which would already parse
 			// this into an object based on the content-type header.
-			$.get('https://' + Config.routes.client + '/data/sets/' + format + '.json', {}, function (data) {
+			$.get(Config.routes.clientProtocol + '://' + Config.routes.client + '/data/sets/' + format + '.json', {}, function (data) {
 				try {
 					self.smogonSets[format] = JSON.parse(data);
 				} catch (e) {
@@ -2048,6 +2062,9 @@
 				case 'Shellos':
 				case 'Sinistea':
 				case 'Vivillon':
+				case 'Eccosmic':
+				case 'Fontaba':
+				case 'Fucker':
 					break;
 				default:
 					smogdexid += '-' + toID(species.forme);
@@ -3263,6 +3280,8 @@
 				if (baseFormat.substr(0, 3) === 'gen') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 4) === 'bdsp') baseFormat = baseFormat.substr(4);
 				if (baseFormat.substr(0, 8) === 'pokebank') baseFormat = baseFormat.substr(8);
+				const modMatch = baseFormat.match(/^([a-z]+)(only|nationaldex)/g);
+				if (modMatch) baseFormat = baseFormat.substr(modMatch[0].length);
 				if (this.curTeam && this.curTeam.format) {
 					if (baseFormat.substr(0, 10) === 'battlespot' && baseFormat.substr(0, 19) !== 'battlespotspecial13' ||
 						baseFormat.substr(0, 3) === 'vgc' || baseFormat.substr(0, 14) === 'battlefestival') set.level = 50;
@@ -3431,6 +3450,9 @@
 			var spriteDim = 'width: 96px; height: 96px;';
 
 			var gen = {1:'gen1', 2:'gen2', 3:'gen3', 4:'gen4', 5:'gen5', 6:'dex', 7:'dex', 8:'dex'}[Math.max(this.room.curTeam.gen, species.gen)];
+			if ((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num <= -42001 && species.num >= -42999)) {
+				gen = 'gen5';
+			}
 			if (Dex.prefs('nopastgens')) gen = 'dex';
 			if (Dex.prefs('bwgfx') && gen === 'dex') gen = 'gen5';
 			spriteDir += gen;

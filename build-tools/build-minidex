@@ -6,7 +6,7 @@ const path = require("path");
 process.chdir(path.resolve(__dirname, '..'));
 const imageSize = require('image-size');
 
-const Dex = require('./../data/pokemon-showdown/dist/sim/dex').Dex;
+const Dex = require('./../data/clovermon-showdown/dist/sim/dex').Dex;
 const toID = Dex.toID;
 
 process.stdout.write("Updating animated sprite dimensions... ");
@@ -60,7 +60,7 @@ function updateSizes() {
 				const backSizeF = sizeObj('sprites/ani-back/' + spriteid + '-f.gif');
 				if (backSizeF) row.backf = backSizeF;
 				if (row.front || row.back || !row.forme) {
-					buf += `\t${id}:` + JSON.stringify(row).replace(/"/g, '') + `,\n`;
+					buf += `\t"${id}":` + JSON.stringify(row).replace(/"/g, '') + `,\n`;
 				}
 			}
 
@@ -75,7 +75,7 @@ function updateSizes() {
 				const backSizeF = sizeObj('sprites/gen5ani-back/' + spriteid + '-f.gif');
 				if (backSizeF) g5row.backf = backSizeF;
 				if (g5row.front || g5row.back || !g5row.forme) {
-					g5buf += `\t${id}:` + JSON.stringify(g5row).replace(/"/g, '') + `,\n`;
+					g5buf += `\t"${id}":` + JSON.stringify(g5row).replace(/"/g, '') + `,\n`;
 				}
 			}
 		}

@@ -13,8 +13,8 @@ body {
 	font-size: 11pt;
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 
-	/* see https://pokemonshowdown.com/credits */
-	background: #344b6c url(../fx/client-bg-charizards.jpg) no-repeat left center fixed;
+	/* see http://pokemonshowdown.com/credits */
+	background: #344b6c url(../fx/client-bg-team-forest.jpg) no-repeat left center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -1959,6 +1959,10 @@ a.ilink.yours {
 .userdetails .offline {
 	color: red;
 }
+.userdetails .userbadge {
+	float: none !important;
+	margin-left: 0 !important;
+}
 .trainersprite.yours {
 	cursor: pointer;
 }
@@ -1985,7 +1989,7 @@ a.ilink.yours {
 .avatarlist button {
 	width: 80px;
 	height: 80px;
-	background: transparent url(https://play.pokemonshowdown.com/sprites/trainers-sheet.png) no-repeat scroll 0px 0px;
+	background: transparent url(/sprites/trainers-sheet.png) no-repeat scroll 0px 0px;
 }
 .bglist button span {
 	display: block;
@@ -2289,4 +2293,36 @@ a.ilink.yours {
 }
 .dark .utilichart a:hover .col {
 	color: #FFF;
+}
+
+/*********************************************************
+ * Badge Marquee
+ *********************************************************/
+.badge-marquee-wrapper {
+  overflow: hidden;
+	display: inline-block;
+}
+
+.badge-marquee-wrapper .badge-marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  animation: marquee 10s linear infinite;
+}
+
+.badge-marquee-wrapper:hover .badge-marquee {
+  animation-play-state: paused;
+}
+
+.badge-marquee .userbadges {
+  display: inline-block;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
 }

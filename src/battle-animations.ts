@@ -555,29 +555,21 @@ export class BattleScene implements BattleSceneStub {
 	}
 
 	updateGen() {
+		let forceGen3 = ['cloveronly', 'clovercaponly', 'cloverblobboscaponly'];
 		let gen = this.battle.gen;
 		if (Dex.prefs('nopastgens')) gen = 6;
 		if (Dex.prefs('bwgfx') && gen > 5) gen = 5;
+		if (forceGen3.some((force) => this.battle.id.includes(force))) gen = 3;
 		this.gen = gen;
 		this.activeCount = this.battle.nearSide?.active.length || 1;
 
-		const isSPL = (typeof this.battle.rated === 'string' && this.battle.rated.startsWith("Smogon Premier League"));
 		let bg: string;
-		if (isSPL) {
-			if (gen <= 1) bg = 'fx/bg-gen1-spl.png';
-			else if (gen <= 2) bg = 'fx/bg-gen2-spl.png';
-			else if (gen <= 3) bg = 'fx/bg-gen3-spl.png';
-			else if (gen <= 4) bg = 'fx/bg-gen4-spl.png';
-			else bg = 'fx/bg-spl.png';
-			this.setBgm(-101);
-		} else {
-			if (gen <= 1) bg = 'fx/bg-gen1.png?';
-			else if (gen <= 2) bg = 'fx/bg-gen2.png?';
-			else if (gen <= 3) bg = 'fx/' + BattleBackdropsThree[this.numericId % BattleBackdropsThree.length] + '?';
-			else if (gen <= 4) bg = 'fx/' + BattleBackdropsFour[this.numericId % BattleBackdropsFour.length];
-			else if (gen <= 5) bg = 'fx/' + BattleBackdropsFive[this.numericId % BattleBackdropsFive.length];
-			else bg = 'sprites/gen6bgs/' + BattleBackdrops[this.numericId % BattleBackdrops.length];
-		}
+		if (gen <= 1) bg = 'fx/bg-gen1.png?';
+		else if (gen <= 2) bg = 'fx/bg-gen2.png?';
+		else if (gen <= 3) bg = 'fx/' + BattleBackdropsThree[this.numericId % BattleBackdropsThree.length] + '?';
+		else if (gen <= 4) bg = 'fx/' + BattleBackdropsFour[this.numericId % BattleBackdropsFour.length];
+		else if (gen <= 5) bg = 'fx/' + BattleBackdropsFive[this.numericId % BattleBackdropsFive.length];
+		else bg = 'sprites/gen6bgs/' + BattleBackdrops[this.numericId % BattleBackdrops.length];
 
 		this.backdropImage = bg;
 		if (this.$bg) {
@@ -687,7 +679,29 @@ export class BattleScene implements BattleSceneStub {
 		pokemonhtml = '<div class="teamicons">' + pokemonhtml + '</div>';
 		const ratinghtml = side.rating ? ` title="Rating: ${BattleLog.escapeHTML(side.rating)}"` : ``;
 		const faded = side.name ? `` : ` style="opacity: 0.4"`;
-		return `<div class="trainer trainer-${posStr}"${faded}><strong>${BattleLog.escapeHTML(side.name)}</strong><div class="trainersprite"${ratinghtml} style="background-image:url(${Dex.resolveAvatar(side.avatar)})"></div>${pokemonhtml}</div>`;
+		let badgehtml = '';
+		if (side.badges.length) {
+			let badgeBuffer = '<span class="userbadges">';
+			side.badges.forEach((badge) => {
+				const server = Config.server || Config.defaultserver;
+				const protocol = server.https ? 'https' : 'http';
+				const port = server.https ? server.port : server.httpport;
+				const badgeSrc = protocol + '://' + server.host + ':' + port +
+					'/badges/' + encodeURIComponent(badge.file_name).replace(/\%3F/g, '?');
+				badgeBuffer += '<img class="userbadge" height="16" width="16" alt="' + badge.badge_name + '" title="' + badge.badge_name + '" src="' + badgeSrc + '" />';
+			});
+			badgeBuffer += '</span>';
+
+			if (side.badges.length >= 5) {
+				badgehtml += '<span class="badge-marquee-wrapper" style="width: 80px">'
+				badgehtml += '<span class="badge-marquee">';
+				badgehtml += badgeBuffer + badgeBuffer;
+				badgehtml += '</span></span><br />';
+			} else {
+				badgehtml += badgeBuffer + '<br />';
+			}
+		}
+		return `<div class="trainer trainer-${posStr}"${faded}><strong>${BattleLog.escapeHTML(side.name)}</strong>${badgehtml}<div class="trainersprite"${ratinghtml} style="background-image:url(${Dex.resolveAvatar(side.avatar)})"></div>${pokemonhtml}</div>`;
 	}
 	updateSidebar(side: Side) {
 		if (this.battle.gameType === 'freeforall') {
@@ -926,6 +940,8 @@ export class BattleScene implements BattleSceneStub {
 				hail: 'Hail',
 				snow: 'Snow',
 				deltastream: 'Strong Winds',
+				densefog: 'Dense Fog',
+				timefall: 'Timefall',
 			};
 			weatherhtml = `${weatherNameTable[this.battle.weather] || this.battle.weather}`;
 			if (this.battle.weatherMinTimeLeft !== 0) {
@@ -1343,6 +1359,61 @@ export class BattleScene implements BattleSceneStub {
 			this.$spritesFront[spriteIndex].append(web.$el!);
 			this.sideConditions[siden][id] = [web];
 			break;
+		case 'sleazyspores':
+			const sleazyspore1 = new Sprite(BattleEffects.sleazyspores, {
+				display: 'block',
+				x: side.leftof(40),
+				y: side.y - 40,
+				z: side.z,
+				opacity: 0.5,
+				scale: 2,
+			}, this);
+
+			const sleazyspore2 = new Sprite(BattleEffects.sleazyspores, {
+				display: 'block',
+				x: side.leftof(20),
+				y: side.y - 10,
+				z: side.z,
+				opacity: 0.5,
+				scale: 2,
+			}, this);
+
+			const sleazyspore3 = new Sprite(BattleEffects.sleazyspores, {
+				display: 'block',
+				x: side.leftof(-30),
+				y: side.y - 30,
+				z: side.z,
+				opacity: 0.5,
+				scale: 2,
+			}, this);
+
+			const sleazyspore4 = new Sprite(BattleEffects.sleazyspores, {
+				display: 'block',
+				x: side.leftof(-10),
+				y: side.y - 20,
+				z: side.z,
+				opacity: 0.5,
+				scale: 2,
+			}, this);
+
+			this.$spritesFront[spriteIndex].append(sleazyspore1.$el!);
+			this.$spritesFront[spriteIndex].append(sleazyspore2.$el!);
+			this.$spritesFront[spriteIndex].append(sleazyspore3.$el!);
+			this.$spritesFront[spriteIndex].append(sleazyspore4.$el!);
+			this.sideConditions[siden][id] = [sleazyspore1, sleazyspore2, sleazyspore3, sleazyspore4];
+			break;
+		case 'pleasedontdothat':
+			const pleasedontdothat = new Sprite(BattleEffects.stop, {
+				display: 'block',
+				x: side.x + 15,
+				y: side.y - 35,
+				z: side.z,
+				opacity: 0.4,
+				scale: 0.7,
+			}, this);
+			this.$spritesFront[spriteIndex].append(pleasedontdothat.$el!);
+			this.sideConditions[siden][id] = [pleasedontdothat];
+			break;
 		}
 	}
 	removeSideCondition(siden: number, id: ID) {
@@ -1543,7 +1614,7 @@ export class BattleScene implements BattleSceneStub {
 		this.preloadImage(Dex.resourcePrefix + 'sprites/ani-back/substitute.gif');
 	}
 	rollBgm() {
-		this.setBgm(1 + this.numericId % 15);
+		this.setBgm(1 + this.numericId % 19);
 	}
 	setBgm(bgmNum: number) {
 		if (this.bgmNum === bgmNum) return;
@@ -1551,62 +1622,65 @@ export class BattleScene implements BattleSceneStub {
 
 		switch (bgmNum) {
 		case -1:
-			this.bgm = BattleSound.loadBgm('audio/bw2-homika-dogars.mp3', 1661, 68131, this.bgm);
-			break;
-		case -2:
-			this.bgm = BattleSound.loadBgm('audio/xd-miror-b.mp3', 9000, 57815, this.bgm);
-			break;
-		case -3:
-			this.bgm = BattleSound.loadBgm('audio/colosseum-miror-b.mp3', 896, 47462, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/strand-type-music.mp3', 92778, 107077, this.bgm);
 			break;
 		case 1:
-			this.bgm = BattleSound.loadBgm('audio/dpp-trainer.mp3', 13440, 96959, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/edgie.mp3', 88923, 189889, this.bgm);
 			break;
 		case 2:
-			this.bgm = BattleSound.loadBgm('audio/dpp-rival.mp3', 13888, 66352, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/gym-ebin.mp3', 52874, 169975, this.bgm);
 			break;
 		case 3:
-			this.bgm = BattleSound.loadBgm('audio/hgss-johto-trainer.mp3', 23731, 125086, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/gym-fochun.mp3', 128109, 260707, this.bgm);
 			break;
 		case 4:
-			this.bgm = BattleSound.loadBgm('audio/hgss-kanto-trainer.mp3', 13003, 94656, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/keksandra.mp3', 25341, 119665, this.bgm);
 			break;
 		case 5:
-			this.bgm = BattleSound.loadBgm('audio/bw-trainer.mp3', 14629, 110109, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/trainer-ebin.mp3', 55535, 107208, this.bgm);
 			break;
 		case 6:
-			this.bgm = BattleSound.loadBgm('audio/bw-rival.mp3', 19180, 57373, this.bgm);
-			break;
+			this.bgm = BattleSound.loadBgm('audio/trainer-fochun.mp3', 50441, 117134, this.bgm);
+			break;	
 		case 7:
-			this.bgm = BattleSound.loadBgm('audio/bw-subway-trainer.mp3', 15503, 110984, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/battle-adesign.mp3', 5547, 284963, this.bgm);
 			break;
 		case 8:
-			this.bgm = BattleSound.loadBgm('audio/bw2-kanto-gym-leader.mp3', 14626, 58986, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/battle-baddon.mp3', 10235, 104590, this.bgm);
 			break;
 		case 9:
-			this.bgm = BattleSound.loadBgm('audio/bw2-rival.mp3', 7152, 68708, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/gym-evil-leader.mp3', 3175, 93576, this.bgm);
 			break;
 		case 10:
-			this.bgm = BattleSound.loadBgm('audio/xy-trainer.mp3', 7802, 82469, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/grindhaus.mp3', 19501, 108502, this.bgm);
 			break;
 		case 11:
-			this.bgm = BattleSound.loadBgm('audio/xy-rival.mp3', 7802, 58634, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/battle-heliofug.mp3', 123775, 256367, this.bgm);
 			break;
 		case 12:
-			this.bgm = BattleSound.loadBgm('audio/oras-trainer.mp3', 13579, 91548, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/battle-nomel-bro.mp3', 6902, 269898, this.bgm);
 			break;
 		case 13:
-			this.bgm = BattleSound.loadBgm('audio/oras-rival.mp3', 14303, 69149, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/plastic-love.mp3', 29913, 234151, this.bgm);
 			break;
 		case 14:
-			this.bgm = BattleSound.loadBgm('audio/sm-trainer.mp3', 8323, 89230, this.bgm);
-			break;
-		case -101:
-			this.bgm = BattleSound.loadBgm('audio/spl-elite4.mp3', 3962, 152509, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/battle-route-master.mp3', 225874, 449220, this.bgm);
 			break;
 		case 15:
+			this.bgm = BattleSound.loadBgm('audio/battle-terry.mp3', 41332, 299997, this.bgm);
+			break;
+		case 16:
+			this.bgm = BattleSound.loadBgm('audio/battle-vivaiger.mp3', 145231, 254827, this.bgm);
+			break;
+		case 17:
+			this.bgm = BattleSound.loadBgm('audio/battle-vyglass.mp3', 4800, 156980, this.bgm);
+			break;
+		case 18:
+			this.bgm = BattleSound.loadBgm('audio/battle-biteki.mp3', 6363, 18414, this.bgm);
+			break;
+		case 19:
 		default:
-			this.bgm = BattleSound.loadBgm('audio/sm-rival.mp3', 11389, 62158, this.bgm);
+			this.bgm = BattleSound.loadBgm('audio/viol.mp3', 61783, 95529, this.bgm);
 			break;
 		}
 
@@ -1807,10 +1881,16 @@ export class PokemonSprite extends Sprite {
 		saltcure: ['Salt Cure', 'bad'],
 		doomdesire: null,
 		futuresight: null,
+		finalhour: null,
+		crashbomber: null,
 		mimic: ['Mimic', 'good'],
 		watersport: ['Water Sport', 'good'],
 		mudsport: ['Mud Sport', 'good'],
+		waitforit: ['Wait For It', 'neutral'],
+		onaquest: ['Questing', 'neutral'],
 		substitute: null,
+		livewire: ['Livewire', 'bad'],
+		faradaycage: ['Faraday Cage', 'good'],
 		// sub graphics are handled elsewhere, see Battle.Sprite.animSub()
 		uproar: ['Uproar', 'neutral'],
 		rage: ['Rage', 'neutral'],
@@ -1839,6 +1919,7 @@ export class PokemonSprite extends Sprite {
 		beakblast: ['Beak Blast', 'neutral'],
 		laserfocus: ['Laser Focus', 'good'],
 		spotlight: ['Spotlight', 'neutral'],
+		focusmunch: ['Focusing', 'neutral'],
 		itemremoved: null,
 		// partial trapping
 		bind: ['Bind', 'bad'],
@@ -1856,6 +1937,7 @@ export class PokemonSprite extends Sprite {
 		// Gen 1
 		lightscreen: ['Light Screen', 'good'],
 		reflect: ['Reflect', 'good'],
+		bridge: ['Bridging', 'good'],
 	};
 	forme = '';
 	cryurl: string | undefined = undefined;
@@ -1949,7 +2031,7 @@ export class PokemonSprite extends Sprite {
 		if (!this.scene.animating) return;
 		if (this.$sub) return;
 		const subsp = Dex.getSpriteData('substitute', this.isFrontSprite, {
-			gen: this.scene.gen,
+			gen: this.scene.battle.gen,
 			mod: this.scene.mod,
 		});
 		this.subsp = subsp;
@@ -2064,7 +2146,7 @@ export class PokemonSprite extends Sprite {
 		if (pokemon.volatiles.formechange || pokemon.volatiles.dynamax || pokemon.volatiles.terastallize) {
 			if (!this.oldsp) this.oldsp = this.sp;
 			this.sp = Dex.getSpriteData(pokemon, this.isFrontSprite, {
-				gen: this.scene.gen,
+				gen: this.scene.battle.gen,
 				mod: this.scene.mod,
 			});
 		} else if (this.oldsp) {
@@ -2294,7 +2376,7 @@ export class PokemonSprite extends Sprite {
 			opacity: 1,
 		}, 400 / this.scene.acceleration);
 
-		this.dogarsCheck(pokemon);
+		this.kojimaCheck(pokemon);
 	}
 	animDragIn(pokemon: Pokemon, slot: number) {
 		if (!this.scene.animating) return;
@@ -2332,7 +2414,7 @@ export class PokemonSprite extends Sprite {
 			opacity: 1,
 		}, 400);
 
-		this.dogarsCheck(pokemon);
+		this.kojimaCheck(pokemon);
 	}
 	animDragOut(pokemon: Pokemon) {
 		if (!this.scene.animating) return this.animUnsummon(pokemon, true);
@@ -2464,7 +2546,7 @@ export class PokemonSprite extends Sprite {
 	animTransform(pokemon: Pokemon, isCustomAnim?: boolean, isPermanent?: boolean) {
 		if (!this.scene.animating && !isPermanent) return;
 		let sp = Dex.getSpriteData(pokemon, this.isFrontSprite, {
-			gen: this.scene.gen,
+			gen: this.scene.battle.gen,
 			mod: this.scene.mod,
 		});
 		let oldsp = this.sp;
@@ -2646,10 +2728,10 @@ export class PokemonSprite extends Sprite {
 		this.removeTransform();
 	}
 
-	dogarsCheck(pokemon: Pokemon) {
+	kojimaCheck(pokemon: Pokemon) {
 		if (pokemon.side.isFar) return;
 
-		if (pokemon.speciesForme === 'Koffing' && pokemon.name.match(/dogars/i)) {
+		if (pokemon.speciesForme === 'Blobbos-Strand') {
 			this.scene.setBgm(-1);
 		} else if (this.scene.bgmNum === -1) {
 			this.scene.rollBgm();
@@ -3119,6 +3201,42 @@ const BattleEffects: {[k: string]: SpriteData} = {
 	mist: {
 		rawHTML: '<div class="sidecondition-mist" style="display:none;position:absolute" />',
 		w: 100, h: 50,
+	},
+	sleazyspores: {
+		url: 'sleazyspores.png',
+		w: 22, h: 27,
+	},
+	dose: {
+		url: 'dose.png',
+		w: 128, h: 108,
+	},
+	checked: {
+		url: 'checked.png',
+		w: 60, h: 60,
+	},
+	bloodwisp: {
+		url: 'bloodwisp.png',
+		w: 100, h: 100,
+	},
+	arrow: {
+		url: 'arrow.png',
+		w: 32, h: 32,
+	},
+	darkglove: {
+		url: 'rightchopblack.png',
+		w: 100, h: 130,
+	},
+	greenicicle: {
+		url: 'icicle-green.png', 
+		w: 80, h: 60,
+	},
+	stop: {
+		url: 'stop.png',
+		w: 120, h: 120,
+	},
+	cube: {
+		url: 'cube.png',
+		w: 100, h: 100,
 	},
 };
 (() => {
@@ -4528,6 +4646,208 @@ export const BattleOtherAnims: AnimTable = {
 				x: defender.x,
 				time: 100,
 			});
+		},
+	},
+	finalhourhit: {
+		anim(scene, [defender]) {
+			scene.backgroundEffect('#000000', 600, 1);
+			scene.showEffect('bluefireball', {
+				x: defender.x + 40,
+				y: defender.y,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+			scene.showEffect('bluefireball', {
+				x: defender.x - 40,
+				y: defender.y - 20,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 150,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+			scene.showEffect('bluefireball', {
+				x: defender.x + 10,
+				y: defender.y + 20,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 300,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+
+			defender.delay(100);
+			defender.anim({
+				x: defender.x - 30,
+				time: 75,
+			});
+			defender.anim({
+				x: defender.x + 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x - 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x + 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x,
+				time: 100,
+			});
+		},
+	},
+	crashbomberhit: {
+		anim(scene, [defender]) {
+			scene.backgroundEffect('#ffffff', 600, 0.6);
+			scene.showEffect('fireball', {
+				x: defender.x + 40,
+				y: defender.y,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+			scene.showEffect('fireball', {
+				x: defender.x - 40,
+				y: defender.y - 20,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 150,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+			scene.showEffect('fireball', {
+				x: defender.x + 10,
+				y: defender.y + 20,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 300,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'linear');
+
+			defender.delay(100);
+			defender.anim({
+				x: defender.x - 30,
+				time: 75,
+			});
+			defender.anim({
+				x: defender.x + 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x - 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x + 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x,
+				time: 100,
+			});
+		},
+	},
+	atomize: {
+		anim(scene, [attacker]) {
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				scale: 0,
+			}, {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				scale: 2,
+				time: 200,
+			}, 'accel', 'fade');
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				opacity: 0.4,
+				scale: 0,
+				time: 150,
+			}, {
+				x: attacker.x,
+				y: attacker.y + 90,
+				z: attacker.z,
+				scale: 3,
+				opacity: 0,
+				time: 800,
+			}, 'linear');
+		},
+	},
+	poisonpulse: {
+		anim(scene, [attacker]) {
+			let xf = [1, -1, 1, -1];
+			let yf = [1, -1, -1, 1];
+			let xf2 = [1, 0, -1, 0];
+			let yf2 = [0, 1, 0, -1];
+
+			scene.showEffect('shadowball', {
+				x: attacker.x,
+				y: attacker.y - 50,
+				z: attacker.z,
+				scale: 1,
+				xscale: 5,
+				opacity: 0.8,
+				time: 0,
+			}, {
+				scale: 2,
+				xscale: 8,
+				opacity: 0.1,
+				time: 800,
+			}, 'linear', 'fade');
+			for (let i = 0; i < 4; i++) {
+				scene.showEffect('poisonwisp', {
+					x: attacker.x,
+					y: attacker.y,
+					z: attacker.z,
+					scale: 0.3,
+					opacity: 0.4,
+				}, {
+					x: attacker.x + 240 * xf[i],
+					y: attacker.y,
+					z: attacker.z + 137 * yf[i],
+					scale: 0.7,
+					opacity: 0.4,
+					time: 600,
+				}, 'accel', 'fade');
+				scene.showEffect('poisonwisp', {
+					x: attacker.x,
+					y: attacker.y,
+					z: attacker.z,
+					scale: 0.2,
+					opacity: 0.4,
+				}, {
+					x: attacker.x + 339 * xf2[i],
+					y: attacker.y,
+					z: attacker.z + 194 * yf2[i],
+					scale: 0.5,
+					opacity: 0.4,
+					time: 600,
+				}, 'accel', 'fade');
+			}
 		},
 	},
 	itemoff: {

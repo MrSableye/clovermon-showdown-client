@@ -727,6 +727,8 @@ export class BattleLog {
 			spotify: 0,
 			youtube: 0,
 			twitch: 0,
+			badge: 0,
+			avatar: 0,
 		});
 
 		// By default, Caja will ban any attributes it doesn't recognize.
@@ -756,6 +758,9 @@ export class BattleLog {
 			'button::data-delimiter': 0,
 			'*::aria-label': 0,
 			'*::aria-hidden': 0,
+			'badge::badgefilename': 0,
+			'badge::badgename': 0,
+			'avatar::avatarfilename': 0,
 		});
 
 		// Caja unfortunately doesn't document how `tagPolicy` works, so
@@ -906,6 +911,41 @@ export class BattleLog {
 						tagName = Dex.getCategoryIcon(iconValue).slice(1, -3);
 					}
 				}
+			} else if (tagName === 'badge') {
+				const badgeFileName = getAttrib('badgefilename') || '';
+				const badgeName = getAttrib('badgename') || '';
+				const server = Config.server || Config.defaultserver;
+				const protocol = server.https ? 'https' : 'http';
+				const port = server.https ? server.port : server.httpport;
+				const badgeSrc = protocol + '://' + server.host + ':' + port +
+					'/badges/' + encodeURIComponent(badgeFileName).replace(/\%3F/g, '?');
+				return {
+					tagName: 'img',
+					attribs: [
+						'class', 'userbadge',
+						'width', 16, 'height', 16,
+						'src', badgeSrc,
+						'title', badgeName,
+						'alt', badgeName,
+					],
+				};
+			} else if (tagName === 'avatar') {
+				const avatarFileName = getAttrib('avatarfilename') || '';
+				const isRequest = getAttrib('request') !== undefined;
+				const server = Config.server || Config.defaultserver;
+				const protocol = server.https ? 'https' : 'http';
+				const port = server.https ? server.port : server.httpport;
+				const avatarSrc = protocol + '://' + server.host + ':' + port +
+					'/avatars/' + (isRequest ? 'requests/' : '') +
+					encodeURIComponent(avatarFileName).replace(/\%3F/g, '?');
+				return {
+					tagName: 'img',
+					attribs: [
+						'class', 'userAvatar',
+						'width', 80, 'height', 80,
+						'src', avatarSrc,
+					],
+				};
 			}
 
 			attribs = html.sanitizeAttribs(tagName, attribs, (urlData: any) => {
@@ -1044,7 +1084,7 @@ export class BattleLog {
 		buf += '<div class="battle-log battle-log-inline"><div class="inner">' + battle.scene.log.elem.innerHTML + '</div></div>\n';
 		buf += '</div>\n';
 		buf += '<script>\n';
-		buf += `let daily = Math.floor(Date.now()/1000/60/60/24);document.write('<script src="https://${Config.routes.client}/js/replay-embed.js?version'+daily+'"></'+'script>');\n`;
+		buf += `let daily = Math.floor(Date.now()/1000/60/60/24);document.write('<script src="${Config.routes.clientProtocol}://${Config.routes.client}/js/replay-embed.js?version'+daily+'"></'+'script>');\n`;
 		buf += '</script>\n';
 		return buf;
 	}
