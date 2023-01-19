@@ -1640,10 +1640,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 
-	for (const {mod} of MODS) {
+	for (const {mod, modGen} of MODS) {
 		const modDex = Dex.mod(mod);
 		const modData = modDex.data;
-		const parentDex = Dex.forGen(modDex.gen);
+		const parentDex = Dex.forGen(modGen);
 
 		const pokemon = Object.keys(modDex.data.Pokedex);
 		pokemon.sort();
