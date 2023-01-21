@@ -702,7 +702,7 @@ const Dex = new class implements ModdedDex {
 			num = 1379 + (48 * 12) + Math.abs(num % 42000);
 		} else if (num > 42000 && num <= 42999) { // Clover CAPmons
 			num = 1379 + (49 * 12) + num % 42000;
-		} else if (num > 898) {
+		} else if (num > 1010) {
 			num = 0;
 		}
 		if (num < 0) num = 0;
