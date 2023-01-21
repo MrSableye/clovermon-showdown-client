@@ -1,6 +1,6 @@
 {
-    "root": "https://clover.weedl.es",
-    "client": "https://clover.weedl.es",
+    "root": "clover.weedl.es",
+    "client": "clover.weedl.es",
     "clientProtocol": "https",
     "dex": "dex.pokemonshowdown.com",
     "replays": "replay.pokemonshowdown.com",
