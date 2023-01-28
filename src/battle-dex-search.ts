@@ -1173,10 +1173,10 @@ class BattleItemSearch extends BattleTypedSearch<'item'> {
 			table = table['gen' + this.dex.gen + 'natdex'];
 		} else if (this.formatType === 'metronome') {
 			table = table['gen' + this.dex.gen + 'metronome'];
-		} else if (this.dex.gen < 9) {
-			table = table['gen' + this.dex.gen];
 		} else if (isModdedFormatType(this.formatType)) {
 			table = table[getModdedFormatTableName(this.formatType)];
+		} else if (this.dex.gen < 9) {
+			table = table['gen' + this.dex.gen];
 		}
 		if (!table.itemSet) {
 			table.itemSet = table.items.map((r: any) => {
