@@ -1395,6 +1395,10 @@ export class Battle {
 				this.weatherTimeLeft = 5;
 				this.weatherMinTimeLeft = 0;
 			}
+			if (weather === 'densefog') {
+				this.weatherTimeLeft = 5;
+				this.weatherMinTimeLeft = 0;
+			}
 		}
 		this.weather = weather;
 		this.scene.updateWeather();
