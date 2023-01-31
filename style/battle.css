@@ -487,6 +487,10 @@ License: GPLv2
 	background: #AAAAAA url(../fx/weather-timefall.png) no-repeat scroll left top;
 	color: #666666;
 }
+.inverseroomweather {
+	background: #AAAAAA url(../fx/weather-inverseroom.png) no-repeat scroll left top;
+	color: #666666;
+}
 
 .battle .result {
 	display: none;
