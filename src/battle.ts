@@ -2975,6 +2975,9 @@ export class Battle {
 			case 'abilityshield':
 				poke.item = 'Ability Shield';
 				break;
+			case 'allaccordingtokeikakuplan':
+				this.scene.runOtherAnim('keikaku' as ID, [poke]);
+				break;
 			default:
 				if (kwArgs.broken) { // for custom moves that break protection
 					this.scene.resultAnim(poke, 'Protection broken', 'bad');

@@ -6103,6 +6103,11 @@ export const BattleOtherAnims: AnimTable = {
 			}, 'linear');
 		},
 	},
+	keikaku: {
+		anim(scene, [attacker]) {
+			scene.backgroundEffect(`url('${Config.routes.clientProtocol}://${Config.routes.client}/fx/keikaku.png')`, 1000, 1);
+		},
+	},
 };
 export const BattleStatusAnims: AnimTable = {
 	brn: {
