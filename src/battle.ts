@@ -711,6 +711,7 @@ export class Side {
 		case 'stickyweb':
 		case 'sleazyspores':
 		case 'pleasedontdothat':
+		case 'landmind':
 			this.sideConditions[condition] = [effect.name, 1, 0, 0];
 			break;
 		case 'gmaxwildfire':

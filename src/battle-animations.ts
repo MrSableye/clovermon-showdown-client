@@ -1414,6 +1414,18 @@ export class BattleScene implements BattleSceneStub {
 			this.$spritesFront[spriteIndex].append(pleasedontdothat.$el!);
 			this.sideConditions[siden][id] = [pleasedontdothat];
 			break;
+		case 'landmind':
+			const landmind = new Sprite(BattleEffects.landmind, {
+				display: 'block',
+				x: side.x + 15,
+				y: side.y - 35,
+				z: side.z,
+				opacity: 0.4,
+				scale: 0.7,
+			}, this);
+			this.$spritesFront[spriteIndex].append(landmind.$el!);
+			this.sideConditions[siden][id] = [landmind];
+			break;
 		}
 	}
 	removeSideCondition(siden: number, id: ID) {
@@ -3233,6 +3245,10 @@ const BattleEffects: {[k: string]: SpriteData} = {
 	stop: {
 		url: 'stop.png',
 		w: 120, h: 120,
+	},
+	landmind: {
+		url: 'landmind.png',
+		w: 120, h: 87,
 	},
 	cube: {
 		url: 'cube.png',
