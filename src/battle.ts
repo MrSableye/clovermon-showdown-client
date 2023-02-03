@@ -2934,6 +2934,7 @@ export class Battle {
 			case 'windpower':
 				poke.addMovestatus('charge' as ID);
 				break;
+			case 'fourwarn':
 			case 'forewarn':
 				if (target) {
 					target.rememberMove(kwArgs.move, 0);

@@ -148,7 +148,7 @@ class BattleTextParser {
 				kwArgs.ability = arg3;
 				kwArgs.ability2 = arg4;
 			} else if ([
-				'eeriespell', 'gmaxdepletion', 'spite', 'grudge', 'forewarn', 'sketch', 'leppaberry', 'mysteryberry', 'dispenser', 'drinkpotion',
+				'eeriespell', 'gmaxdepletion', 'spite', 'grudge', 'forewarn', 'sketch', 'leppaberry', 'mysteryberry', 'dispenser', 'drinkpotion', 'fourwarn',
 			].includes(id)) {
 				kwArgs.move = arg3;
 				kwArgs.number = arg4;
@@ -910,6 +910,9 @@ class BattleTextParser {
 
 			let templateId = 'activate';
 			if (id === 'forewarn' && pokemon === target) {
+				templateId = 'activateNoTarget';
+			}
+			if (id === 'fourwarn' && pokemon === target) {
 				templateId = 'activateNoTarget';
 			}
 			if ((id === 'protosynthesis' || id === 'quarkdrive') && kwArgs.fromitem) {
