@@ -1310,6 +1310,12 @@ class BattleTooltips {
 			}
 		}
 
+		if (clientPokemon?.volatiles['agile']) {
+			stats.spe = Math.floor(stats.spe * 1.25);
+		} else if (clientPokemon?.volatiles['strong']) {
+			stats.spe = Math.floor(stats.spe * 0.75);
+		}
+
 		return stats;
 	}
 
@@ -1974,6 +1980,11 @@ class BattleTooltips {
 		}
 		if (move.type === 'Ghost') {
 			value.abilityModify(1.5, 'Phantasma');
+		}
+		if (pokemon?.volatiles['agile']) {
+			value.abilityModify(0.75, 'Ancient Style');
+		} else if (pokemon?.volatiles['strong']) {
+			value.abilityModify(1.25, 'Ancient Style');
 		}
 
 		if (move.category !== 'Status') {
