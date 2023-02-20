@@ -1903,6 +1903,7 @@ export class PokemonSprite extends Sprite {
 		substitute: null,
 		livewire: ['Livewire', 'bad'],
 		faradaycage: ['Faraday Cage', 'good'],
+		deadlypincers: ['Deadly Pincers', 'good'],
 		// sub graphics are handled elsewhere, see Battle.Sprite.animSub()
 		uproar: ['Uproar', 'neutral'],
 		rage: ['Rage', 'neutral'],
