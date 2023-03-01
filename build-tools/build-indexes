@@ -864,7 +864,7 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		blobboswackmega:  1379 + (65 * 12) + 102,
 		blobbosmetaknight:  1379 + (65 * 12) + 103,
 		blobbosmidjourney:  1379 + (65 * 12) + 104,
-		blobbostarfymonstar:  1379 + (65 * 12) + 105,
+		blobbosstarfymonstar:  1379 + (65 * 12) + 105,
 		blobbosnoke:  1379 + (65 * 12) + 106,
 		blobbosogre:  1379 + (65 * 12) + 107,
 		blobbospaldea:  1379 + (65 * 12) + 108,
