@@ -872,7 +872,7 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		blobbosrobotnik:  1379 + (65 * 12) + 110,
 		blobbosstarfyroostar:  1379 + (65 * 12) + 111,
 		blobbossalt:  1379 + (65 * 12) + 112,
-		blobboshoreline:  1379 + (65 * 12) + 113,
+		blobbosshoreline:  1379 + (65 * 12) + 113,
 		blobbosshrimp:  1379 + (65 * 12) + 114,
 		blobbossnek:  1379 + (65 * 12) + 115,
 		sobbolb:  1379 + (65 * 12) + 116,
