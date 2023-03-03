@@ -45162,9 +45162,9 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'linear', 'explode');
 			scene.backgroundEffect('#ffffff', 600, 0.6);
 			scene.showEffect('wisp', {
-				x: attacker.leftof(-10),
-				y: attacker.y + 10,
-				z: attacker.z,
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
 				scale: 0.1,
 				opacity: 0.8,
 			}, {
