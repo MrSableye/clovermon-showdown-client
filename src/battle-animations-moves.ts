@@ -45336,6 +45336,47 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'ballistic', 'explode');
 		},
 	},
+	firewall: {
+		anim(scene, [attacker]) {
+			scene.backgroundEffect('linear-gradient(#CA810F 30%, #000000', 600, 0.2);
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y - 30,
+				z: attacker.z,
+				scale: 0.5,
+				xscale: 0.25,
+				yscale: 0.75,
+				opacity: 0.5,
+			}, {
+				scale: 2,
+				xscale: 3.5,
+				opacity: 0.1,
+				time: 500,
+			}, 'decel', 'fade');
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y - 15,
+				z: attacker.z,
+				opacity: 0.5,
+				scale: 1.5,
+			}, {
+				scale: 1.8,
+				opacity: 0.1,
+				time: 500,
+			}, 'decel', 'fade');
+			scene.showEffect('flareball', {
+				x: attacker.x,
+				y: attacker.y - 15,
+				z: attacker.z,
+				opacity: 0.6,
+				scale: 3,
+			}, {
+				scale: 1.8,
+				opacity: 0.5,
+				time: 500,
+			}, 'decel', 'fade');
+		},
+	},
 	nuclearwinter: {
 		anim(scene, [attacker, ...defenders]) {
 			scene.backgroundEffect(`url('${Config.routes.clientProtocol}://${Config.routes.client}/sprites/gen6bgs/bg-icecave.jpg')`, 1000, 0.6);
@@ -45459,6 +45500,7 @@ BattleMoveAnims['mefirst'] = {anim: BattleMoveAnims['mimic'].anim};
 BattleMoveAnims['conversion2'] = {anim: BattleMoveAnims['conversion'].anim};
 
 BattleMoveAnims['gearup'] = {anim: BattleMoveAnims['shiftgear'].anim};
+BattleMoveAnims['driftgear'] = {anim: BattleMoveAnims['shiftgear'].anim};
 BattleMoveAnims['honeclaws'] = {anim: BattleMoveAnims['rockpolish'].anim};
 
 BattleMoveAnims['workup'] = {anim: BattleMoveAnims['bulkup'].anim};
