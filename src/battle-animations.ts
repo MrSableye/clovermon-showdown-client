@@ -3153,6 +3153,10 @@ const BattleEffects: {[k: string]: SpriteData} = {
 		url: 'skull.png', // by Clovermon Showdown user Rexcanyon792 :^)
 		w: 100, h: 100,
 	},
+	mute: {
+		url: 'mute.png', // by Clovermon Showdown user Rexcanyon792 :^)
+		w: 128, h: 128,
+	},
 	shine: {
 		url: 'shine.png', // by Smogon user Jajoken
 		w: 127, h: 119,
