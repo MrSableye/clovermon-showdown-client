@@ -4611,6 +4611,51 @@ export const BattleOtherAnims: AnimTable = {
 			}, 'decel', 'explode');
 		},
 	},
+	redhydroshot: {
+		anim(scene, [attacker, defender]) {
+			scene.showEffect('bloodwisp', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0.3,
+			}, {
+				x: defender.x + 10,
+				y: defender.y + 5,
+				z: defender.behind(30),
+				scale: 1.4,
+				opacity: 0.6,
+			}, 'decel', 'explode');
+			scene.showEffect('bloodwisp', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0.3,
+				time: 75,
+			}, {
+				x: defender.x - 10,
+				y: defender.y - 5,
+				z: defender.behind(30),
+				scale: 1.4,
+				opacity: 0.6,
+			}, 'decel', 'explode');
+			scene.showEffect('bloodwisp', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0.3,
+				time: 150,
+			}, {
+				x: defender.x,
+				y: defender.y + 5,
+				z: defender.behind(30),
+				scale: 1.4,
+				opacity: 0.6,
+			}, 'decel', 'explode');
+		},
+	},
 	sound: {
 		anim(scene, [attacker]) {
 			scene.showEffect('wisp', {
