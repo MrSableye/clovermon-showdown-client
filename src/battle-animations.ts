@@ -1906,6 +1906,7 @@ export class PokemonSprite extends Sprite {
 		deadlypincers: ['Deadly Pincers', 'good'],
 		agile: ['Agile Style', 'neutral'],
 		strong: ['Strong Style', 'neutral'],
+		colorboost: ['Color Boost', 'good'],
 		// sub graphics are handled elsewhere, see Battle.Sprite.animSub()
 		uproar: ['Uproar', 'neutral'],
 		rage: ['Rage', 'neutral'],
