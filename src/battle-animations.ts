@@ -1907,6 +1907,9 @@ export class PokemonSprite extends Sprite {
 		agile: ['Agile Style', 'neutral'],
 		strong: ['Strong Style', 'neutral'],
 		colorboost: ['Color Boost', 'good'],
+		sharpen1: ['Sharpen', 'good'],
+		sharpen2: ['Sharpen&times;2', 'good'],
+		sharpen3: ['Sharpen&times;3', 'good'],
 		// sub graphics are handled elsewhere, see Battle.Sprite.animSub()
 		uproar: ['Uproar', 'neutral'],
 		rage: ['Rage', 'neutral'],

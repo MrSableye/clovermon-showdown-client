@@ -581,6 +581,11 @@ class BattleTextParser {
 				const template = this.template('start', 'stockpile');
 				return line1 + template.replace('[POKEMON]', this.pokemon(pokemon)).replace('[NUMBER]', num);
 			}
+			if (id.startsWith('sharpen')) {
+				const num = id.slice(9);
+				const template = this.template('start', 'sharpen');
+				return line1 + template.replace('[POKEMON]', this.pokemon(pokemon)).replace('[NUMBER]', num);
+			}
 			if (id.startsWith('perish')) {
 				const num = id.slice(6);
 				const template = this.template('activate', 'perishsong');
