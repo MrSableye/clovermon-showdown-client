@@ -730,6 +730,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		let table = BattleTeambuilderTable;
 		if (this.formatType === 'bdsp' || this.formatType === 'bdspdoubles') table = table['gen8bdsp'];
 		if (this.formatType === 'letsgo') table = table['gen7letsgo'];
+		if (isModdedFormatType(this.formatType)) table = table[getModdedFormatTableName(this.formatType)];
 		if (speciesid in table.learnsets) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
@@ -786,6 +787,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			let table = BattleTeambuilderTable;
 			if (this.formatType === 'bdsp' || this.formatType === 'bdspdoubles') table = table['gen8bdsp'];
 			if (this.formatType === 'letsgo') table = table['gen7letsgo'];
+			if (isModdedFormatType(this.formatType)) table = table[getModdedFormatTableName(this.formatType)];
 			let learnset = table.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
@@ -1500,6 +1502,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType === 'bdsp' || this.formatType === 'bdspdoubles') lsetTable = lsetTable['gen8bdsp'];
 		if (this.formatType === 'letsgo') lsetTable = lsetTable['gen7letsgo'];
 		if (this.formatType === 'dlc1') lsetTable = lsetTable['gen8dlc1'];
+		if (isModdedFormatType(this.formatType)) lsetTable = lsetTable[getModdedFormatTableName(this.formatType)];
 		while (learnsetid) {
 			let learnset = lsetTable.learnsets[learnsetid];
 			if (this.formatType === 'letsgo') learnset = BattleTeambuilderTable['letsgo'].learnsets[learnsetid];

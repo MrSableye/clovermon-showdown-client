@@ -439,7 +439,7 @@ export class Pokemon implements PokemonDetails, PokemonHealth {
 		// this.lastMove = pokemon.lastMove; // I think
 		if (!copySource) {
 			const volatilesToRemove = [
-				'airballoon', 'attract', 'autotomize', 'disable', 'encore', 'foresight', 'gmaxchistrike', 'imprison', 'laserfocus', 'mimic', 'miracleeye', 'nightmare', 'saltcure', 'smackdown', 'stockpile1', 'stockpile2', 'stockpile3', 'torment', 'typeadd', 'typechange', 'yawn',
+				'airballoon', 'attract', 'autotomize', 'disable', 'encore', 'foresight', 'gmaxchistrike', 'imprison', 'laserfocus', 'mimic', 'miracleeye', 'nightmare', 'saltcure', 'smackdown', 'stockpile1', 'stockpile2', 'stockpile3', 'torment', 'typeadd', 'typechange', 'yawn', 'sharpen1', 'sharpen2', 'sharpen3',
 			];
 			for (const statName of Dex.statNamesExceptHP) {
 				volatilesToRemove.push('protosynthesis' + statName);
@@ -2591,6 +2591,17 @@ export class Battle {
 			case 'stockpile3':
 				poke.removeVolatile('stockpile2' as ID);
 				this.scene.resultAnim(poke, 'Stockpile&times;3', 'good');
+				break;
+			case 'sharpen1':
+				this.scene.resultAnim(poke, 'Sharpen', 'good');
+				break;
+			case 'sharpen2':
+				poke.removeVolatile('stockpile1' as ID);
+				this.scene.resultAnim(poke, 'Sharpen&times;2', 'good');
+				break;
+			case 'sharpen3':
+				poke.removeVolatile('stockpile2' as ID);
+				this.scene.resultAnim(poke, 'Sharpen&times;3', 'good');
 				break;
 			case 'perish0':
 				poke.removeVolatile('perish1' as ID);

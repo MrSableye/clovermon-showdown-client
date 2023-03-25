@@ -1316,6 +1316,10 @@ class BattleTooltips {
 			stats.spe = Math.floor(stats.spe * 0.75);
 		}
 
+		if (clientPokemon?.volatiles['colorboost']) {
+			stats.atk = Math.floor(stats.atk * 1.25);
+		}
+
 		return stats;
 	}
 
