@@ -1347,6 +1347,47 @@ export class BattleScene implements BattleSceneStub {
 				tspikeArray.push(tspike2);
 			}
 			break;
+		case 'luckyroll':
+			let luckyRollArray = this.sideConditions[siden]['luckyroll'];
+			if (!luckyRollArray) {
+				luckyRollArray = [];
+				this.sideConditions[siden]['luckyroll'] = luckyRollArray;
+			}
+			let luckyRollLevels = this.battle.sides[siden].sideConditions['luckyroll'][1];
+			if (luckyRollArray.length < 1 && luckyRollLevels >= 1) {
+				const die1 = new Sprite(BattleEffects.dice, {
+					display: 'block',
+					x: x - 25,
+					y: y - 40,
+					z: side.z,
+					scale: 0.3,
+				}, this);
+				this.$spritesFront[spriteIndex].append(die1.$el!);
+				luckyRollArray.push(die1);
+			}
+			if (luckyRollArray.length < 2 && luckyRollLevels >= 2) {
+				const die2 = new Sprite(BattleEffects.dice, {
+					display: 'block',
+					x: x + 30,
+					y: y - 45,
+					z: side.z,
+					scale: .3,
+				}, this);
+				this.$spritesFront[spriteIndex].append(die2.$el!);
+				luckyRollArray.push(die2);
+			}
+			if (luckyRollArray.length < 3 && luckyRollLevels >= 3) {
+				const die3 = new Sprite(BattleEffects.dice, {
+					display: 'block',
+					x: x + 50,
+					y: y - 40,
+					z: side.z,
+					scale: .3,
+				}, this);
+				this.$spritesFront[spriteIndex].append(die3.$el!);
+				luckyRollArray.push(die3);
+			}
+			break;
 		case 'stickyweb':
 			const web = new Sprite(BattleEffects.web, {
 				display: 'block',
@@ -3268,6 +3309,10 @@ const BattleEffects: {[k: string]: SpriteData} = {
 	cube: {
 		url: 'cube.png',
 		w: 100, h: 100,
+	},
+	dice: {
+		url: 'dice.png', // by Pokemon Showdown user SailorCosmos
+		w: 66, h: 80,
 	},
 };
 (() => {
