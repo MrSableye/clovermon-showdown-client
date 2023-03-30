@@ -1308,6 +1308,20 @@ p.or:after {
 	color: #224466;
 	text-decoration: none;
 }
+.roomlist .subrooms {
+	font-size: 8pt;
+	padding-left: 20px;
+	margin: -5px 0 4px;
+}
+.roomlist .subrooms i.fa-level-up {
+	margin-right: 5px;
+}
+.roomlist .subrooms a.ilink {
+	display: inline-block;
+	margin: 0;
+	vertical-align: middle;
+	font-size: 8pt;
+}
 
 /*********************************************************
  * Chat
@@ -1359,6 +1373,9 @@ p.or:after {
 	font-weight: normal;
 	font-size: 8pt;
 	color: #888888;
+}
+.chat .message-announce small {
+    color: #def;
 }
 .chat.timer {
 	color: #992222;
@@ -1624,6 +1641,10 @@ a.ilink.yours {
 	display: block;
 }
 .tournament-team {
+	padding-bottom: 5px;
+}
+.tournament-teamlocked, .tournament-teamlock-warning {
+	display: none;
 	padding-bottom: 5px;
 }
 .tournament-challenge-user,
@@ -3444,6 +3465,9 @@ a.ilink.yours {
 
 .dark .highlighted {
 	background: rgba(120,220,255,0.28);
+}
+.dark .message-pm {
+	color: #00af00;
 }
 .dark .revealed {
 	background: rgba(0,255,200,0.18);

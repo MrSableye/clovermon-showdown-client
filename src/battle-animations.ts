@@ -11,6 +11,12 @@
  * @license MIT
  */
 
+import type {Battle, Pokemon, Side, WeatherState} from './battle';
+import type {BattleSceneStub} from './battle-scene-stub';
+import {BattleMoveAnims} from './battle-animations-moves';
+import {BattleLog} from './battle-log';
+import {BattleBGM, BattleSound} from './battle-sound';
+
 /*
 
 Most of this file is: CC0 (public domain)
@@ -30,7 +36,7 @@ This license DOES NOT extend to any other files in this repository.
 
 */
 
-class BattleScene {
+export class BattleScene implements BattleSceneStub {
 	battle: Battle;
 	animating = true;
 	acceleration = 1;
@@ -234,7 +240,7 @@ class BattleScene {
 		} else {
 			this.$frame.append('<div class="playbutton"><button name="play"><i class="fa fa-play"></i> Play</button><br /><br /><button name="play-muted" class="startsoundchooser" style="font-size:10pt;display:none">Play (music off)</button></div>');
 			this.$frame.find('div.playbutton button[name=play-muted]').click(() => {
-				this.battle.setMute(true);
+				this.setMute(true);
 				this.battle.play();
 			});
 		}
@@ -243,6 +249,9 @@ class BattleScene {
 	resume() {
 		this.$frame.find('div.playbutton').remove();
 		this.updateBgm();
+	}
+	setMute(muted: boolean) {
+		BattleSound.setMute(muted);
 	}
 	wait(time: number) {
 		if (!this.animating) return;
@@ -581,7 +590,7 @@ class BattleScene {
 		} else {
 			let statustext = '';
 			if (pokemon.hp !== pokemon.maxhp) {
-				statustext += Pokemon.getHPText(pokemon);
+				statustext += pokemon.getHPText();
 			}
 			if (pokemon.status) {
 				if (statustext) statustext += '|';
@@ -754,7 +763,7 @@ class BattleScene {
 
 			side.missedPokemon = {
 				sprite: new PokemonSprite(null, {
-					x: side.leftof(-100),
+					x: side.leftof(this.battle.gameType === 'freeforall' ? -50 : -100),
 					y: side.y,
 					z: side.z,
 					opacity: 0,
@@ -836,7 +845,7 @@ class BattleScene {
 				buf2 += '<div style="position:absolute;top:' + (y + 45) + 'px;left:' + (x - 40) + 'px;width:80px;font-size:10px;text-align:center;color:#FFF;">';
 				const gender = pokemon.gender;
 				if (gender === 'M' || gender === 'F') {
-					buf2 += `<img src="${Dex.resourcePrefix}fx/gender-${gender.toLowerCase()}.png" alt="${gender}" width="7" height="10" class="pixelated" style="margin-bottom:-1px" /> `;
+					buf2 += `<img src="${Dex.fxPrefix}gender-${gender.toLowerCase()}.png" alt="${gender}" width="7" height="10" class="pixelated" style="margin-bottom:-1px" /> `;
 				}
 				if (pokemon.level !== 100) {
 					buf2 += '<span style="text-shadow:#000 1px 1px 0,#000 1px -1px 0,#000 -1px 1px 0,#000 -1px -1px 0"><small>L</small>' + pokemon.level + '</span>';
@@ -929,6 +938,7 @@ class BattleScene {
 				primordialsea: 'Heavy Rain',
 				sandstorm: 'Sandstorm',
 				hail: 'Hail',
+				snow: 'Snow',
 				deltastream: 'Strong Winds',
 				densefog: 'Dense Fog',
 				timefall: 'Timefall',
@@ -973,18 +983,7 @@ class BattleScene {
 		}
 		let terrain = '' as ID;
 		for (const pseudoWeatherData of this.battle.pseudoWeather) {
-			let pwid = toID(pseudoWeatherData[0]);
-			switch (pwid) {
-			case 'electricterrain':
-			case 'grassyterrain':
-			case 'mistyterrain':
-			case 'psychicterrain':
-				terrain = pwid;
-				break;
-			default:
-				if (!terrain) terrain = 'pseudo' as ID;
-				break;
-			}
+			terrain = toID(pseudoWeatherData[0]);
 		}
 		if (weather === 'desolateland' || weather === 'primordialsea' || weather === 'deltastream') {
 			isIntense = true;
@@ -1092,12 +1091,22 @@ class BattleScene {
 		if (!this.animating) return;
 		const side = this.battle.sides[siden];
 		const spriteIndex = +side.isFar;
+		let x = side.x;
+		let y = side.y;
+		if (this.battle.gameType === 'freeforall') {
+			x += side.isFar ? 20 : -20;
+			if (side.n > 1) {
+				x += (side.isFar ? -140 : 140);
+				y += side.isFar ? 14 : -20;
+			}
+		}
+
 		switch (id) {
 		case 'auroraveil':
 			const auroraveil = new Sprite(BattleEffects.auroraveil, {
 				display: 'block',
-				x: side.x,
-				y: side.y,
+				x,
+				y,
 				z: side.behind(-14),
 				xscale: 1,
 				yscale: 0,
@@ -1116,8 +1125,8 @@ class BattleScene {
 		case 'reflect':
 			const reflect = new Sprite(BattleEffects.reflect, {
 				display: 'block',
-				x: side.x,
-				y: side.y,
+				x,
+				y,
 				z: side.behind(-17),
 				xscale: 1,
 				yscale: 0,
@@ -1136,8 +1145,8 @@ class BattleScene {
 		case 'safeguard':
 			const safeguard = new Sprite(BattleEffects.safeguard, {
 				display: 'block',
-				x: side.x,
-				y: side.y,
+				x,
+				y,
 				z: side.behind(-20),
 				xscale: 1,
 				yscale: 0,
@@ -1156,8 +1165,8 @@ class BattleScene {
 		case 'lightscreen':
 			const lightscreen = new Sprite(BattleEffects.lightscreen, {
 				display: 'block',
-				x: side.x,
-				y: side.y,
+				x,
+				y,
 				z: side.behind(-23),
 				xscale: 1,
 				yscale: 0,
@@ -1176,8 +1185,8 @@ class BattleScene {
 		case 'mist':
 			const mist = new Sprite(BattleEffects.mist, {
 				display: 'block',
-				x: side.x,
-				y: side.y,
+				x,
+				y,
 				z: side.behind(-27),
 				xscale: 1,
 				yscale: 0,
@@ -1196,8 +1205,8 @@ class BattleScene {
 		case 'stealthrock':
 			const rock1 = new Sprite(BattleEffects.rock1, {
 				display: 'block',
-				x: side.leftof(-40),
-				y: side.y - 10,
+				x: x + side.leftof(-40),
+				y: y - 10,
 				z: side.z,
 				opacity: 0.5,
 				scale: 0.2,
@@ -1205,8 +1214,8 @@ class BattleScene {
 
 			const rock2 = new Sprite(BattleEffects.rock2, {
 				display: 'block',
-				x: side.leftof(-20),
-				y: side.y - 40,
+				x: x + side.leftof(-20),
+				y: y - 40,
 				z: side.z,
 				opacity: 0.5,
 				scale: 0.2,
@@ -1214,8 +1223,8 @@ class BattleScene {
 
 			const rock3 = new Sprite(BattleEffects.rock1, {
 				display: 'block',
-				x: side.leftof(30),
-				y: side.y - 20,
+				x: x + side.leftof(30),
+				y: y - 20,
 				z: side.z,
 				opacity: 0.5,
 				scale: 0.2,
@@ -1223,8 +1232,8 @@ class BattleScene {
 
 			const rock4 = new Sprite(BattleEffects.rock2, {
 				display: 'block',
-				x: side.leftof(10),
-				y: side.y - 30,
+				x: x + side.leftof(10),
+				y: y - 30,
 				z: side.z,
 				opacity: 0.5,
 				scale: 0.2,
@@ -1239,24 +1248,24 @@ class BattleScene {
 		case 'gmaxsteelsurge':
 			const surge1 = new Sprite(BattleEffects.greenmetal1, {
 				display: 'block',
-				x: side.leftof(-30),
-				y: side.y - 20,
+				x: x + side.leftof(-30),
+				y: y - 20,
 				z: side.z,
 				opacity: 0.5,
 				scale: 0.8,
 			}, this);
 			const surge2 = new Sprite(BattleEffects.greenmetal2, {
 				display: 'block',
-				x: side.leftof(35),
-				y: side.y - 15,
+				x: x + side.leftof(35),
+				y: y - 15,
 				z: side.z,
 				opacity: 0.5,
 				scale: 0.8,
 			}, this);
 			const surge3 = new Sprite(BattleEffects.greenmetal1, {
 				display: 'block',
-				x: side.leftof(50),
-				y: side.y - 10,
+				x: x + side.leftof(50),
+				y: y - 10,
 				z: side.z,
 				opacity: 0.5,
 				scale: 0.8,
@@ -1277,8 +1286,8 @@ class BattleScene {
 			if (spikeArray.length < 1 && levels >= 1) {
 				const spike1 = new Sprite(BattleEffects.caltrop, {
 					display: 'block',
-					x: side.x - 25,
-					y: side.y - 40,
+					x: x - 25,
+					y: y - 40,
 					z: side.z,
 					scale: 0.3,
 				}, this);
@@ -1288,8 +1297,8 @@ class BattleScene {
 			if (spikeArray.length < 2 && levels >= 2) {
 				const spike2 = new Sprite(BattleEffects.caltrop, {
 					display: 'block',
-					x: side.x + 30,
-					y: side.y - 45,
+					x: x + 30,
+					y: y - 45,
 					z: side.z,
 					scale: .3,
 				}, this);
@@ -1299,8 +1308,8 @@ class BattleScene {
 			if (spikeArray.length < 3 && levels >= 3) {
 				const spike3 = new Sprite(BattleEffects.caltrop, {
 					display: 'block',
-					x: side.x + 50,
-					y: side.y - 40,
+					x: x + 50,
+					y: y - 40,
 					z: side.z,
 					scale: .3,
 				}, this);
@@ -1318,8 +1327,8 @@ class BattleScene {
 			if (tspikeArray.length < 1 && tspikeLevels >= 1) {
 				const tspike1 = new Sprite(BattleEffects.poisoncaltrop, {
 					display: 'block',
-					x: side.x + 5,
-					y: side.y - 40,
+					x: x + 5,
+					y: y - 40,
 					z: side.z,
 					scale: 0.3,
 				}, this);
@@ -1329,8 +1338,8 @@ class BattleScene {
 			if (tspikeArray.length < 2 && tspikeLevels >= 2) {
 				const tspike2 = new Sprite(BattleEffects.poisoncaltrop, {
 					display: 'block',
-					x: side.x - 15,
-					y: side.y - 35,
+					x: x - 15,
+					y: y - 35,
 					z: side.z,
 					scale: .3,
 				}, this);
@@ -1338,11 +1347,52 @@ class BattleScene {
 				tspikeArray.push(tspike2);
 			}
 			break;
+		case 'luckyroll':
+			let luckyRollArray = this.sideConditions[siden]['luckyroll'];
+			if (!luckyRollArray) {
+				luckyRollArray = [];
+				this.sideConditions[siden]['luckyroll'] = luckyRollArray;
+			}
+			let luckyRollLevels = this.battle.sides[siden].sideConditions['luckyroll'][1];
+			if (luckyRollArray.length < 1 && luckyRollLevels >= 1) {
+				const die1 = new Sprite(BattleEffects.dice, {
+					display: 'block',
+					x: x - 25,
+					y: y - 40,
+					z: side.z,
+					scale: 0.3,
+				}, this);
+				this.$spritesFront[spriteIndex].append(die1.$el!);
+				luckyRollArray.push(die1);
+			}
+			if (luckyRollArray.length < 2 && luckyRollLevels >= 2) {
+				const die2 = new Sprite(BattleEffects.dice, {
+					display: 'block',
+					x: x + 30,
+					y: y - 45,
+					z: side.z,
+					scale: .3,
+				}, this);
+				this.$spritesFront[spriteIndex].append(die2.$el!);
+				luckyRollArray.push(die2);
+			}
+			if (luckyRollArray.length < 3 && luckyRollLevels >= 3) {
+				const die3 = new Sprite(BattleEffects.dice, {
+					display: 'block',
+					x: x + 50,
+					y: y - 40,
+					z: side.z,
+					scale: .3,
+				}, this);
+				this.$spritesFront[spriteIndex].append(die3.$el!);
+				luckyRollArray.push(die3);
+			}
+			break;
 		case 'stickyweb':
 			const web = new Sprite(BattleEffects.web, {
 				display: 'block',
-				x: side.x + 15,
-				y: side.y - 35,
+				x: x + 15,
+				y: y - 35,
 				z: side.z,
 				opacity: 0.4,
 				scale: 0.7,
@@ -1404,6 +1454,18 @@ class BattleScene {
 			}, this);
 			this.$spritesFront[spriteIndex].append(pleasedontdothat.$el!);
 			this.sideConditions[siden][id] = [pleasedontdothat];
+			break;
+		case 'landmind':
+			const landmind = new Sprite(BattleEffects.landmind, {
+				display: 'block',
+				x: side.x + 15,
+				y: side.y - 35,
+				z: side.z,
+				opacity: 0.4,
+				scale: 0.7,
+			}, this);
+			this.$spritesFront[spriteIndex].append(landmind.$el!);
+			this.sideConditions[siden][id] = [landmind];
 			break;
 		}
 	}
@@ -1717,7 +1779,7 @@ class BattleScene {
 	}
 }
 
-interface ScenePos {
+export interface ScenePos {
 	/** - left, + right */
 	x?: number;
 	/** - down, + up */
@@ -1743,7 +1805,7 @@ interface InitScenePos {
 	display?: string;
 }
 
-class Sprite {
+export class Sprite {
 	scene: BattleScene;
 	$el: JQuery = null!;
 	sp: SpriteData;
@@ -1806,7 +1868,7 @@ class Sprite {
 	}
 }
 
-class PokemonSprite extends Sprite {
+export class PokemonSprite extends Sprite {
 	// HTML strings are constructed from this table and stored back in it to cache them
 	protected static statusTable: {[id: string]: [string, 'good' | 'bad' | 'neutral'] | null | string} = {
 		formechange: null,
@@ -1851,9 +1913,25 @@ class PokemonSprite extends Sprite {
 		smackdown: ['Smack Down', 'bad'],
 		focusenergy: ['Critical Hit Boost', 'good'],
 		slowstart: ['Slow Start', 'bad'],
+		protosynthesisatk: ['Protosynthesis: Atk', 'good'],
+		protosynthesisdef: ['Protosynthesis: Def', 'good'],
+		protosynthesisspa: ['Protosynthesis: SpA', 'good'],
+		protosynthesisspd: ['Protosynthesis: SpD', 'good'],
+		protosynthesisspe: ['Protosynthesis: Spe', 'good'],
+		quarkdriveatk: ['Quark Drive: Atk', 'good'],
+		quarkdrivedef: ['Quark Drive: Def', 'good'],
+		quarkdrivespa: ['Quark Drive: SpA', 'good'],
+		quarkdrivespd: ['Quark Drive: SpD', 'good'],
+		quarkdrivespe: ['Quark Drive: Spe', 'good'],
+		fallen1: ['Fallen: 1', 'good'],
+		fallen2: ['Fallen: 2', 'good'],
+		fallen3: ['Fallen: 3', 'good'],
+		fallen4: ['Fallen: 4', 'good'],
+		fallen5: ['Fallen: 5', 'good'],
 		noretreat: ['No Retreat', 'bad'],
 		octolock: ['Octolock', 'bad'],
 		tarshot: ['Tar Shot', 'bad'],
+		saltcure: ['Salt Cure', 'bad'],
 		doomdesire: null,
 		futuresight: null,
 		finalhour: null,
@@ -1866,6 +1944,13 @@ class PokemonSprite extends Sprite {
 		substitute: null,
 		livewire: ['Livewire', 'bad'],
 		faradaycage: ['Faraday Cage', 'good'],
+		deadlypincers: ['Deadly Pincers', 'good'],
+		agile: ['Agile Style', 'neutral'],
+		strong: ['Strong Style', 'neutral'],
+		colorboost: ['Color Boost', 'good'],
+		sharpen1: ['Sharpen', 'good'],
+		sharpen2: ['Sharpen&times;2', 'good'],
+		sharpen3: ['Sharpen&times;3', 'good'],
 		// sub graphics are handled elsewhere, see Battle.Sprite.animSub()
 		uproar: ['Uproar', 'neutral'],
 		rage: ['Rage', 'neutral'],
@@ -1887,6 +1972,7 @@ class PokemonSprite extends Sprite {
 		shelltrap: ['Trap set', 'neutral'],
 		powder: ['Powder', 'bad'],
 		electrify: ['Electrify', 'bad'],
+		glaiverush: ['Glaive Rush', 'bad'],
 		ragepowder: ['Rage Powder', 'good'],
 		followme: ['Follow Me', 'good'],
 		instruct: ['Instruct', 'neutral'],
@@ -1906,6 +1992,8 @@ class PokemonSprite extends Sprite {
 		thundercage: ['Thunder Cage', 'bad'],
 		whirlpool: ['Whirlpool', 'bad'],
 		wrap: ['Wrap', 'bad'],
+		// Gen 1-2
+		mist: ['Mist', 'good'],
 		// Gen 1
 		lightscreen: ['Light Screen', 'good'],
 		reflect: ['Reflect', 'good'],
@@ -2115,7 +2203,7 @@ class PokemonSprite extends Sprite {
 	reset(pokemon: Pokemon) {
 		this.clearEffects();
 
-		if (pokemon.volatiles.formechange || pokemon.volatiles.dynamax) {
+		if (pokemon.volatiles.formechange || pokemon.volatiles.dynamax || pokemon.volatiles.terastallize) {
 			if (!this.oldsp) this.oldsp = this.sp;
 			this.sp = Dex.getSpriteData(pokemon, this.isFrontSprite, {
 				gen: this.scene.battle.gen,
@@ -2523,7 +2611,16 @@ class PokemonSprite extends Sprite {
 		});
 		let oldsp = this.sp;
 		if (isPermanent) {
-			this.oldsp = null;
+			if (pokemon.volatiles.dynamax) {
+				// if a permanent forme change happens while dynamaxed, we need an undynamaxed sprite to go back to
+				this.oldsp = Dex.getSpriteData(pokemon, this.isFrontSprite, {
+					gen: this.scene.gen,
+					mod: this.scene.mod,
+					dynamax: false,
+				});
+			} else {
+				this.oldsp = null;
+			}
 		} else if (!this.oldsp) {
 			this.oldsp = oldsp;
 		}
@@ -2567,27 +2664,32 @@ class PokemonSprite extends Sprite {
 			xscale: 0,
 			opacity: 0,
 		}, sp));
-		this.$el.animate(this.scene.pos({
-			x: this.x,
-			y: this.y,
-			z: this.z,
-			yscale: 0,
-			xscale: 0,
-			opacity: 0.3,
-		}, oldsp), 300, () => {
-			if (this.cryurl && doCry) {
-				BattleSound.playEffect(this.cryurl);
-			}
+		if (speciesid === 'palafinhero') {
 			this.$el.replaceWith($newEl);
 			this.$el = $newEl;
-			this.$el.animate(scene.pos({
+		} else {
+			this.$el.animate(this.scene.pos({
 				x: this.x,
 				y: this.y,
 				z: this.z,
-				opacity: 1,
-			}, sp), 300);
-		});
-		this.scene.wait(500);
+				yscale: 0,
+				xscale: 0,
+				opacity: 0.3,
+			}, oldsp), 300, () => {
+				if (this.cryurl && doCry) {
+					BattleSound.playEffect(this.cryurl);
+				}
+				this.$el.replaceWith($newEl);
+				this.$el = $newEl;
+				this.$el.animate(scene.pos({
+					x: this.x,
+					y: this.y,
+					z: this.z,
+					opacity: 1,
+				}, sp), 300);
+			});
+			this.scene.wait(500);
+		}
 
 		this.scene.updateSidebar(pokemon.side);
 		if (isPermanent) {
@@ -2615,7 +2717,7 @@ class PokemonSprite extends Sprite {
 			return;
 		}
 		const spriten = +this.isFrontSprite;
-		if (id === 'substitute') {
+		if (id === 'substitute' || id === 'shedtail') {
 			this.animSub(instant);
 		} else if (id === 'leechseed') {
 			const pos1 = {
@@ -2699,13 +2801,24 @@ class PokemonSprite extends Sprite {
 	// Statbar
 	/////////////////////////////////////////////////////////////////////
 
+	getClassForPosition(slot: number) {
+		// DOUBLES: Slot0 -> left / Slot1 -> Right
+		// TRIPLES: slot0 -> left / Slot1 -> Center / Slot2 -> Right
+		const position = [
+			' leftstatbar',
+			this.scene.activeCount === 3 ? ' centerstatbar' : ' rightstatbar',
+			' rightstatbar',
+		];
+		return position[slot];
+	}
+
 	getStatbarHTML(pokemon: Pokemon) {
-		let buf = '<div class="statbar' + (this.isFrontSprite ? ' lstatbar' : ' rstatbar') + '" style="display: none">';
+		let buf = '<div class="statbar' + (this.isFrontSprite ? ' lstatbar' : ' rstatbar') + this.getClassForPosition(pokemon.slot) + '" style="display: none">';
 		const ignoreNick = this.isFrontSprite && (this.scene.battle.ignoreOpponent || this.scene.battle.ignoreNicks);
 		buf += `<strong>${BattleLog.escapeHTML(ignoreNick ? pokemon.speciesForme : pokemon.name)}`;
 		const gender = pokemon.gender;
 		if (gender === 'M' || gender === 'F') {
-			buf += ` <img src="${Dex.resourcePrefix}fx/gender-${gender.toLowerCase()}.png" alt="${gender}" width="7" height="10" class="pixelated" />`;
+			buf += ` <img src="${Dex.fxPrefix}gender-${gender.toLowerCase()}.png" alt="${gender}" width="7" height="10" class="pixelated" />`;
 		}
 		buf += (pokemon.level === 100 ? `` : ` <small>L${pokemon.level}</small>`);
 
@@ -2715,6 +2828,9 @@ class PokemonSprite extends Sprite {
 		else if (pokemon.speciesForme === 'Groudon-Primal') symbol = 'omega';
 		if (symbol) {
 			buf += ` <img src="${Dex.resourcePrefix}sprites/misc/${symbol}.png" alt="${symbol}" style="vertical-align:text-bottom;" />`;
+		}
+		if (pokemon.terastallized) {
+			buf += ` <img src="${Dex.resourcePrefix}sprites/types/Tera${pokemon.terastallized}.png" alt="Tera-${pokemon.terastallized}" style="vertical-align:text-bottom;" height="16" width="16" />`;
 		}
 
 		buf += `</strong><div class="hpbar"><div class="hptext"></div><div class="hptextborder"></div><div class="prevhp"><div class="hp"></div></div><div class="status"></div>`;
@@ -2790,7 +2906,9 @@ class PokemonSprite extends Sprite {
 		} else if (pokemon.status === 'frz') {
 			status += '<span class="frz">FRZ</span> ';
 		}
-		if (pokemon.volatiles.typechange && pokemon.volatiles.typechange[1]) {
+		if (pokemon.terastallized) {
+			status += `<img src="${Dex.resourcePrefix}sprites/types/${encodeURIComponent(pokemon.terastallized)}.png" alt="${pokemon.terastallized}" class="pixelated" /> `;
+		} else if (pokemon.volatiles.typechange && pokemon.volatiles.typechange[1]) {
 			const types = pokemon.volatiles.typechange[1].split('/');
 			for (const type of types) {
 				status += '<img src="' + Dex.resourcePrefix + 'sprites/types/' + encodeURIComponent(type) + '.png" alt="' + type + '" class="pixelated" /> ';
@@ -2824,7 +2942,19 @@ class PokemonSprite extends Sprite {
 		let effect = PokemonSprite.statusTable[id];
 		if (typeof effect === 'string') return effect;
 		if (effect === null) return PokemonSprite.statusTable[id] = '';
-		if (effect === undefined) effect = [`[[${id}]]`, 'neutral'];
+		if (effect === undefined) {
+			let label = `[[${id}]]`;
+			if (Dex.species.get(id).exists) {
+				label = Dex.species.get(id).name;
+			} else if (Dex.items.get(id).exists) {
+				label = Dex.items.get(id).name;
+			} else if (Dex.moves.get(id).exists) {
+				label = Dex.moves.get(id).name;
+			} else if (Dex.abilities.get(id).exists) {
+				label = Dex.abilities.get(id).name;
+			}
+			effect = [label, 'neutral'];
+		}
 		return PokemonSprite.statusTable[id] = `<span class="${effect[1]}">${effect[0].replace(/ /g, '&nbsp;')}</span> `;
 	}
 
@@ -2877,7 +3007,7 @@ interface AnimData {
 	prepareAnim?(scene: BattleScene, args: PokemonSprite[]): void;
 	residualAnim?(scene: BattleScene, args: PokemonSprite[]): void;
 }
-type AnimTable = {[k: string]: AnimData};
+export type AnimTable = {[k: string]: AnimData};
 
 const BattleEffects: {[k: string]: SpriteData} = {
 	wisp: {
@@ -3064,6 +3194,14 @@ const BattleEffects: {[k: string]: SpriteData} = {
 		url: 'stare.png',
 		w: 100, h: 35,
 	},
+	skull: {
+		url: 'skull.png', // by Clovermon Showdown user Rexcanyon792 :^)
+		w: 100, h: 100,
+	},
+	mute: {
+		url: 'mute.png', // by Clovermon Showdown user Rexcanyon792 :^)
+		w: 128, h: 128,
+	},
 	shine: {
 		url: 'shine.png', // by Smogon user Jajoken
 		w: 127, h: 119,
@@ -3164,9 +3302,17 @@ const BattleEffects: {[k: string]: SpriteData} = {
 		url: 'stop.png',
 		w: 120, h: 120,
 	},
+	landmind: {
+		url: 'landmind.png',
+		w: 120, h: 87,
+	},
 	cube: {
 		url: 'cube.png',
 		w: 100, h: 100,
+	},
+	dice: {
+		url: 'dice.png', // by Pokemon Showdown user SailorCosmos
+		w: 66, h: 80,
 	},
 };
 (() => {
@@ -3230,7 +3376,7 @@ const BattleBackdrops = [
 	'bg-skypillar.jpg',
 ];
 
-const BattleOtherAnims: AnimTable = {
+export const BattleOtherAnims: AnimTable = {
 	hitmark: {
 		anim(scene, [attacker]) {
 			scene.showEffect('hitmark', {
@@ -3546,6 +3692,80 @@ const BattleOtherAnims: AnimTable = {
 				time: 800,
 			}, 'linear');
 			scene.showEffect('fist', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 1,
+				opacity: 1,
+				time: 400,
+			}, {
+				x: defender.leftof(-20),
+				y: defender.y,
+				z: defender.behind(20),
+				scale: 2,
+				opacity: 0,
+				time: 800,
+			}, 'linear');
+			attacker.anim({
+				x: defender.leftof(20),
+				y: defender.y,
+				z: defender.behind(-20),
+				time: 400,
+			}, 'ballistic2Under');
+			attacker.anim({
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				time: 50,
+			});
+			attacker.anim({
+				time: 500,
+			}, 'ballistic2');
+			defender.delay(425);
+			defender.anim({
+				x: defender.leftof(-15),
+				y: defender.y,
+				z: defender.behind(15),
+				time: 50,
+			}, 'swing');
+			defender.anim({
+				time: 300,
+			}, 'swing');
+		},
+	},
+	kickattack: {
+		anim(scene, [attacker, defender]) {
+			scene.showEffect('wisp', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 0,
+				opacity: 1,
+				time: 400,
+			}, {
+				x: defender.leftof(-20),
+				y: defender.y,
+				z: defender.behind(20),
+				scale: 3,
+				opacity: 0,
+				time: 700,
+			}, 'linear');
+			scene.showEffect('wisp', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 0,
+				opacity: 1,
+				time: 500,
+			}, {
+				x: defender.leftof(-20),
+				y: defender.y,
+				z: defender.behind(20),
+				scale: 3,
+				opacity: 0,
+				time: 800,
+			}, 'linear');
+			scene.showEffect('foot', {
 				x: defender.x,
 				y: defender.y,
 				z: defender.z,
@@ -4436,6 +4656,51 @@ const BattleOtherAnims: AnimTable = {
 				y: defender.y + 5,
 				z: defender.behind(30),
 				scale: 1,
+				opacity: 0.6,
+			}, 'decel', 'explode');
+		},
+	},
+	redhydroshot: {
+		anim(scene, [attacker, defender]) {
+			scene.showEffect('bloodwisp', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0.3,
+			}, {
+				x: defender.x + 10,
+				y: defender.y + 5,
+				z: defender.behind(30),
+				scale: 1.4,
+				opacity: 0.6,
+			}, 'decel', 'explode');
+			scene.showEffect('bloodwisp', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0.3,
+				time: 75,
+			}, {
+				x: defender.x - 10,
+				y: defender.y - 5,
+				z: defender.behind(30),
+				scale: 1.4,
+				opacity: 0.6,
+			}, 'decel', 'explode');
+			scene.showEffect('bloodwisp', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0.3,
+				time: 150,
+			}, {
+				x: defender.x,
+				y: defender.y + 5,
+				z: defender.behind(30),
+				scale: 1.4,
 				opacity: 0.6,
 			}, 'decel', 'explode');
 		},
@@ -6017,8 +6282,13 @@ const BattleOtherAnims: AnimTable = {
 			}, 'linear');
 		},
 	},
+	keikaku: {
+		anim(scene, [attacker]) {
+			scene.backgroundEffect(`url('${Config.routes.clientProtocol}://${Config.routes.client}/fx/keikaku.png')`, 1000, 1);
+		},
+	},
 };
-const BattleStatusAnims: AnimTable = {
+export const BattleStatusAnims: AnimTable = {
 	brn: {
 		anim(scene, [attacker]) {
 			scene.showEffect('fireball', {

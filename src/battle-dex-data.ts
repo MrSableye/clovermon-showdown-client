@@ -240,7 +240,7 @@ const BattleAvatarNumbers: {[k: string]: string} = {
 	92: 'palmer',
 	93: 'thorton',
 	94: 'buck',
-	95: 'darach',
+	95: 'darach-caitlin',
 	96: 'marley',
 	97: 'mira',
 	98: 'cheryl',
@@ -661,12 +661,14 @@ class Item implements Effect {
 }
 
 interface MoveFlags {
-	/** Ignores a target's substitute. */
-	authentic?: 1 | 0;
+	/** The move has an animation when used on an ally. */
+	allyanim?: 1 | 0;
 	/** Power is multiplied by 1.5 when used by a Pokemon with the Strong Jaw Ability. */
 	bite?: 1 | 0;
 	/** Has no effect on Pokemon with the Bulletproof Ability. */
 	bullet?: 1 | 0;
+	/** Ignores a target's substitute. */
+	bypasssub?: 1 | 0;
 	/** The user is unable to make a move between turns. */
 	charge?: 1 | 0;
 	/** Makes contact. */
@@ -683,8 +685,6 @@ interface MoveFlags {
 	heal?: 1 | 0;
 	/** Can be copied by Mirror Move. */
 	mirror?: 1 | 0;
-	/** Unknown effect. */
-	mystery?: 1 | 0;
 	/** Prevented from being executed or selected in a Sky Battle. */
 	nonsky?: 1 | 0;
 	/** Has no effect on Grass-type Pokemon, Pokemon with the Overcoat Ability, and Pokemon holding Safety Goggles. */
@@ -699,12 +699,14 @@ interface MoveFlags {
 	recharge?: 1 | 0;
 	/** Bounced back to the original user by Magic Coat or the Magic Bounce Ability. */
 	reflectable?: 1 | 0;
+	/** Power is multiplied by 1.5 when used by a Pokemon with the Sharpness Ability. */
+	slicing?: 1 | 0;
 	/** Can be stolen from the original user and instead used by another Pokemon using Snatch. */
 	snatch?: 1 | 0;
 	/** Has no effect on Pokemon with the Soundproof Ability. */
 	sound?: 1 | 0;
-	/** Boosted by Blademaster */
-	blade?: 1 | 0;
+	/** Activates the effects of the Wind Power and Wind Rider Abilities. */
+	wind?: 1 | 0;
 	/** Boosted by Striker */
 	kick?: 1 | 0;
 	/** Boosted by Bone Zone */
@@ -733,6 +735,7 @@ class Move implements Effect {
 	readonly category: 'Physical' | 'Special' | 'Status';
 	readonly priority: number;
 	readonly target: MoveTarget;
+	readonly pressureTarget: MoveTarget;
 	readonly flags: Readonly<MoveFlags>;
 	readonly critRatio: number;
 
@@ -754,6 +757,7 @@ class Move implements Effect {
 	readonly hasCrashDamage: boolean;
 	readonly noPPBoosts: boolean;
 	readonly secondaries: ReadonlyArray<any> | null;
+	readonly noSketch: boolean;
 	readonly num: number;
 
 	constructor(id: ID, name: string, data: any) {
@@ -771,6 +775,7 @@ class Move implements Effect {
 		this.category = data.category || 'Physical';
 		this.priority = data.priority || 0;
 		this.target = data.target || 'normal';
+		this.pressureTarget = data.pressureTarget || this.target;
 		this.flags = data.flags || {};
 		this.critRatio = data.critRatio === 0 ? 0 : (data.critRatio || 1);
 
@@ -787,6 +792,7 @@ class Move implements Effect {
 		this.hasCrashDamage = data.hasCrashDamage || false;
 		this.noPPBoosts = data.noPPBoosts || false;
 		this.secondaries = data.secondaries || (data.secondary ? [data.secondary] : null);
+		this.noSketch = !!data.noSketch;
 
 		this.isMax = data.isMax || false;
 		this.maxMove = data.maxMove || {basePower: 0};
@@ -954,6 +960,7 @@ class Species implements Effect {
 	readonly baseStats: Readonly<{
 		hp: number, atk: number, def: number, spa: number, spd: number, spe: number,
 	}>;
+	readonly bst: number;
 	readonly weightkg: number;
 
 	// flavor data
@@ -962,6 +969,7 @@ class Species implements Effect {
 	readonly color: string;
 	readonly genderRatio: Readonly<{M: number, F: number}> | null;
 	readonly eggGroups: ReadonlyArray<string>;
+	readonly tags: ReadonlyArray<string>;
 
 	// format data
 	readonly otherFormes: ReadonlyArray<string> | null;
@@ -973,10 +981,11 @@ class Species implements Effect {
 	readonly evoMove: string;
 	readonly evoItem: string;
 	readonly evoCondition: string;
-	readonly requiredItem: string;
+	readonly requiredItems: ReadonlyArray<string>;
 	readonly tier: string;
 	readonly isTotem: boolean;
 	readonly isMega: boolean;
+	readonly cannotDynamax: boolean;
 	readonly canGigantamax: boolean;
 	readonly isPrimal: boolean;
 	readonly battleOnly: string | string[] | undefined;
@@ -1004,6 +1013,8 @@ class Species implements Effect {
 		this.types = data.types || ['???'];
 		this.abilities = data.abilities || {0: "No Ability"};
 		this.baseStats = data.baseStats || {hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0};
+		this.bst = this.baseStats.hp + this.baseStats.atk + this.baseStats.def +
+			this.baseStats.spa + this.baseStats.spd + this.baseStats.spe;
 		this.weightkg = data.weightkg || 0;
 
 		this.heightm = data.heightm || 0;
@@ -1011,6 +1022,7 @@ class Species implements Effect {
 		this.color = data.color || '';
 		this.genderRatio = data.genderRatio || null;
 		this.eggGroups = data.eggGroups || [];
+		this.tags = data.tags || [];
 
 		this.otherFormes = data.otherFormes || null;
 		this.cosmeticFormes = data.cosmeticFormes || null;
@@ -1021,11 +1033,12 @@ class Species implements Effect {
 		this.evoMove = data.evoMove || '';
 		this.evoItem = data.evoItem || '';
 		this.evoCondition = data.evoCondition || '';
-		this.requiredItem = data.requiredItem || '';
+		this.requiredItems = data.requiredItems || (data.requiredItem ? [data.requiredItem] : []);
 		this.tier = data.tier || '';
 
 		this.isTotem = false;
 		this.isMega = !!(this.forme && ['-mega', '-megax', '-megay'].includes(this.formeid));
+		this.cannotDynamax = !!data.cannotDynamax;
 		this.canGigantamax = !!data.canGigantamax;
 		this.isPrimal = !!(this.forme && this.formeid === '-primal');
 		this.battleOnly = data.battleOnly || undefined;
@@ -1033,7 +1046,9 @@ class Species implements Effect {
 		this.unreleasedHidden = data.unreleasedHidden || false;
 		this.changesFrom = data.changesFrom || undefined;
 		if (!this.gen) {
-			if (this.num >= 810 || this.formeid.startsWith('-galar')) {
+			if (this.num >= 906 || this.formeid.startsWith('-paldea')) {
+				this.gen = 9;
+			} else if (this.num >= 810 || this.formeid.startsWith('-galar') || this.formeid.startsWith('-hisui')) {
 				this.gen = 8;
 			} else if (this.num >= 722 || this.formeid === '-alola' || this.formeid === '-starter') {
 				this.gen = 7;

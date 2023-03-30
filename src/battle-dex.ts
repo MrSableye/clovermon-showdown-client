@@ -170,8 +170,8 @@ interface TeambuilderSpriteData {
 }
 
 const Dex = new class implements ModdedDex {
-	readonly gen = 8;
-	readonly modid = 'gen8' as ID;
+	readonly gen = 9;
+	readonly modid = 'gen9' as ID;
 	readonly cache = null!;
 
 	readonly statNames: ReadonlyArray<StatName> = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
@@ -184,11 +184,8 @@ const Dex = new class implements ModdedDex {
 	})();
 
 	fxPrefix = (() => {
-		if (window.document?.location?.protocol === 'file:') {
-			if (window.Replays) return `${Config.routes.clientProtocol}://${window.Config ? Config.routes.client : 'play.pokemonshowdown.com'}/fx/`;
-			return `fx/`;
-		}
-		return `//${window.Config ? Config.routes.client : 'play.pokemonshowdown.com'}/fx/`;
+		const protocol = (window.document?.location?.protocol !== 'http:') ? 'https:' : '';		
+		return `${protocol}//${window.Config ? Config.routes.client : 'play.pokemonshowdown.com'}/fx/`;
 	})();
 
 	loadedSpriteData = {xy: 1, bw: 0};
@@ -196,7 +193,7 @@ const Dex = new class implements ModdedDex {
 
 	mod(gen: number, modid?: ID): ModdedDex {
 		if (!modid) modid = `gen${gen}` as ID;
-		if (modid === 'gen8') return this;
+		if (modid === 'gen9') return this;
 		if (!window.BattleTeambuilderTable) return this;
 		if (modid in this.moddedDexes) {
 			return this.moddedDexes[modid];
@@ -496,8 +493,15 @@ const Dex = new class implements ModdedDex {
 				options.shiny = pokemon.shiny;
 				options.gender = pokemon.gender;
 			}
-			if (pokemon.volatiles.dynamax) isDynamax = true;
-			pokemon = pokemon.getSpeciesForme();
+			let isGigantamax = false;
+			if (pokemon.volatiles.dynamax) {
+				if (pokemon.volatiles.dynamax[1]) {
+					isGigantamax = true;
+				} else if (options.dynamax !== false) {
+					isDynamax = true;
+				}
+			}
+			pokemon = pokemon.getSpeciesForme() + (isGigantamax ? '-Gmax' : '');
 		}
 		const species = this.species.get(pokemon);
 		// Gmax sprites are already extremely large, so we don't need to double.
@@ -539,15 +543,14 @@ const Dex = new class implements ModdedDex {
 		let graphicsGen = mechanicsGen;
 		if (this.prefs('nopastgens')) graphicsGen = 6;
 		if (this.prefs('bwgfx') && graphicsGen >= 6) graphicsGen = 5;
-		let baseDir;
+		spriteData.gen = Math.max(graphicsGen, Math.min(species.gen, 5));
+		let baseDir = ['', 'gen1', 'gen2', 'gen3', 'gen4', 'gen5', '', '', '', ''][spriteData.gen];
+
 		// TODO: Remove Clover-specific logic
 		if ((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num <= -42001 && species.num >= -42999)) {
 			graphicsGen = 3;
 			spriteData.gen = 3;
 			baseDir = 'gen5';
-		} else {
-			spriteData.gen = Math.max(graphicsGen, Math.min(species.gen, 5));
-			baseDir = ['', 'gen1', 'gen2', 'gen3', 'gen4', 'gen5', '', '', ''][spriteData.gen];
 		}
 
 		let animationData = null;
@@ -676,7 +679,7 @@ const Dex = new class implements ModdedDex {
 			spriteData.w *= 2;
 			spriteData.h *= 2;
 			spriteData.y += -22;
-		} else if ((species.isTotem || isDynamax) && !options.noScale) {
+		} else if (species.isTotem && !options.noScale) {
 			spriteData.w *= 1.5;
 			spriteData.h *= 1.5;
 			spriteData.y += -11;
@@ -694,12 +697,12 @@ const Dex = new class implements ModdedDex {
 		}
 		
 		if (num > 69000 && num <= 69386) { // Clovermons
-			num = 1379 + num % 69000;
+			num = 1379 + (12 * 12) + num % 69000;
 		} else if (num < -42000 && num >= -42012) { // Clover CAP memes
-			num = 1379 + (36 * 12) + Math.abs(num % 42000);
+			num = 1379 + (48 * 12) + Math.abs(num % 42000);
 		} else if (num > 42000 && num <= 42999) { // Clover CAPmons
-			num = 1379 + (37 * 12) + num % 42000;
-		} else if (num > 898) {
+			num = 1379 + (49 * 12) + num % 42000;
+		} else if (num > 1010) {
 			num = 0;
 		}
 		if (num < 0) num = 0;
@@ -771,7 +774,7 @@ const Dex = new class implements ModdedDex {
 		let xydexExists = (!species.isNonstandard || species.isNonstandard === 'Past') || [
 			"pikachustarter", "eeveestarter", "meltan", "melmetal", "fidgit", "stratagem", "tomohawk", "mollux", "crucibelle", "crucibellemega", "kerfluffle", "pajantom", "jumbao", "caribolt", "smokomodo", "snaelstrom", "equilibra", "astrolotl", "scratchet", "pluffle", "smogecko", "pokestarufo", "pokestarufo2", "pokestarbrycenman", "pokestarmt", "pokestarmt2", "pokestargiant", "pokestarhumanoid", "pokestarmonster", "pokestarf00", "pokestarf002", "pokestarspirit",
 		].includes(species.id);
-		if (species.gen === 8) xydexExists = false;
+		if (species.gen === 8 && species.isNonstandard !== 'CAP') xydexExists = false;
 		if ((!gen || gen >= 6) && xydexExists) {
 			if (species.gen >= 7) {
 				spriteData.x = -6;
@@ -876,20 +879,21 @@ class ModdedDex {
 
 			let data = {...Dex.moves.get(name)};
 
-			const table = window.BattleTeambuilderTable[this.modid];
-			if (id in table.overrideAcc) data.accuracy = table.overrideAcc[id];
-			if (id in table.overrideBP) data.basePower = table.overrideBP[id];
-			if (id in table.overridePP) data.pp = table.overridePP[id];
-			if (id in table.overrideMoveType) data.type = table.overrideMoveType[id];
-			if (id in table.overrideMoveIsNonstandard) data.isNonstandard = table.overrideMoveIsNonstandard[id];
-			for (let i = this.gen; i < 8; i++) {
-				if (id in window.BattleTeambuilderTable['gen' + i].overrideMoveDesc) {
-					data.shortDesc = window.BattleTeambuilderTable['gen' + i].overrideMoveDesc[id];
-					break;
+			for (let i = Dex.gen - 1; i >= this.gen; i--) {
+				const table = window.BattleTeambuilderTable[`gen${i}`];
+				if (id in table.overrideMoveData) {
+					Object.assign(data, table.overrideMoveData[id]);
 				}
 			}
-			if (id in table.overrideMoveDesc) {
-				data.shortDesc = table.overrideMoveDesc[id];
+
+			if (this.modid !== `gen${this.gen}`) {
+				const table = window.BattleTeambuilderTable[this.modid];
+				if (id in table.overrideMoveData) {
+					Object.assign(data, table.overrideMoveData[id]);
+				}
+			}
+			if (this.gen <= 3 && data.category !== 'Status') {
+				data.category = Dex.getGen3Category(data.type);
 			}
 
 			const move = new Move(id, name, data);
@@ -909,7 +913,7 @@ class ModdedDex {
 
 			let data = {...Dex.items.get(name)};
 
-			for (let i = this.gen; i < 8; i++) {
+			for (let i = this.gen; i < 9; i++) {
 				const table = window.BattleTeambuilderTable['gen' + i];
 				if (id in table.overrideItemDesc) {
 					data.shortDesc = table.overrideItemDesc[id];
@@ -937,16 +941,18 @@ class ModdedDex {
 
 			let data = {...Dex.abilities.get(name)};
 
-			for (let i = this.gen; i < 8; i++) {
-				const table = window.BattleTeambuilderTable['gen' + i];
-				if (id in table.overrideAbilityDesc) {
-					data.shortDesc = table.overrideAbilityDesc[id];
-					break;
+			for (let i = Dex.gen - 1; i >= this.gen; i--) {
+				const table = window.BattleTeambuilderTable[`gen${i}`];
+				if (id in table.overrideAbilityData) {
+					Object.assign(data, table.overrideAbilityData[id]);
 				}
 			}
-
-			const table = window.BattleTeambuilderTable[this.modid];
-			if (id in table.overrideAbilityDesc) data.shortDesc = table.overrideAbilityDesc[id];
+			if (this.modid !== `gen${this.gen}`) {
+				const table = window.BattleTeambuilderTable[this.modid];
+				if (id in table.overrideAbilityData) {
+					Object.assign(data, table.overrideAbilityData[id]);
+				}
+			}
 
 			const ability = new Ability(id, name, data);
 			this.cache.Abilities[id] = ability;
@@ -971,8 +977,14 @@ class ModdedDex {
 					Object.assign(data, table.overrideSpeciesData[id]);
 				}
 			}
-			if (this.gen < 3) {
-				data.abilities = {0: "None"};
+			if (this.modid !== `gen${this.gen}`) {
+				const table = window.BattleTeambuilderTable[this.modid];
+				if (id in table.overrideSpeciesData) {
+					Object.assign(data, table.overrideSpeciesData[id]);
+				}
+			}
+			if (this.gen < 3 || this.modid === 'gen7letsgo') {
+				data.abilities = {0: "No Ability"};
 			}
 
 			const table = window.BattleTeambuilderTable[this.modid];
