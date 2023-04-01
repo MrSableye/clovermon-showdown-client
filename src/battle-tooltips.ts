@@ -1122,7 +1122,7 @@ class BattleTooltips {
 		if (ability === 'asoneblobbos') {
 			stats.atk *= 4;
 		}
-		if (ability === 'hustle' || (ability === 'gorillatactics' && !clientPokemon?.volatiles['dynamax'])) {
+		if (ability === 'hustle' || (ability === 'gorillatactics' && !clientPokemon?.volatiles['dynamax']) || (ability === 'boardpowerv')) {
 			stats.atk = Math.floor(stats.atk * 1.5);
 		}
 		if (weather) {
