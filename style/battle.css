@@ -491,6 +491,10 @@ License: GPLv2
 	background: #AAAAAA url(../fx/weather-inverseroom.png) no-repeat scroll left top;
 	color: #666666;
 }
+.genwunroomweather {
+	background: #AAAAAA url(../fx/weather-genwunroom.png) no-repeat scroll left top;
+	color: #666666;
+}
 
 .battle .result {
 	display: none;

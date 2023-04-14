@@ -47557,6 +47557,168 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'accel');
 		},
 	},
+	this: {
+		anim(scene, [attacker, defender]) {
+			scene.backgroundEffect('#000000', 1000, 1);
+			scene.showEffect('lightning', {
+				x: defender.x,
+				y: defender.y + 150,
+				z: defender.z,
+				yscale: 0,
+				xscale: 6,
+			}, {
+				y: defender.y + 50,
+				yscale: 1,
+				xscale: 5,
+				opacity: 0,
+				time: 400,
+			}, 'linear');
+			scene.showEffect('lightning', {
+				x: defender.x,
+				y: defender.y + 50,
+				z: defender.z,
+				yscale: 1,
+				xscale: 5,
+				time: 400,
+			}, {
+				opacity: 0,
+				time: 900,
+			}, 'linear');
+			scene.showEffect('lightning', {
+				x: defender.x,
+				y: defender.y + 50,
+				z: defender.z,
+				yscale: 1,
+				xscale: 5,
+				time: 800,
+			}, {
+				opacity: 0,
+				time: 1300,
+			}, 'linear');
+			scene.showEffect('lightning', {
+				x: defender.x + 25,
+				y: defender.y + 150,
+				z: defender.z,
+				yscale: 0,
+				xscale: 6,
+			}, {
+				y: defender.y + 50,
+				yscale: 1,
+				xscale: 5,
+				opacity: 0,
+				time: 300,
+			}, 'linear');
+			scene.showEffect('lightning', {
+				x: defender.x + 25,
+				y: defender.y + 50,
+				z: defender.z,
+				yscale: 1,
+				xscale: 5,
+				time: 300,
+			}, {
+				opacity: 0,
+				time: 800,
+			}, 'linear');
+			scene.showEffect('lightning', {
+				x: defender.x + 25,
+				y: defender.y + 50,
+				z: defender.z,
+				yscale: 1,
+				xscale: 5,
+				time: 700,
+			}, {
+				opacity: 0,
+				time: 1200,
+			}, 'linear');
+			scene.showEffect('lightning', {
+				x: defender.x - 25,
+				y: defender.y + 150,
+				z: defender.z,
+				yscale: 0,
+				xscale: 6,
+			}, {
+				y: defender.y + 50,
+				yscale: 1,
+				xscale: 5,
+				opacity: 0,
+				time: 200,
+			}, 'linear');
+			scene.showEffect('lightning', {
+				x: defender.x - 25,
+				y: defender.y + 50,
+				z: defender.z,
+				yscale: 1,
+				xscale: 5,
+				time: 200,
+			}, {
+				opacity: 0,
+				time: 700,
+			}, 'linear');
+			scene.showEffect('lightning', {
+				x: defender.x - 25,
+				y: defender.y + 50,
+				z: defender.z,
+				yscale: 1,
+				xscale: 5,
+				time: 600,
+			}, {
+				opacity: 0,
+				time: 1100,
+			}, 'linear');
+
+			scene.showEffect('electroball', {
+				x: defender.x,
+				y: defender.y - 60,
+				z: defender.z,
+				scale: 1,
+				xscale: 1.5,
+				opacity: 1,
+				time: 200,
+			}, {
+				scale: 4,
+				xscale: 8,
+				opacity: 0.1,
+				time: 900,
+			}, 'linear', 'fade');
+			scene.showEffect('electroball', {
+				x: defender.x,
+				y: defender.y - 30,
+				z: defender.z,
+				opacity: 1,
+				scale: 2.5,
+				time: 200,
+			}, {
+				scale: 3.8,
+				opacity: 0.1,
+				time: 900,
+			}, 'linear', 'fade');
+
+			defender.delay(200);
+			defender.anim({
+				x: defender.x - 5,
+				time: 75,
+			}, 'swing');
+			defender.anim({
+				x: defender.x + 5,
+				time: 75,
+			}, 'swing');
+			defender.anim({
+				x: defender.x - 5,
+				time: 75,
+			}, 'swing');
+			defender.anim({
+				x: defender.x + 5,
+				time: 75,
+			}, 'swing');
+			defender.anim({
+				x: defender.x - 5,
+				time: 75,
+			}, 'swing');
+			defender.anim({
+				time: 100,
+			}, 'accel');
+		},
+	},
 	nuclearwinter: {
 		anim(scene, [attacker, ...defenders]) {
 			scene.backgroundEffect(`url('${Config.routes.clientProtocol}://${Config.routes.client}/sprites/gen6bgs/bg-icecave.jpg')`, 1000, 0.6);
@@ -47829,6 +47991,7 @@ BattleMoveAnims['venoshock'] = {anim: BattleMoveAnims['sludgebomb'].anim};
 BattleMoveAnims['venomdrench'] = {anim: BattleMoveAnims['sludge'].anim};
 BattleMoveAnims['poisonsting'] = {anim: BattleMoveAnims['poisonjab'].anim};
 BattleMoveAnims['poisontail'] = {anim: BattleMoveAnims['poisonjab'].anim};
+BattleMoveAnims['dartoftoxin'] = {anim: BattleMoveAnims['poisonjab'].anim};
 BattleMoveAnims['gastroacid'] = {anim: BattleMoveAnims['toxic'].anim};
 
 BattleMoveAnims['magnitude'] = {anim: BattleMoveAnims['earthquake'].anim};
