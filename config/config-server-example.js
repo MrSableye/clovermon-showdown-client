@@ -20,3 +20,5 @@ Config.ssl = {
 	}
 */
 Config.proxies = [];
+
+Config.migrationUrl = null;

@@ -8,7 +8,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const yargs = require('yargs');
 
-const { ports, defaultserver, ssl, proxies } = require('./config/config-server');
+const { ports, defaultserver, ssl, proxies, migrationUrl } = require('./config/config-server');
 
 const argv = yargs.option('httpOnly', {
   alias: 'http',
@@ -16,6 +16,15 @@ const argv = yargs.option('httpOnly', {
   description: 'Run the server without HTTP.',
   default: false,
 }).parse();
+
+const checkLoginResponse = (loginDataString) => {
+  if (loginDataString.charAt(0) === ']') {
+    const loginData = JSON.parse(loginDataString.substring(1));
+    return loginData.actionsuccess === true;
+  }
+
+  return false;
+};
 
 const app = express();
 app.use(cors());
@@ -35,7 +44,7 @@ app.post(`/~~${defaultserver.id}/action.php`, (request, response, next) => {
   
     const requestOptions = {
       method: 'POST',
-      url: 'http://play.pokemonshowdown.com/action.php',
+      url: 'http://play.pokemonshowdown.com/action.php?serverid={}&act=' + request.body.act,
       data: request.body,
       headers,
     };
@@ -67,7 +76,29 @@ app.post(`/~~${defaultserver.id}/action.php`, (request, response, next) => {
           response.setHeader('set-cookie', setCookieHeader.replace('pokemonshowdown.com', defaultserver.clientHost));
         }
       };
-      response.send(res.data)
+      if (migrationUrl) {
+        if (migrationUrl && (request.body.act === 'login') && checkLoginResponse(res.data)) {
+          if ((request.body.act === 'login') && checkLoginResponse(res.data)) {
+            const migrationRequestOptions = {
+              method: 'POST',
+              url: migrationUrl,
+              data: {
+                name: request.body.name,
+                pass: request.body.pass,
+              },
+            };
+            try {
+              axios(migrationRequestOptions).then((res) => {
+                if (checkLoginResponse(res.data)) {
+                  console.log('registered: ' + request.body.name);
+                }
+              }).catch(() => {});
+            } catch (e) {}
+          }
+        }
+      }
+
+      response.send(res.data);
     })
     .catch((error) => next(error));
   } catch (error) {
