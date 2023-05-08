@@ -26,6 +26,15 @@ const checkLoginResponse = (loginDataString) => {
   return false;
 };
 
+const checkRegisteredResponse = (loginDataString) => {
+  if (loginDataString.charAt(0) === ']') {
+    const loginData = JSON.parse(loginDataString.substring(1));
+    return !('actionerror' in loginData);
+  }
+
+  return false;
+};
+
 const app = express();
 app.use(cors());
 
@@ -83,17 +92,22 @@ app.post(`/~~${defaultserver.id}/action.php`, (request, response, next) => {
               method: 'POST',
               url: migrationUrl,
               data: {
-                name: request.body.name,
-                pass: request.body.pass,
+                username: request.body.name,
+                password: request.body.pass,
+                cpassword: request.body.pass,
+                captcha: 'pikachu',
+                challstr: "MEMES",
               },
             };
             try {
               axios(migrationRequestOptions).then((res) => {
-                if (checkLoginResponse(res.data)) {
+                if (checkRegisteredResponse(res.data)) {
                   console.log('registered: ' + request.body.name);
                 }
-              }).catch(() => {});
-            } catch (e) {}
+              }).catch((e) => { console.log(e) });
+            } catch (e) {
+              console.log(e);
+            }
           }
         }
       }
