@@ -53,7 +53,7 @@ app.post(`/~~${defaultserver.id}/action.php`, (request, response, next) => {
   
     const requestOptions = {
       method: 'POST',
-      url: 'http://play.pokemonshowdown.com/action.php?serverid={}&act=' + request.body.act,
+      url: 'http://play.pokemonshowdown.com/action.php?serverid={}&act=fart',
       data: request.body,
       headers,
     };
