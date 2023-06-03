@@ -49026,3 +49026,5 @@ BattleMoveAnims['frostbite'] = {anim: BattleMoveAnims['icywind'].anim};
 BattleMoveAnims['braindamage'] = {anim: BattleMoveAnims['headsmash'].anim};
 BattleMoveAnims['flintfang'] = {anim: BattleMoveAnims['bite'].anim};
 BattleMoveAnims['calibrate'] = {anim: BattleMoveAnims['laserfocus'].anim};
+BattleMoveAnims['newcannon'] = {anim: BattleMoveAnims['infernooverdrive'].anim};
+BattleMoveAnims['devilsharvest'] = {anim: BattleMoveAnims['milkdrink'].anim};
