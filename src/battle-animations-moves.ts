@@ -48596,6 +48596,7 @@ BattleMoveAnims['stunspore'] = {anim: BattleMoveAnims['spore'].anim};
 BattleMoveAnims['powder'] = {anim: BattleMoveAnims['spore'].anim};
 BattleMoveAnims['cottonspore'] = {anim: BattleMoveAnims['spore'].anim};
 BattleMoveAnims['vinewhip'] = {anim: BattleMoveAnims['powerwhip'].anim};
+BattleMoveAnims['violentvines'] = {anim: BattleMoveAnims['powerwhip'].anim};
 
 BattleMoveAnims['bubble'] = {anim: BattleMoveAnims['bubblebeam'].anim};
 BattleMoveAnims['sparklingaria'] = {anim: BattleMoveAnims['bubblebeam'].anim};
