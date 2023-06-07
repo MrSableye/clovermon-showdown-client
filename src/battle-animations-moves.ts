@@ -2214,6 +2214,69 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'swing');
 		},
 	},
+	slipturn: {
+		anim(scene, [attacker, defender]) {
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: defender.behind(-130),
+				opacity: 0.8,
+				time: 275,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				time: 500,
+			}, 'linear', 'explode');
+			scene.showEffect('iceball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.behind(10),
+				opacity: 0.7,
+				scale: 0,
+				time: 500,
+			}, {
+				scale: 4,
+				opacity: 0,
+				time: 800,
+			}, 'linear');
+			scene.showEffect('iceball', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				opacity: 0.7,
+				scale: 0,
+				time: 700,
+			}, {
+				scale: 4,
+				opacity: 0,
+				time: 1000,
+			}, 'linear');
+
+			attacker.anim({
+				z: attacker.behind(15),
+				time: 200,
+			}, 'decel');
+			attacker.anim({
+				z: defender.behind(-170),
+				time: 100,
+			}, 'accel');
+			attacker.anim({
+				z: attacker.z,
+				time: 300,
+			}, 'swing');
+			defender.delay(500);
+			defender.anim({
+				x: defender.leftof(5),
+				y: defender.y,
+				z: defender.behind(15),
+				time: 50,
+			}, 'swing');
+			defender.anim({
+				time: 300,
+			}, 'swing');
+		},
+	},
 	thunderwave: {
 		anim(scene, [attacker, defender]) {
 			scene.showEffect('electroball', {
