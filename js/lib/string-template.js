@@ -1,7 +1,7 @@
 var nargs = /\{([0-9a-zA-Z_]+)\}/g
 
 // https://www.npmjs.com/package/string-template
-window.stringTemplate = (string) => {
+window.stringTemplate = function (string) {
     var args
 
     if (arguments.length === 2 && typeof arguments[1] === "object") {
