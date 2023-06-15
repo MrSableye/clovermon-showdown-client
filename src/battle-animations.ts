@@ -10,6 +10,7 @@
  * @author Guangcong Luo <guangcongluo@gmail.com>
  * @license MIT
  */
+declare var stringTemplate: (template: string, data: any) => string;
 
 import type {Battle, Pokemon, Side, WeatherState} from './battle';
 import type {BattleSceneStub} from './battle-scene-stub';
@@ -688,7 +689,13 @@ export class BattleScene implements BattleSceneStub {
 				const port = server.https ? server.port : server.httpport;
 				const badgeSrc = protocol + '://' + server.host + ':' + port +
 					'/badges/' + encodeURIComponent(badge.file_name).replace(/\%3F/g, '?');
-				badgeBuffer += '<img class="userbadge" height="16" width="16" alt="' + badge.badge_name + '" title="' + badge.badge_name + '" src="' + badgeSrc + '" />';
+				let badgeName = badge.badge_name;
+				if (badge.badge_name_template && badge.badge_data) {
+					try {
+						badgeName = stringTemplate(badge.badge_name_template, JSON.parse(badge.badge_data));
+					} catch(e) {}
+				}
+				badgeBuffer += '<img class="userbadge" height="16" width="16" alt="' + badgeName + '" title="' + badge.badgeName + '" src="' + badgeSrc + '" />';
 			});
 			badgeBuffer += '</span>';
 
