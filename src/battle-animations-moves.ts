@@ -48507,6 +48507,27 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'swing');
 		},
 	},
+	wickedblow: {
+		anim(scene, [attacker, defender]) {
+			scene.backgroundEffect('#000000', 900, 0.3);
+			BattleOtherAnims.fastattack.anim(scene, [attacker, defender]);
+			scene.showEffect('fist', {
+				x: defender.x,
+				y: defender.y,
+				z: defender.z,
+				scale: 1,
+				opacity: 1,
+				time: 260,
+			}, {
+				x: defender.x,
+				y: defender.y,
+				z: defender.behind(20),
+				scale: 2,
+				opacity: 0,
+				time: 500,
+			}, 'linear');
+		},
+	},
 	nuclearwinter: {
 		anim(scene, [attacker, ...defenders]) {
 			scene.backgroundEffect(`url('${Config.routes.clientProtocol}://${Config.routes.client}/sprites/gen6bgs/bg-icecave.jpg')`, 1000, 0.6);
