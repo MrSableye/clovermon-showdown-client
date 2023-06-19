@@ -49007,6 +49007,7 @@ BattleMoveAnims['surgingstrikes'] = {anim: BattleMoveAnims['jetpunch'].anim};
 BattleMoveAnims['eeriespell'] = {anim: BattleMoveAnims['psyshock'].anim};
 
 BattleMoveAnims['axekick'] = {anim: BattleMoveAnims['highjumpkick'].anim};
+BattleMoveAnims['pantherkkick'] = {anim: BattleMoveAnims['ballkick'].anim};
 BattleMoveAnims['bittermalice'] = {anim: BattleMoveAnims['spectralthief'].anim};
 BattleMoveAnims['bleakwindstorm'] = {anim: BattleMoveAnims['hurricane'].anim};
 BattleMoveAnims['windwhip'] = {anim: BattleMoveAnims['hurricane'].anim};
@@ -49087,6 +49088,8 @@ BattleMoveAnims['meddymeds'] = {anim: BattleMoveAnims['dailydose'].anim};
 BattleMoveAnims['bearhug'] = {anim: BattleMoveAnims['bind'].anim};
 BattleMoveAnims['faeblade'] = {anim: BattleMoveAnims['spacialrend'].anim};
 BattleMoveAnims['thunderdrop'] = {anim: BattleMoveAnims['skydrop'].anim};
+BattleMoveAnims['potemkinbuster'] = {anim: BattleMoveAnims['skydrop'].anim};
+BattleMoveAnims['garudaimpact'] = {anim: BattleMoveAnims['fireblast'].anim};
 
 BattleMoveAnims['matingpress'] = {anim: BattleMoveAnims['letssnuggleforever'].anim};
 BattleMoveAnims['closeblobmat'] = {anim: BattleMoveAnims['closecombat'].anim};
