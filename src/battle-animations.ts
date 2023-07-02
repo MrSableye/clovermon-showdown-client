@@ -695,7 +695,7 @@ export class BattleScene implements BattleSceneStub {
 						badgeName = stringTemplate(badge.badge_name_template, JSON.parse(badge.badge_data));
 					} catch(e) {}
 				}
-				badgeBuffer += '<img class="userbadge" height="16" width="16" alt="' + badgeName + '" title="' + badge.badgeName + '" src="' + badgeSrc + '" />';
+				badgeBuffer += '<img class="userbadge" height="16" width="16" alt="' + badgeName + '" title="' + badgeName + '" src="' + badgeSrc + '" />';
 			});
 			badgeBuffer += '</span>';
 
