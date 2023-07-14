@@ -196,5 +196,6 @@ var Replays = {
 };
 
 window.onload = function () {
+	window.Config.isReplay = true;
 	Replays.init();
 };
