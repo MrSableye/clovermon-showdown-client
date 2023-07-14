@@ -213,7 +213,7 @@ const Dex = new class implements ModdedDex {
 		if (avatar.charAt(0) === '#') {
 			return this.resourcePrefix + 'sprites/trainers-custom/' + toID(avatar.substr(1)) + '.png';
 		}
-		if (avatar.includes('.') && window.Config?.server?.registered) {
+		if (avatar.includes('.') && (window.Config?.server?.registered || window.Config.isReplay)) {
 			const server = Config.server || Config.defaultserver;
 			const protocol = server.https ? 'https' : 'http';
 			const port = server.https ? server.port : server.httpport;
