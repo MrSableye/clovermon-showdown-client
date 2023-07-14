@@ -9,16 +9,3 @@ Config.ssl = {
 	privateKeyPath: '',
 	certificatePath: '',
 };
-
-/* Proxy fields:
-	{
-		protocol: 'http',
-		ip: '',
-		port: '',
-		username: '',
-		password: '',
-	}
-*/
-Config.proxies = [];
-
-Config.migrationUrl = null;
