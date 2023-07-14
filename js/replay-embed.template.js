@@ -197,4 +197,5 @@ var Replays = {
 
 window.onload = function () {
 	Replays.init();
+	window.Config.server = window.Config.server || window.Config.defaultserver;
 };
