@@ -3,6 +3,6 @@
     "client": "clover.weedl.es",
     "clientProtocol": "https",
     "dex": "dex.pokemonshowdown.com",
-    "replays": "replay.pokemonshowdown.com",
-    "users": "pokemonshowdown.com/users"
+    "replays": "clover.weedl.es/replays",
+    "users": "clover.weedl.es/users"
 }
