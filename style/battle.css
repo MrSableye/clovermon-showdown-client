@@ -815,3 +815,35 @@ License: GPLv2
 	border: 2px solid #444444;
 	background: #DEDEDE;
 }
+
+/*********************************************************
+ * Badge Marquee
+ *********************************************************/
+.badge-marquee-wrapper {
+  overflow: hidden;
+	display: inline-block;
+}
+
+.badge-marquee-wrapper .badge-marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  animation: marquee 10s linear infinite;
+}
+
+.badge-marquee-wrapper:hover .badge-marquee {
+  animation-play-state: paused;
+}
+
+.badge-marquee .userbadges {
+  display: inline-block;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
