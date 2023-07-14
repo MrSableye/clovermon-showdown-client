@@ -1056,7 +1056,7 @@ export class BattleLog {
 		if (replayid) {
 			// battle room
 			replayid = replayid.slice(7);
-			if (Config.server.id !== 'showdown') {
+			if (Config.server.id !== 'clodown') {
 				if (!Config.server.registered) {
 					replayid = 'unregisteredserver-' + replayid;
 				} else {

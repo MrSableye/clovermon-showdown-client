@@ -395,7 +395,7 @@ Storage.onMessage = function ($e) {
 	switch (data.charAt(0)) {
 	case 'c':
 		Config.server = JSON.parse(data.substr(1));
-		if (Config.server.registered && Config.server.id !== 'showdown' && Config.server.id !== 'smogtours') {
+		if (Config.server.registered && Config.server.id !== 'showdown' && Config.server.id !== 'smogtours' && Config.server.id !== 'clodown') {
 			var $link = $('<link rel="stylesheet" ' +
 				'href="//' + Config.routes.client + '/customcss.php?server=' +
 				encodeURIComponent(Config.server.id) + '" />');

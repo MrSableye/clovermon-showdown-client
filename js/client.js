@@ -437,7 +437,7 @@ function toId() {
 					var autojoinIds = [];
 					if (typeof autojoin === 'string') {
 						// Use the existing autojoin string for showdown, and an empty string for other servers.
-						if (Config.server.id !== 'showdown') autojoin = '';
+						if (Config.server.id !== 'clodown') autojoin = '';
 					} else {
 						// If there is not autojoin data for this server, use a empty string.
 						autojoin = autojoin[Config.server.id] || '';
@@ -448,7 +448,7 @@ function toId() {
 							var roomid = toRoomid(autojoins[i]);
 							app.addRoom(roomid, null, true, autojoins[i]);
 							if (roomid === 'staff' || roomid === 'upperstaff') continue;
-							if (Config.server.id !== 'showdown' && roomid === 'lobby') continue;
+							if (Config.server.id !== 'clodown' && roomid === 'lobby') continue;
 							autojoinIds.push(roomid);
 						}
 					}
@@ -982,7 +982,7 @@ function toId() {
 					this.renameRoom(roomid, parts[0], parts[1]);
 				} else if (data === 'nonexistent' && Config.server.id && roomid.slice(0, 7) === 'battle-' && errormessage) {
 					var replayid = roomid.slice(7);
-					if (Config.server.id !== 'showdown') replayid = Config.server.id + '-' + replayid;
+					if (Config.server.id !== 'clodown') replayid = Config.server.id + '-' + replayid;
 					var replayLink = 'https://' + Config.routes.replays + '/' + replayid;
 					$.ajax(replayLink + '.json', {dataType: 'json'}).done(function (replay) {
 						if (replay) {
@@ -1387,7 +1387,7 @@ function toId() {
 			var id = data.id;
 			var serverid = Config.server.id && toID(Config.server.id.split(':')[0]);
 			var silent = data.silent;
-			if (serverid && serverid !== 'showdown') id = serverid + '-' + id;
+			if (serverid && serverid !== 'clodown') id = serverid + '-' + id;
 			$.post(app.user.getActionPHP(), {
 				act: 'uploadreplay',
 				log: data.log,
@@ -1421,7 +1421,7 @@ function toId() {
 				if (this.className === 'closebutton') return; // handled elsewhere
 				if (this.className.indexOf('minilogo') >= 0) return; // handled elsewhere
 				if (!this.href) return; // should never happen
-				var isReplayLink = this.host === Config.routes.replays && Config.server.id === 'showdown';
+				var isReplayLink = this.host === Config.routes.replays && Config.server.id === 'clodown';
 				if ((
 					isReplayLink || [Config.routes.client, 'psim.us', location.host].includes(this.host)
 				) && this.className !== 'no-panel-intercept') {
@@ -1968,7 +1968,7 @@ function toId() {
 				var room = rooms[i];
 				if (room.type !== 'chat') continue;
 				autojoins.push(room.id.indexOf('-') >= 0 ? room.id : (room.title || room.id));
-				if (room.id === 'staff' || room.id === 'upperstaff' || (Config.server.id !== 'showdown' && room.id === 'lobby')) continue;
+				if (room.id === 'staff' || room.id === 'upperstaff' || (Config.server.id !== 'clodown' && room.id === 'lobby')) continue;
 				autojoinCount++;
 				if (autojoinCount >= 15) break;
 			}
@@ -1977,10 +1977,10 @@ function toId() {
 				if (curAutojoin[Config.server.id] === autojoins.join(',')) return;
 				if (!autojoins.length) {
 					delete curAutojoin[Config.server.id];
-					// If the only key left is 'showdown', revert to the string method for storing autojoin.
+					// If the only key left is 'clodown', revert to the string method for storing autojoin.
 					var hasSideServer = false;
 					for (var key in curAutojoin) {
-						if (key === 'showdown') continue;
+						if (key === 'clodown') continue;
 						hasSideServer = true;
 						break;
 					}
@@ -1989,9 +1989,9 @@ function toId() {
 					curAutojoin[Config.server.id] = autojoins.join(',');
 				}
 			} else {
-				if (Config.server.id !== 'showdown') {
+				if (Config.server.id !== 'clodown') {
 					// Switch to the autojoin object to handle multiple servers
-					curAutojoin = {showdown: curAutojoin};
+					curAutojoin = {clodown: curAutojoin};
 					if (!autojoins.length) return;
 					curAutojoin[Config.server.id] = autojoins.join(',');
 				} else {
