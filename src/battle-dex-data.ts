@@ -561,7 +561,10 @@ type NatureName = 'Adamant' | 'Bashful' | 'Bold' | 'Brave' | 'Calm' | 'Careful' 
 	'Quiet' | 'Quirky' | 'Rash' | 'Relaxed' | 'Sassy' | 'Serious' | 'Timid';
 type StatNameExceptHP = 'atk' | 'def' | 'spa' | 'spd' | 'spe';
 type TypeName = 'Normal' | 'Fighting' | 'Flying' | 'Poison' | 'Ground' | 'Rock' | 'Bug' | 'Ghost' | 'Steel' |
-	'Fire' | 'Water' | 'Grass' | 'Electric' | 'Psychic' | 'Ice' | 'Dragon' | 'Dark' | 'Fairy' | '???';
+	'Fire' | 'Water' | 'Grass' | 'Electric' | 'Psychic' | 'Ice' | 'Dragon' | 'Dark' | 'Fairy' | '???' | 'Blood' |
+	'Bone' | 'Chaos' | 'Cosmic' | 'Crystal' | 'Cyber' | 'Divine' | 'Fabric' | 'Fear' | 'Food' | 'Glass' | 'Greasy' |
+	'Heart' | 'Light' | 'Magic' | 'Magma' | 'Meme' | 'Nuclear' | 'Ogre' | 'Paint' | 'Paper' | 'Plastic' | 'Qmarks' |
+	'Rubber' | 'Shadow' | 'Sound' | 'Steam' | 'Tech' | 'Time' | 'Virus' | 'Void' | 'Wack' | 'Wind' | 'Wood' | 'Zombie';
 type StatusName = 'par' | 'psn' | 'frz' | 'slp' | 'brn';
 type BoostStatName = 'atk' | 'def' | 'spa' | 'spd' | 'spe' | 'evasion' | 'accuracy' | 'spc';
 type GenderName = 'M' | 'F' | 'N';
