@@ -37,6 +37,8 @@ function requireNoCache(pathSpec) {
 	return require(pathSpec);
 }
 
+const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { modGen: 8, mod: 'cloverblobboscap' }, { modGen: 8, mod: 'sandbox' }, {modGen: 8, mod: 'cope'}, {modGen: 8, mod: 'wack'}];
+
 /*********************************************************
  * Build search-index.js
  *********************************************************/
@@ -46,11 +48,20 @@ function requireNoCache(pathSpec) {
 
 	let index = [];
 
+	let types = {};
+	for (const {mod} of MODS) {
+		const modDex = Dex.mod(mod);
+		const modData = modDex.data;
+		for (const type of Object.keys(modData.TypeChart)) {
+			types[type] = true;
+		}
+	}
+
 	index = index.concat(Object.keys(Dex.data.Pokedex).map(x => x + ' pokemon'));
 	index = index.concat(Object.keys(Dex.data.Moves).map(x => x + ' move'));
 	index = index.concat(Object.keys(Dex.data.Items).map(x => x + ' item'));
 	index = index.concat(Object.keys(Dex.data.Abilities).map(x => x + ' ability'));
-	index = index.concat(Object.keys(Dex.data.TypeChart).map(x => toID(x) + ' type'));
+	index = index.concat(Object.keys(types).map(x => toID(x) + ' type'));
 	index = index.concat(['physical', 'special', 'status'].map(x => toID(x) + ' category'));
 	index = index.concat(['monster', 'water1', 'bug', 'flying', 'field', 'fairy', 'grass', 'humanlike', 'water3', 'mineral', 'amorphous', 'water2', 'ditto', 'dragon', 'undiscovered'].map(x => toID(x) + ' egggroup'));
 	index = index.concat(['ou', 'uu', 'ru', 'nu', 'pu', 'lc', 'nfe', 'uber', 'uubl', 'rubl', 'nubl', 'publ', 'cap', 'caplc', 'capnfe'].map(x => toID(x) + ' tier'));
@@ -1020,7 +1031,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	const STADIUM = [2.04, 1.04];
 	const NATDEX = [9.1, 8.1];
 	const OTHER = [9.2, 8.6, 8.4, 8.2, 8.1, -8.4, -8.6, 7.1];
-	const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { modGen: 8, mod: 'cloverblobboscap' }, { modGen: 8, mod: 'sandbox' }, {modGen: 8, mod: 'cope'}, {modGen: 8, mod: 'wack'}];
 
 	// process.stdout.write("\n  ");
 	for (const genIdent of [...GENS, ...DOUBLES, ...VGC, ...NFE, ...STADIUM, ...OTHER, ...NATDEX]) {
