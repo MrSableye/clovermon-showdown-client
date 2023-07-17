@@ -1068,7 +1068,7 @@ class BattleTooltips {
 		}
 
 		if (item === 'thiccbone') {
-			if (species === 'Masdawg' || species === 'Pasdawg' || species === 'Naughtycoot' || speciesName === 'Blobbos-Skeleton') {
+			if (species === 'Masdawg' || species === 'Pasdawg' || species === 'Naughtycoot') {
 				stats.atk *= 2;
 			}
 		}
@@ -1121,6 +1121,17 @@ class BattleTooltips {
 		}
 		if (ability === 'asoneblobbos') {
 			stats.atk *= 4;
+		}
+		if (item === 'tumultuoustibia') {
+			if (speciesName === 'Blobbos-Skeleton') {
+				stats.atk *= 2;
+			}
+		}
+		if (item === 'mascotsorb') {
+			if (speciesName === 'Blobbos-Pika') {
+				stats.atk *= 2;
+				stats.spa *= 2;
+			}
 		}
 		if (ability === 'hustle' || (ability === 'gorillatactics' && !clientPokemon?.volatiles['dynamax']) || (ability === 'boardpowerv')) {
 			stats.atk = Math.floor(stats.atk * 1.5);
