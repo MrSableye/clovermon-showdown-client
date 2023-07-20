@@ -220,6 +220,9 @@ function toId() {
 			if (Config.testclient) {
 				ret = Config.routes.clientProtocol + '://' + Config.routes.client + ret;
 			}
+			if (Config.server.loginOverride) {
+				ret = Config.server.loginOverride + '/~~' + Config.server.id + '/action.php';
+			}
 			return (this.getActionPHP = function () {
 				return ret;
 			})();

@@ -6,5 +6,6 @@
 	"altport": 80,
 	"registered": true,
 	"https": true,
-	"afd": false
+	"afd": false,
+	"loginOverride": null
 }
