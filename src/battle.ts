@@ -1380,12 +1380,24 @@ export class Battle {
 		}
 		if (weather) {
 			let isExtremeWeather = (weather === 'deltastream' || weather === 'desolateland' || weather === 'primordialsea');
+			let isCapsule = false;
 			if (poke) {
 				if (ability) {
 					this.activateAbility(poke, ability.name);
+					if (ability.effectType === "Item") {
+						let capsules = (['acidycapsule', 'murkycapsule', 'rainycapsule', 'sandycapsule', 'snowycapsule', 'sunnycapsule'].includes(ability.id))
+						if (capsules) {
+							isCapsule = true;
+						}
+					}
 				}
-				this.weatherTimeLeft = (this.gen <= 5 || isExtremeWeather) ? 0 : 8;
-				this.weatherMinTimeLeft = (this.gen <= 5 || isExtremeWeather) ? 0 : 5;
+				if (!isCapsule) {
+					this.weatherTimeLeft = (this.gen <= 5 || isExtremeWeather) ? 0 : 8;
+					this.weatherMinTimeLeft = (this.gen <= 5 || isExtremeWeather) ? 0 : 5;
+				} else {
+					this.weatherTimeLeft = 4;
+					this.weatherMinTimeLeft = 0;
+				}
 			} else if (isExtremeWeather) {
 				this.weatherTimeLeft = 0;
 				this.weatherMinTimeLeft = 0;
@@ -2963,6 +2975,8 @@ export class Battle {
 				break;
 			case 'lingeringaroma':
 			case 'mummy':
+			case 'memetic':
+			case 'infected':
 				if (!kwArgs.ability) break; // if Mummy activated but failed, no ability will have been sent
 				let ability = this.dex.abilities.get(kwArgs.ability);
 				this.activateAbility(target, ability.name);

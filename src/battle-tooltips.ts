@@ -495,6 +495,41 @@ class BattleTooltips {
 		Ground: "Tectonic Rage",
 		Fairy: "Twinkle Tackle",
 		"???": "",
+		Blood: "",
+		Bone: "",
+		Chaos: "",
+		Cosmic: "",
+		Crystal: "",
+		Cyber: "",
+		Divine: "",
+		Fabric: "",
+		Fear: "",
+		Food: "",
+		Glass: "",
+		Greasy: "",
+		Heart: "",
+		Light: "",
+		Magic: "",
+		Magma: "",
+		Meme: "",
+		Nuclear: "",
+		Ogre: "",
+		Paint: "",
+		Paper: "",
+		Plastic: "",
+		Qmarks: "",
+		Rubber: "",
+		Shadow: "",
+		Sound: "",
+		Steam: "",
+		Tech: "",
+		Time: "",
+		Virus: "",
+		Void: "",
+		Wack: "",
+		Wind: "",
+		Wood: "",
+		Zombie: ""
 	};
 
 	static maxMoveTable: {[type in TypeName]: string} = {
@@ -517,6 +552,41 @@ class BattleTooltips {
 		Ground: "Max Quake",
 		Fairy: "Max Starfall",
 		"???": "Max Memeitude",
+		Blood: "",
+		Bone: "",
+		Chaos: "",
+		Cosmic: "",
+		Crystal: "",
+		Cyber: "",
+		Divine: "",
+		Fabric: "",
+		Fear: "",
+		Food: "",
+		Glass: "",
+		Greasy: "",
+		Heart: "",
+		Light: "",
+		Magic: "",
+		Magma: "",
+		Meme: "",
+		Nuclear: "",
+		Ogre: "",
+		Paint: "",
+		Paper: "",
+		Plastic: "",
+		Qmarks: "",
+		Rubber: "",
+		Shadow: "",
+		Sound: "",
+		Steam: "",
+		Tech: "",
+		Time: "",
+		Virus: "",
+		Void: "",
+		Wack: "",
+		Wind: "",
+		Wood: "",
+		Zombie: ""
 	};
 
 	getMaxMoveFromType(type: TypeName, gmaxMove?: string | Move) {
@@ -1331,6 +1401,24 @@ class BattleTooltips {
 			stats.atk = Math.floor(stats.atk * 1.25);
 		}
 
+		/** Wack item additions */
+
+		if (item === 'choicecloak' && !clientPokemon?.volatiles['dynamax']) {
+			stats.spd = Math.floor(stats.spd * 1.5);
+		}
+		if (item === 'choicejacket' && !clientPokemon?.volatiles['dynamax']) {
+			stats.def = Math.floor(stats.def * 1.5);
+		}
+
+		if (item === 'eviolate' && isNFE) {
+			stats.atk = Math.floor(stats.atk * 1.5);
+			stats.spa = Math.floor(stats.spa * 1.5);
+		}
+
+		if (item === 'eviocicle' && isNFE) {
+			stats.spe = Math.floor(stats.spe * 1.5);
+		}
+
 		return stats;
 	}
 
@@ -1484,6 +1572,169 @@ class BattleTooltips {
 		if (move.id === 'naturalgift' && item.naturalGift) {
 			if (value.itemModify(0)) moveType = item.naturalGift.type;
 		}
+		if (category === 'Physical' || category === 'Special') {
+			switch (item.id) {
+			case 'blooddust':
+				if (value.itemModify(0)) moveType = 'Blood';
+				break;
+			case 'bonedust':
+				if (value.itemModify(0)) moveType = 'Bone';
+				break;
+			case 'bugdust':
+				if (value.itemModify(0)) moveType = 'Bug';
+				break;
+			case 'chaosdust':
+				if (value.itemModify(0)) moveType = 'Chaos';
+				break;
+			case 'cosmicdust':
+				if (value.itemModify(0)) moveType = 'Cosmic';
+				break;
+			case 'crystaldust':
+				if (value.itemModify(0)) moveType = 'Crystal';
+				break;
+			case 'cyberdust':
+				if (value.itemModify(0)) moveType = 'Cyber';
+				break;
+			case 'darkdust':
+				if (value.itemModify(0)) moveType = 'Dark';
+				break;
+			case 'divinedust':
+				if (value.itemModify(0)) moveType = 'Divine';
+				break;
+			case 'dragondust':
+				if (value.itemModify(0)) moveType = 'Dragon';
+				break;
+			case 'electricdust':
+				if (value.itemModify(0)) moveType = 'Electric';
+				break;
+			case 'fabricdust':
+				if (value.itemModify(0)) moveType = 'Fabric';
+				break;
+			case 'fairydust':
+				if (value.itemModify(0)) moveType = 'Fairy';
+				break;
+			case 'feardust':
+				if (value.itemModify(0)) moveType = 'Fear';
+				break;
+			case 'fightingdust':
+				if (value.itemModify(0)) moveType = 'Fighting';
+				break;
+			case 'firedust':
+				if (value.itemModify(0)) moveType = 'Fire';
+				break;
+			case 'flyingdust':
+				if (value.itemModify(0)) moveType = 'Flying';
+				break;
+			case 'fooddust':
+				if (value.itemModify(0)) moveType = 'Food';
+				break;
+			case 'ghostdust':
+				if (value.itemModify(0)) moveType = 'Ghost';
+				break;
+			case 'glassdust':
+				if (value.itemModify(0)) moveType = 'Glass';
+				break;
+			case 'grassdust':
+				if (value.itemModify(0)) moveType = 'Grass';
+				break;
+			case 'greasydust':
+				if (value.itemModify(0)) moveType = 'Greasy';
+				break;
+			case 'grounddust':
+				if (value.itemModify(0)) moveType = 'Ground';
+				break;
+			case 'heartdust':
+				if (value.itemModify(0)) moveType = 'Heart';
+				break;
+			case 'icedust':
+				if (value.itemModify(0)) moveType = 'Ice';
+				break;
+			case 'lightdust':
+				if (value.itemModify(0)) moveType = 'Light';
+				break;
+			case 'magicdust':
+				if (value.itemModify(0)) moveType = 'Magic';
+				break;
+			case 'magmadust':
+				if (value.itemModify(0)) moveType = 'Magma';
+				break;
+			case 'memedust':
+				if (value.itemModify(0)) moveType = 'Meme';
+				break;
+			case 'normaldust':
+				if (value.itemModify(0)) moveType = 'Normal';
+				break;
+			case 'nucleardust':
+				if (value.itemModify(0)) moveType = 'Nuclear';
+				break;
+			case 'ogredust':
+				if (value.itemModify(0)) moveType = 'Ogre';
+				break;
+			case 'paintdust':
+				if (value.itemModify(0)) moveType = 'Paint';
+				break;
+			case 'paperdust':
+				if (value.itemModify(0)) moveType = 'Paper';
+				break;
+			case 'plasticdust':
+				if (value.itemModify(0)) moveType = 'Plastic';
+				break;
+			case 'poisondust':
+				if (value.itemModify(0)) moveType = 'Poison';
+				break;
+			case 'psychicdust':
+				if (value.itemModify(0)) moveType = 'Psychic';
+				break;
+			case 'qmarksdust':
+				if (value.itemModify(0)) moveType = 'Qmarks';
+				break;
+			case 'rockdust':
+				if (value.itemModify(0)) moveType = 'Rock';
+				break;
+			case 'rubberdust':
+				if (value.itemModify(0)) moveType = 'Rubber';
+				break;
+			case 'shadowdust':
+				if (value.itemModify(0)) moveType = 'Shadow';
+				break;
+			case 'sounddust':
+				if (value.itemModify(0)) moveType = 'Sound';
+				break;
+			case 'steamdust':
+				if (value.itemModify(0)) moveType = 'Steam';
+				break;
+			case 'steeldust':
+				if (value.itemModify(0)) moveType = 'Steel';
+				break;
+			case 'techdust':
+				if (value.itemModify(0)) moveType = 'Tech';
+				break;
+			case 'timedust':
+				if (value.itemModify(0)) moveType = 'Time';
+				break;
+			case 'virusdust':
+				if (value.itemModify(0)) moveType = 'Virus';
+				break;
+			case 'voiddust':
+				if (value.itemModify(0)) moveType = 'Void';
+				break;
+			case 'wackdust':
+				if (value.itemModify(0)) moveType = 'Wack';
+				break;
+			case 'waterdust':
+				if (value.itemModify(0)) moveType = 'Water';
+				break;
+			case 'winddust':
+				if (value.itemModify(0)) moveType = 'Wind';
+				break;
+			case 'wooddust':
+				if (value.itemModify(0)) moveType = 'Wood';
+				break;
+			case 'zombiedust':
+				if (value.itemModify(0)) moveType = 'Zombie';
+				break;
+			}
+		}
 		// Weather and pseudo-weather type changes.
 		if (move.id === 'weatherball' && value.weatherModify(0)) {
 			switch (this.battle.weather) {
@@ -1503,6 +1754,15 @@ class BattleTooltips {
 			case 'hail':
 			case 'snow':
 				moveType = 'Ice';
+				break;
+			case 'acidrain':
+				moveType = 'Poison';
+				break;
+			case 'midnight':
+				moveType = 'Ghost';
+				break;
+			case 'bladerain':
+				moveType = 'Steel';
 				break;
 			}
 		}
@@ -1564,8 +1824,17 @@ class BattleTooltips {
 					if (value.abilityModify(0, 'Refrigerate')) moveType = 'Ice';
 					if (value.abilityModify(0, 'Degenerate')) moveType = 'Dark';
 					if (value.abilityModify(0, 'He Will Be Dragon')) moveType = 'Dragon';
+					if (value.abilityModify(0, 'Windate')) moveType = 'Wind';
+					if (value.abilityModify(0, 'Immolate')) moveType = 'Fire';
+					if (value.abilityModify(0, 'Magicate')) moveType = 'Magic';
+					if (value.abilityModify(0, 'Evaporate')) moveType = 'Steam';
+					if (value.abilityModify(0, 'Martialate')) moveType = 'Fighting';
+					if (value.abilityModify(0, 'Hydrate')) moveType = 'Water';
+					if (value.abilityModify(0, 'Ionate')) moveType = 'Electric';
+					if (value.abilityModify(0, 'Thunderstorm')) moveType = 'Electric';
 				}
 				if (value.abilityModify(0, 'Normalize')) moveType = 'Normal';
+				if (value.abilityModify(0, 'Wacky')) moveType = 'Wack';
 				if (move.flags.sound) {
 					if (value.abilityModify(0, 'Ghost Note')) moveType = 'Ghost';
 				}
