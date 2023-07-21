@@ -705,6 +705,12 @@ export class Side {
 		case 'luckychant':
 			this.sideConditions[condition] = [effect.name, 1, 5, 0];
 			break;
+		case 'maplewarrior':
+		case 'haste':
+		case 'combatorders':
+		case 'sharpeyes':
+			this.sideConditions[condition] = [effect.name, 1, 4, 4];
+			break;
 		case 'stealthrock':
 		case 'spikes':
 		case 'toxicspikes':
