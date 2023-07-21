@@ -1741,7 +1741,64 @@ export class BattleScene implements BattleSceneStub {
 		case 18:
 			this.bgm = BattleSound.loadBgm('audio/battle-biteki.mp3', 6363, 18414, this.bgm);
 			break;
+		// Wack Tracks
 		case 19:
+			this.bgm = BattleSound.loadBgm('audio/darkgodsbattle.mp3', 0, 537000, this.bgm);
+			break;
+		case 20:
+			this.bgm = BattleSound.loadBgm('audio/emotions.mp3', 0, 290000, this.bgm);
+			break;
+		case 21:
+			this.bgm = BattleSound.loadBgm('audio/endoftheworld.mp3', 0, 309000, this.bgm);
+			break;
+		case 22:
+			this.bgm = BattleSound.loadBgm('audio/hellwaltz.mp3', 0, 219000, this.bgm);
+			break;
+		case 23:
+			this.bgm = BattleSound.loadBgm('audio/himtheme.mp3', 0, 225000, this.bgm);
+			break;
+		case 24:
+			this.bgm = BattleSound.loadBgm('audio/humangods.mp3', 0, 248000, this.bgm);
+			break;
+		case 25:
+			this.bgm = BattleSound.loadBgm('audio/israelianthemtechno.mp3', 0, 201000, this.bgm);
+			break;
+		case 26:
+			this.bgm = BattleSound.loadBgm('audio/longinus.mp3', 0, 284000, this.bgm);
+			break;
+		case 27:
+			this.bgm = BattleSound.loadBgm('audio/solarstorm.mp3', 0, 219000, this.bgm);
+			break;
+		case 28:
+			this.bgm = BattleSound.loadBgm('audio/teamwack.mp3', 0, 126000, this.bgm);
+			break;
+		case 29:
+			this.bgm = BattleSound.loadBgm('audio/teamwackadmin.mp3', 0, 317000, this.bgm);
+			break;
+		case 30:
+			this.bgm = BattleSound.loadBgm('audio/thegoodbattle.mp3', 0, 140000, this.bgm);
+			break;
+		case 31:
+			this.bgm = BattleSound.loadBgm('audio/tiresonfire.mp3', 0, 124000, this.bgm);
+			break;
+		case 32:
+			this.bgm = BattleSound.loadBgm('audio/typingboss.mp3', 0, 320000, this.bgm);
+			break;
+		case 33:
+			this.bgm = BattleSound.loadBgm('audio/unisoninabyss.mp3', 0, 270000, this.bgm);
+			break;
+		case 34:
+			this.bgm = BattleSound.loadBgm('audio/valhalla.mp3', 0, 270000, this.bgm);
+			break;
+		case 35:
+			this.bgm = BattleSound.loadBgm('audio/visions.mp3', 0, 259000, this.bgm);
+			break;
+		case 35:
+			this.bgm = BattleSound.loadBgm('audio/vxacebattle6.mp3', 0, 140000, this.bgm);
+			break;
+		case 37:
+			this.bgm = BattleSound.loadBgm('audio/zaydolfreturn.mp3', 0, 319000, this.bgm);
+			break;
 		default:
 			this.bgm = BattleSound.loadBgm('audio/viol.mp3', 61783, 95529, this.bgm);
 			break;
