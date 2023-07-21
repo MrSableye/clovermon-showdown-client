@@ -1084,7 +1084,7 @@ export class Battle {
 	lastMove = '';
 
 	gen = 8;
-	modName: String | undefined;
+	modName: string | undefined;
 	dex: ModdedDex = Dex;
 	teamPreviewCount = 0;
 	speciesClause = false;
