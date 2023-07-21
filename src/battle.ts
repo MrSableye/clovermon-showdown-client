@@ -709,7 +709,7 @@ export class Side {
 		case 'haste':
 		case 'combatorders':
 		case 'sharpeyes':
-			this.sideConditions[condition] = [effect.name, 1, 4, 4];
+			this.sideConditions[condition] = [effect.name, 1, 4, 0];
 			break;
 		case 'stealthrock':
 		case 'spikes':
