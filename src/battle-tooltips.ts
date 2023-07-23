@@ -1374,6 +1374,9 @@ class BattleTooltips {
 		if (sideConditions['grasspledge']) {
 			speedModifiers.push(0.25);
 		}
+		if (sideConditions['maplewarrior']) {
+			speedModifiers.push(1.2);
+		}
 
 		let chainedSpeedModifier = 1;
 		for (const modifier of speedModifiers) {
