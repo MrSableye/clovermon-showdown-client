@@ -630,6 +630,9 @@ class BattleTooltips {
 				if (!movePower && move.id.startsWith('hiddenpower')) {
 					movePower = this.battle.dex.moves.get('hiddenpower').zMove!.basePower;
 				}
+				if (!movePower && move.id.startsWith('hiddenforce')) {
+					movePower = this.battle.dex.moves.get('hiddenforce').zMove!.basePower;
+				}
 				if (move.id === 'weatherball') {
 					switch (this.battle.weather) {
 					case 'sunnyday':
@@ -1816,7 +1819,7 @@ class BattleTooltips {
 				}
 			}
 
-			if (category !== 'Status' && !move.isZ && !move.id.startsWith('hiddenpower')) {
+			if (category !== 'Status' && !move.isZ && !move.id.startsWith('hiddenpower') && !move.id.startsWith('hiddenforce')) {
 				if (moveType === 'Normal') {
 					if (value.abilityModify(0, 'Aerilate')) moveType = 'Flying';
 					if (value.abilityModify(0, 'Galvanize')) moveType = 'Electric';
@@ -2236,7 +2239,7 @@ class BattleTooltips {
 		const allowTypeOverride = !noTypeOverride.includes(move.id) && (move.id !== 'terablast' || !pokemon.terastallized);
 		if (
 			move.category !== 'Status' && allowTypeOverride && !move.isZ && !move.isMax &&
-			!move.id.startsWith('hiddenpower')
+			!move.id.startsWith('hiddenpower') && !move.id.startsWith('hiddenforce')
 		) {
 			if (move.type === 'Normal') {
 				value.abilityModify(this.battle.gen > 6 ? 1.2 : 1.3, "Aerilate");

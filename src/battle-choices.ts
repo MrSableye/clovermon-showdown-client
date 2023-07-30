@@ -333,6 +333,7 @@ class BattleChoiceBuilder {
 				// Move names are also allowed, but may cause ambiguity (see client issue #167).
 				let moveid = toID(choice);
 				if (moveid.startsWith('hiddenpower')) moveid = 'hiddenpower' as ID;
+				if (moveid.startsWith('hiddenforce')) moveid = 'hiddenforce' as ID;
 
 				for (let i = 0; i < moveRequest.moves.length; i++) {
 					if (moveid === moveRequest.moves[i].id) {

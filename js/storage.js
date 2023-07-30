@@ -722,7 +722,7 @@ Storage.packTeam = function (team) {
 			var moveid = toID(set.moves[j]);
 			if (j && !moveid) continue;
 			buf += (j ? ',' : '') + moveid;
-			if (moveid.substr(0, 11) === 'hiddenpower' && moveid.length > 11) hasHP = true;
+			if (moveid.substr(0, 11) === ('hiddenpower' || 'hiddenforce') && moveid.length > 11) hasHP = true;
 		}
 
 		// nature
