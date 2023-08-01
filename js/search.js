@@ -343,7 +343,7 @@
 
 		// abilities
 		if (gen >= 3) {
-			var abilities = Dex.forGen(gen).species.get(id).abilities;
+			var abilities = (this.engine.dex || Dex.forGen(gen)).species.get(id).abilities;
 			if (gen >= 5) {
 				if (abilities['1']) {
 					buf += '<span class="col twoabilitycol">' + abilities['0'] + '<br />' +
@@ -420,8 +420,8 @@
 
 		// type
 		buf += '<span class="col typecol">';
-		for (var i = 0; i < pokemon.types.length; i++) {
-			buf += Dex.getTypeIcon(pokemon.types[i]);
+		for (var i = 0; i < types.length; i++) {
+			buf += Dex.getTypeIcon(types[i]);
 		}
 		buf += '</span> ';
 
