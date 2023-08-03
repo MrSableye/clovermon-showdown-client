@@ -1537,13 +1537,8 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 					if (moveid === 'sketch') sketch = true;
 					if (moveid === 'hiddenpower') {
 						moves.push(
-							'hiddenpowerbug', 'hiddenpowerdark', 'hiddenpowerdragon', 'hiddenpowerelectric', 'hiddenpowerfighting', 'hiddenpowerfire', 'hiddenpowerflying', 'hiddenpowerghost', 'hiddenpowergrass', 'hiddenpowerground', 'hiddenpowerice', 'hiddenpowerpoison', 'hiddenpowerpsychic', 'hiddenpowerrock', 'hiddenpowersteel', 'hiddenpowerwater', "hiddenpowerblood", "hiddenpowerbone", "hiddenpowercosmic", "hiddenpowercrystal", "hiddenpowercyber", "hiddenpowerfabric", "hiddenpowerfairy", "hiddenpowerfear", "hiddenpowerfood", "hiddenpowerglass", "hiddenpowergreasy", "hiddenpowerheart", "hiddenpowerlight", "hiddenpowermagic", "hiddenpowermagma", "hiddenpowermeme", "hiddenpowernuclear", "hiddenpowerogre", "hiddenpowerpaint", "hiddenpowerpaper", "hiddenpowerplastic", "hiddenpowerrubber", "hiddenpowersound", "hiddenpowersteam", "hiddenpowertech", "hiddenpowertime", "hiddenpowervirus", "hiddenpowerwind", "hiddenpowerwood", "hiddenpowerzombie"
+							'hiddenpowerbug', 'hiddenpowerdark', 'hiddenpowerdragon', 'hiddenpowerelectric', 'hiddenpowerfighting', 'hiddenpowerfire', 'hiddenpowerflying', 'hiddenpowerghost', 'hiddenpowergrass', 'hiddenpowerground', 'hiddenpowerice', 'hiddenpowerpoison', 'hiddenpowerpsychic', 'hiddenpowerrock', 'hiddenpowersteel', 'hiddenpowerwater'
 						);
-					}
-					if (moveid === 'hiddenforce') {
-						moves.push(
-							"hiddenforceblood", "hiddenforcebone", "hiddenforcebug", "hiddenforcecosmic", "hiddenforcecrystal", "hiddenforcecyber", "hiddenforcedark", "hiddenforcedragon", "hiddenforceelectric", "hiddenforcefabric", "hiddenforcefairy", "hiddenforcefear", "hiddenforcefighting", "hiddenforcefire", "hiddenforceflying", "hiddenforcefood", "hiddenforceghost", "hiddenforceglass", "hiddenforcegrass", "hiddenforcegreasy", "hiddenforceground", "hiddenforceheart", "hiddenforceice", "hiddenforcelight", "hiddenforcemagic", "hiddenforcemagma", "hiddenforcememe", "hiddenforcenuclear", "hiddenforceogre", "hiddenforcepaint", "hiddenforcepaper", "hiddenforceplastic", "hiddenforcepoison", "hiddenforcepsychic", "hiddenforcerock", "hiddenforcerubber", "hiddenforcesound", "hiddenforcesteam", "hiddenforcesteel", "hiddenforcetech", "hiddenforcetime", "hiddenforcevirus", "hiddenforcewater", "hiddenforcewind", "hiddenforcewood", "hiddenforcezombie"
-						)
 					}
 				}
 			}

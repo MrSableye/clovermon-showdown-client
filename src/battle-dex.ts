@@ -291,13 +291,6 @@ const Dex = new class implements ModdedDex {
 					basePower: Number(hpPower) || 60,
 				};
 			}
-			if (!data && id.substr(0, 11) === 'hiddenforce' && id.length > 11) {
-				let [, hpWithType, hpPower] = /([a-z]*)([0-9]*)/.exec(id)!;
-				data = {
-					...(window.BattleMovedex[hpWithType] || {}),
-					basePower: Number(hpPower) || 60,
-				};
-			}
 			if (!data && id.substr(0, 6) === 'return' && id.length > 6) {
 				data = {
 					...(window.BattleMovedex['return'] || {}),

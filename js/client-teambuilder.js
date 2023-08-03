@@ -2232,9 +2232,6 @@
 						if (moveid.slice(0, 11) === 'hiddenpower') {
 							hpType = moveid.slice(11);
 						}
-						if (moveid.slice(0, 11) === 'hiddenforce') {
-							hpType = moveid.slice(11);
-						}
 					}
 				}
 				if (hpType && !this.canHyperTrain(set)) {
@@ -2473,18 +2470,13 @@
 			var set = this.curSet;
 			if (!set.moves || this.canHyperTrain(set)) return;
 			var hasHiddenPower = false;
-			var hasHiddenForce = false;
 			for (var i = 0; i < set.moves.length; i++) {
 				if (toID(set.moves[i]).slice(0, 11) === 'hiddenpower') {
 					hasHiddenPower = true;
 					break;
 				}
-				if (toID(set.moves[i]).slice(0, 11) === 'hiddenforce') {
-					hasHiddenForce = true;
-					break;
-				}
 			}
-			if (!hasHiddenPower && !hasHiddenForce) return;
+			if (!hasHiddenPower) return;
 			var hpTypes = ['Fighting', 'Flying', 'Poison', 'Ground', 'Rock', 'Bug', 'Ghost', 'Steel', 'Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Ice', 'Dragon', 'Dark'];
 			var hpType;
 			if (this.curTeam.gen <= 2) {
@@ -2515,10 +2507,6 @@
 				if (toID(set.moves[i]).slice(0, 11) === 'hiddenpower') {
 					set.moves[i] = "Hidden Power " + hpType;
 					if (i < 4) this.$('input[name=move' + (i + 1) + ']').val("Hidden Power " + hpType);
-				}
-				if (toID(set.moves[i]).slice(0, 11) === 'hiddenforce') {
-					set.moves[i] = "Hidden Force " + hpType;
-					if (i < 4) this.$('input[name=move' + (i + 1) + ']').val("Hidden Force " + hpType);
 				}
 			}
 		},
@@ -3226,16 +3214,13 @@
 			if (set.ability === 'Battle Bond' || ['Koraidon', 'Miraidon'].includes(set.species)) minAtk = false;
 			var hpModulo = (this.curTeam.gen >= 6 ? 2 : 4);
 			var hasHiddenPower = false;
-			var hasHiddenForce = false;
 			var moves = set.moves;
 			for (var i = 0; i < moves.length; ++i) {
 				if (!moves[i]) continue;
 				if (moves[i].substr(0, 13) === 'Hidden Power ') hasHiddenPower = true;
-				if (moves[i].substr(0, 13) === 'Hidden Force ') hasHiddenForce = true;
 				var move = this.curTeam.dex.moves.get(moves[i]);
 				if (move.id === 'transform') {
 					hasHiddenPower = true; // A Pokemon with Transform can copy another Pokemon that knows Hidden Power
-					hasHiddenForce = true; // The same would work for Hidden Force
 
 					var hasMoveBesidesTransform = false;
 					for (var j = 0; j < moves.length; ++j) {
