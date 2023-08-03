@@ -336,8 +336,8 @@
 		// type
 		buf += '<span class="col typecol">';
 		var types = pokemon.types;
-		for (var i = 0; i < pokemon.types.length; i++) {
-			buf += Dex.getTypeIcon(pokemon.types[i]);
+		for (var i = 0; i < types.length; i++) {
+			buf += Dex.getTypeIcon(types[i]);
 		}
 		buf += '</span> ';
 
@@ -420,8 +420,8 @@
 
 		// type
 		buf += '<span class="col typecol">';
-		for (var i = 0; i < types.length; i++) {
-			buf += Dex.getTypeIcon(types[i]);
+		for (var i = 0; i < pokemon.types.length; i++) {
+			buf += Dex.getTypeIcon(pokemon.types[i]);
 		}
 		buf += '</span> ';
 
