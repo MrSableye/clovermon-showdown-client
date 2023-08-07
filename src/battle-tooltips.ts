@@ -1482,7 +1482,7 @@ class BattleTooltips {
 			maxpp = 5;
 		} else {
 			move = this.battle.dex.moves.get(moveName);
-			maxpp = (move.pp === 1 || move.noPPBoosts ? move.pp : move.pp * 8 / 5);
+			maxpp = (move.pp === 1 || move.noPPBoosts ? move.pp : Math.floor(move.pp * 8 / 5));
 			if (this.battle.gen < 3) maxpp = Math.min(61, maxpp);
 		}
 		const bullet = moveName.charAt(0) === '*' || move.isZ ? '<span style="color:#888">&#8226;</span>' : '&#8226;';
