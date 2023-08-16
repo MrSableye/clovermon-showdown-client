@@ -770,7 +770,7 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		skubaanti: 1379 + (64 * 12) + 2,
 		disbearyebil: 1379 + (64 * 12) + 3,
 		gargarramerawoken: 1379 + (64 * 12) + 4,
-		eccosmicmagella: 1379 + (64 * 12) + 5,
+		eccosmicmagellanic: 1379 + (64 * 12) + 5,
 		eccosmicsol: 1379 + (64 * 12) + 6,
 		eccosmicstarburst: 1379 + (64 * 12) + 7,
 		eccosmicquasar: 1379 + (64 * 12) + 8,
