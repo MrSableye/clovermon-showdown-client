@@ -3,6 +3,27 @@
 	// this is a useful global
 	var teams;
 
+	function getModDex(format) {
+		format = '' + format;
+		var modMatch = format.match(/^gen(\d+)([a-z]+)(only|nationaldex)/);
+		if (modMatch) {
+			var genNumber = modMatch[1];
+			var modName = modMatch[2];
+			var modified = modMatch[3];
+			if (!Number.isNaN(parseInt(genNumber, 10))) {
+				gen = parseInt(genNumber, 10);
+			}
+			if (modified === 'only') {
+				modName += 'only';
+			} else {
+				modName += 'natdex';
+			}
+			return Dex.mod(gen, modName);
+		}
+
+		return null;
+	}
+
 	exports.TeambuilderRoom = exports.Room.extend({
 		type: 'teambuilder',
 		title: 'Teambuilder',
@@ -26,6 +47,10 @@
 				}
 				if (this.curTeam.format.includes('bdsp')) {
 					this.curTeam.dex = Dex.mod(8, 'gen8bdsp');
+				}
+				var modDex = getModDex(this.curTeam.format);
+				if (modDex) {
+					this.curTeam.dex = modDex;
 				}
 				Storage.activeSetList = this.curSetList;
 			}
@@ -693,6 +718,10 @@
 			}
 			if (this.curTeam.format.includes('bdsp')) {
 				this.curTeam.dex = Dex.mod(8, 'gen8bdsp');
+			}
+			var modDex = getModDex(this.curTeam.format);
+			if (modDex) {
+				this.curTeam.dex = modDex;
 			}
 			Storage.activeSetList = this.curSetList = Storage.unpackTeam(this.curTeam.team);
 			this.curTeamIndex = i;
@@ -1502,6 +1531,10 @@
 			}
 			if (this.curTeam.format.includes('bdsp')) {
 				this.curTeam.dex = Dex.mod(8, 'gen8bdsp');
+			}
+			var modDex = getModDex(this.curTeam.format);
+			if (modDex) {
+				this.curTeam.dex = modDex;
 			}
 			this.save();
 			if (this.curTeam.gen === 5 && !Dex.loadedSpriteData['bw']) Dex.loadSpriteData('bw');
