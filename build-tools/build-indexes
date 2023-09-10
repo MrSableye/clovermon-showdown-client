@@ -1932,31 +1932,36 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			}
 		}
 
-		BattleTeambuilderTable[mod + 'only'] = {};
-		BattleTeambuilderTable[mod + 'only'].learnsets = moddedLearnsets;
-		BattleTeambuilderTable[mod + 'only'].overrideTier = modOnlyOverrideTier;
-		BattleTeambuilderTable[mod + 'only'].tiers = modOnlyTiers;
-		BattleTeambuilderTable[mod + 'only'].items = [['header', "Items"], ...modOnlyItems];
-		BattleTeambuilderTable[mod + 'only'].formatSlices = modOnlyFormatSlices;
-		BattleTeambuilderTable[mod + 'only'].overrideItemDesc = overrideItemDesc;
-		BattleTeambuilderTable[mod + 'only'].overrideSpeciesData = overrideSpeciesData;
-		BattleTeambuilderTable[mod + 'only'].overrideAbilityData = overrideAbilityData;
-		BattleTeambuilderTable[mod + 'only'].overrideMoveData = overrideMoveData;
-		BattleTeambuilderTable[mod + 'only'].overrideTypeChart = overrideTypeChart;
-		BattleTeambuilderTable[mod + 'only'].removeType = removeType;
+		const modOnlyTable = {};
+		modOnlyTable.learnsets = moddedLearnsets;
+		modOnlyTable.overrideTier = modOnlyOverrideTier;
+		modOnlyTable.tiers = modOnlyTiers;
+		modOnlyTable.items = [['header', "Items"], ...modOnlyItems];
+		modOnlyTable.formatSlices = modOnlyFormatSlices;
+		modOnlyTable.overrideItemDesc = overrideItemDesc;
+		modOnlyTable.overrideSpeciesData = overrideSpeciesData;
+		modOnlyTable.overrideAbilityData = overrideAbilityData;
+		modOnlyTable.overrideMoveData = overrideMoveData;
+		modOnlyTable.overrideTypeChart = overrideTypeChart;
+		modOnlyTable.removeType = removeType;
 
-		BattleTeambuilderTable[mod + 'natdex'] = {}
-		BattleTeambuilderTable[mod + 'natdex'].learnsets = moddedLearnsets;
-		BattleTeambuilderTable[mod + 'natdex'].overrideTier = natDexOverrideTier;
-		BattleTeambuilderTable[mod + 'natdex'].tiers = natDexTiers;
-		BattleTeambuilderTable[mod + 'natdex'].items = [['header', "Items"], ...natDexItems];
-		BattleTeambuilderTable[mod + 'natdex'].formatSlices = natDexFormatSlices;
-		BattleTeambuilderTable[mod + 'natdex'].overrideItemDesc = overrideItemDesc;
-		BattleTeambuilderTable[mod + 'natdex'].overrideSpeciesData = overrideSpeciesData;
-		BattleTeambuilderTable[mod + 'natdex'].overrideAbilityData = overrideAbilityData;
-		BattleTeambuilderTable[mod + 'natdex'].overrideMoveData = overrideMoveData;
-		BattleTeambuilderTable[mod + 'natdex'].overrideTypeChart = overrideTypeChart;
-		BattleTeambuilderTable[mod + 'natdex'].removeType = removeType;
+		const natdexTable = {};
+		natdexTable.learnsets = moddedLearnsets;
+		natdexTable.overrideTier = natDexOverrideTier;
+		natdexTable.tiers = natDexTiers;
+		natdexTable.items = [['header', "Items"], ...natDexItems];
+		natdexTable.formatSlices = natDexFormatSlices;
+		natdexTable.overrideItemDesc = overrideItemDesc;
+		natdexTable.overrideSpeciesData = overrideSpeciesData;
+		natdexTable.overrideAbilityData = overrideAbilityData;
+		natdexTable.overrideMoveData = overrideMoveData;
+		natdexTable.overrideTypeChart = overrideTypeChart;
+		natdexTable.removeType = removeType;
+
+		let modBuf = `window.BattleTeambuilderTable['${mod}only'] = JSON.parse('${JSON.stringify(modOnlyTable).replace(/['\\]/g, "\\$&")}');\n\n`;
+		modBuf += `window.BattleTeambuilderTable['${mod}natdex'] = JSON.parse('${JSON.stringify(natdexTable).replace(/['\\]/g, "\\$&")}');\n\n`;
+
+		fs.writeFileSync(`data/teambuilder-table-${mod}.js`, modBuf);
 	}
 
 	buf += `exports.BattleTeambuilderTable = JSON.parse('${JSON.stringify(BattleTeambuilderTable).replace(/['\\]/g, "\\$&")}');\n\n`;
