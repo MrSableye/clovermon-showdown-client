@@ -547,7 +547,7 @@ const Dex = new class implements ModdedDex {
 		let baseDir = ['', 'gen1', 'gen2', 'gen3', 'gen4', 'gen5', '', '', '', ''][spriteData.gen];
 
 		// TODO: Remove Clover-specific logic
-		if ((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num <= -42001 && species.num >= -42999) || (species.num <= -8000 && species.num >= -8999)) {
+		if ((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num <= -42001 && species.num >= -42999) || (species.num <= -8000 && species.num >= -8999) || (species.num <= 413999 && species.num >= 413001)) {
 			graphicsGen = 3;
 			spriteData.gen = 3;
 			baseDir = 'gen5';
@@ -620,7 +620,7 @@ const Dex = new class implements ModdedDex {
 				spriteData.y += -11;
 			}
 			// TODO: Remove Clover-specific logic
-			if (!((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num >= -42001 && species.num <= -42999) || (species.num <= -8000 && species.num >= -8999))) {
+			if (!((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num >= -42001 && species.num <= -42999) || (species.num <= -8000 && species.num >= -8999) || (species.num <= 413999 && species.num >= 413001))) {
 				return spriteData;
 			}
 		}
@@ -702,6 +702,8 @@ const Dex = new class implements ModdedDex {
 			num = 1379 + (48 * 12) + Math.abs(num % 42000);
 		} else if (num > 42000 && num <= 42999) { // Clover CAPmons
 			num = 1379 + (49 * 12) + num % 42000;
+		} else if (num > 413000 && num <= 413999) {
+			num = 1379 + (76 * 12) + num % 413000; // Sburbmons
 		} else if (num > 1010) {
 			num = 0;
 		}

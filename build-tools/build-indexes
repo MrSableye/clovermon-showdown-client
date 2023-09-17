@@ -37,7 +37,7 @@ function requireNoCache(pathSpec) {
 	return require(pathSpec);
 }
 
-const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { modGen: 8, mod: 'cloverblobboscap' }, { modGen: 8, mod: 'sandbox' }, {modGen: 8, mod: 'cope'}, {modGen: 8, mod: 'wack'}];
+const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { modGen: 8, mod: 'cloverblobboscap' }, { modGen: 8, mod: 'sandbox' }, {modGen: 8, mod: 'cope'}, {modGen: 8, mod: 'wack'}, {modGen: 8, mod: 'sburbmons'}];
 
 /*********************************************************
  * Build search-index.js
