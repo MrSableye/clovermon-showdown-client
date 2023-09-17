@@ -1732,7 +1732,7 @@ export class BattleScene implements BattleSceneStub {
 	}
 	setRandomTrack(tracks: Track[]) {
 		const bgmNum = this.numericId % tracks.length;
-		if (this.bgmNum === bgmNum) return;
+		if (this.bgm && (this.bgmNum === bgmNum)) return;
 
 		this.bgmNum = bgmNum;
 		this.specialTrack = null; // Just so we can get back to Kojima kino...
