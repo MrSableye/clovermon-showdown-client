@@ -723,6 +723,18 @@ export class Side {
 		case 'runeofluck3':
 			this.sideConditions[condition] = ['Rune of Luck (3/3)', 1, 0, 0];
 			break;
+		case 'runeofprotection0':
+			this.sideConditions[condition] = ['Rune of Protection (0/3)', 1, 0, 0];
+			break;
+		case 'runeofprotection1':
+			this.sideConditions[condition] = ['Rune of Protection (1/3)', 1, 0, 0];
+			break;
+		case 'runeofprotection2':
+			this.sideConditions[condition] = ['Rune of Protection (2/3)', 1, 0, 0];
+			break;
+		case 'runeofprotection3':
+			this.sideConditions[condition] = ['Rune of Protection (3/3)', 1, 0, 0];
+			break;
 		case 'stealthrock':
 		case 'spikes':
 		case 'toxicspikes':
@@ -3044,6 +3056,15 @@ export class Battle {
 				break;
 			case 'runeofluck2':
 				side.removeSideCondition('runeofluck3');
+				break;
+			case 'runeofprotection0':
+				side.removeSideCondition('runeofprotection1');
+				break;
+			case 'runeofprotection1':
+				side.removeSideCondition('runeofprotection2');
+				break;
+			case 'runeofprotection2':
+				side.removeSideCondition('runeofprotection3');
 				break;
 			case 'tailwind':
 			case 'backdraft':
