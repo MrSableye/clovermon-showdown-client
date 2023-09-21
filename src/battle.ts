@@ -711,6 +711,18 @@ export class Side {
 		case 'sharpeyes':
 			this.sideConditions[condition] = [effect.name, 1, 4, 0];
 			break;
+		case 'runeofluck0':
+			this.sideConditions[condition] = ['Rune of Luck (0/3)', 1, 0, 0];
+			break;
+		case 'runeofluck1':
+			this.sideConditions[condition] = ['Rune of Luck (1/3)', 1, 0, 0];
+			break;
+		case 'runeofluck2':
+			this.sideConditions[condition] = ['Rune of Luck (2/3)', 1, 0, 0];
+			break;
+		case 'runeofluck3':
+			this.sideConditions[condition] = ['Rune of Luck (3/3)', 1, 0, 0];
+			break;
 		case 'stealthrock':
 		case 'spikes':
 		case 'toxicspikes':
@@ -3024,6 +3036,15 @@ export class Battle {
 			side.addSideCondition(effect, !!kwArgs.persistent);
 
 			switch (effect.id) {
+			case 'runeofluck0':
+				side.removeSideCondition('runeofluck1');
+				break;
+			case 'runeofluck1':
+				side.removeSideCondition('runeofluck2');
+				break;
+			case 'runeofluck2':
+				side.removeSideCondition('runeofluck3');
+				break;
 			case 'tailwind':
 			case 'backdraft':
 			case 'auroraveil':
