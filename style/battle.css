@@ -443,6 +443,18 @@ License: GPLv2
 	background: #AADDEE url(../fx/weather-hail.png) no-repeat scroll left top;
 	color: #114455;
 }
+.midnightweather {
+	background: #383838 url(../fx/weather-midnight.jpg) no-repeat scroll left top;
+	color: #1a1a1a;
+}
+.acidrainweather {
+	background: #d7a6e5 url(../fx/weather-acidrain.jpg) no-repeat scroll left top;
+	color: #55305e;
+}
+.bladerainweather {
+	background: #e2e2e2 url(../fx/weather-bladerain.jpg) no-repeat scroll left top;
+	color: #555555;
+}
 .deltastreamweather {
 	background: #AAAAAA url(../fx/weather-strongwind.png) no-repeat scroll left top;
 	color: #666666;
@@ -478,6 +490,22 @@ License: GPLv2
 .wonderroomweather {
 	background: #DDAAEE url(../fx/weather-wonderroom.png) no-repeat scroll left top;
 	color: #661155;
+}
+.densefogweather {
+	background: #AAAAAA url(../fx/weather-densefog.png) no-repeat scroll left top;
+	color: #666666;
+}
+.timefallweather {
+	background: #AAAAAA url(../fx/weather-timefall.png) no-repeat scroll left top;
+	color: #666666;
+}
+.inverseroomweather {
+	background: #AAAAAA url(../fx/weather-inverseroom.png) no-repeat scroll left top;
+	color: #666666;
+}
+.genwunroomweather {
+	background: #AAAAAA url(../fx/weather-genwunroom.png) no-repeat scroll left top;
+	color: #666666;
 }
 
 .battle .result {
@@ -798,4 +826,36 @@ License: GPLv2
 #tooltipwrapper.tooltip-locked .tooltip {
 	border: 2px solid #444444;
 	background: #DEDEDE;
+}
+
+/*********************************************************
+ * Badge Marquee
+ *********************************************************/
+.badge-marquee-wrapper {
+  overflow: hidden;
+	display: inline-block;
+}
+
+.badge-marquee-wrapper .badge-marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  animation: marquee 10s linear infinite;
+}
+
+.badge-marquee-wrapper:hover .badge-marquee {
+  animation-play-state: paused;
+}
+
+.badge-marquee .userbadges {
+  display: inline-block;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
 }

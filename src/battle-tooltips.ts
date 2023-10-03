@@ -25,11 +25,11 @@ class ModifiableValue {
 		this.pokemon = pokemon;
 		this.serverPokemon = serverPokemon;
 
-		this.itemName = Dex.items.get(serverPokemon.item).name;
+		this.itemName = this.battle.dex.items.get(serverPokemon.item).name;
 		const ability = serverPokemon.ability || pokemon?.ability || serverPokemon.baseAbility;
-		this.abilityName = Dex.abilities.get(ability).name;
-		this.weatherName = battle.weather === 'snow' ? 'Snow' : Dex.moves.get(battle.weather).exists ?
-			Dex.moves.get(battle.weather).name : Dex.abilities.get(battle.weather).name;
+		this.abilityName = this.battle.dex.abilities.get(ability).name;
+		this.weatherName = battle.weather === 'snow' ? 'Snow' : this.battle.dex.moves.get(battle.weather).exists ?
+			this.battle.dex.moves.get(battle.weather).name :  this.battle.dex.abilities.get(battle.weather).name;
 	}
 	reset(value = 0, isAccuracy?: boolean) {
 		this.value = value;
@@ -495,6 +495,41 @@ class BattleTooltips {
 		Ground: "Tectonic Rage",
 		Fairy: "Twinkle Tackle",
 		"???": "",
+		Blood: "",
+		Bone: "",
+		Chaos: "",
+		Cosmic: "",
+		Crystal: "",
+		Cyber: "",
+		Divine: "",
+		Fabric: "",
+		Fear: "",
+		Food: "",
+		Glass: "",
+		Greasy: "",
+		Heart: "",
+		Light: "",
+		Magic: "",
+		Magma: "",
+		Meme: "",
+		Nuclear: "",
+		Ogre: "",
+		Paint: "",
+		Paper: "",
+		Plastic: "",
+		Qmarks: "",
+		Rubber: "",
+		Shadow: "",
+		Sound: "",
+		Steam: "",
+		Tech: "",
+		Time: "",
+		Virus: "",
+		Void: "",
+		Wack: "",
+		Wind: "",
+		Wood: "",
+		Zombie: ""
 	};
 
 	static maxMoveTable: {[type in TypeName]: string} = {
@@ -516,15 +551,50 @@ class BattleTooltips {
 		Flying: "Max Airstream",
 		Ground: "Max Quake",
 		Fairy: "Max Starfall",
-		"???": "",
+		"???": "Max Memeitude",
+		Blood: "",
+		Bone: "",
+		Chaos: "",
+		Cosmic: "",
+		Crystal: "",
+		Cyber: "",
+		Divine: "",
+		Fabric: "",
+		Fear: "",
+		Food: "",
+		Glass: "",
+		Greasy: "",
+		Heart: "",
+		Light: "",
+		Magic: "",
+		Magma: "",
+		Meme: "",
+		Nuclear: "",
+		Ogre: "",
+		Paint: "",
+		Paper: "",
+		Plastic: "",
+		Qmarks: "",
+		Rubber: "",
+		Shadow: "",
+		Sound: "",
+		Steam: "",
+		Tech: "",
+		Time: "",
+		Virus: "",
+		Void: "",
+		Wack: "",
+		Wind: "",
+		Wood: "",
+		Zombie: ""
 	};
 
 	getMaxMoveFromType(type: TypeName, gmaxMove?: string | Move) {
 		if (gmaxMove) {
-			gmaxMove = Dex.moves.get(gmaxMove);
+			gmaxMove = this.battle.dex.moves.get(typeof gmaxMove === 'string' ? gmaxMove : gmaxMove.name);
 			if (type === gmaxMove.type) return gmaxMove;
 		}
-		return Dex.moves.get(BattleTooltips.maxMoveTable[type]);
+		return this.battle.dex.moves.get(BattleTooltips.maxMoveTable[type]);
 	}
 
 	showMoveTooltip(move: Move, isZOrMax: string, pokemon: Pokemon, serverPokemon: ServerPokemon, gmaxMove?: Move) {
@@ -747,6 +817,12 @@ class BattleTooltips {
 			if (move.flags.bite && ability === 'strongjaw') {
 				text += `<p class="movetag">&#x2713; Bite <small>(boosted by Strong Jaw)</small></p>`;
 			}
+			if (move.flags.kick && ability === 'striker') {
+				text += `<p class="movetag">&#x2713; Kick <small>(affected by Striker)</small></p>`;
+			}
+			if (move.flags.bone && ['bonezone', 'bonerzoner'].includes(ability)) {
+				text += `<p class="movetag">&#x2713; Bone <small>(affected by Bone Zone)</small></p>`;
+			}
 			if ((move.recoil || move.hasCrashDamage) && ability === 'reckless') {
 				text += `<p class="movetag">&#x2713; Recoil <small>(boosted by Reckless)</small></p>`;
 			}
@@ -754,7 +830,7 @@ class BattleTooltips {
 				text += `<p class="movetag">&#x2713; Bullet-like <small>(doesn't affect Bulletproof pokemon)</small></p>`;
 			}
 			if (move.flags.slicing) {
-				text += `<p class="movetag">&#x2713; Slicing <small>(boosted by Sharpness)</small></p>`;
+				text += `<p class="movetag">&#x2713; Slicing <small>(boosted by Sharpness and Blademaster)</small></p>`;
 			}
 			if (move.flags.wind) {
 				text += `<p class="movetag">&#x2713; Wind <small>(activates Wind Power and Wind Rider)</small></p>`;
@@ -869,10 +945,10 @@ class BattleTooltips {
 			let itemEffect = '';
 			if (clientPokemon?.prevItem) {
 				item = 'None';
-				let prevItem = Dex.items.get(clientPokemon.prevItem).name;
+				let prevItem = this.battle.dex.items.get(clientPokemon.prevItem).name;
 				itemEffect += clientPokemon.prevItemEffect ? prevItem + ' was ' + clientPokemon.prevItemEffect : 'was ' + prevItem;
 			}
-			if (serverPokemon.item) item = Dex.items.get(serverPokemon.item).name;
+			if (serverPokemon.item) item = this.battle.dex.items.get(serverPokemon.item).name;
 			if (itemEffect) itemEffect = ' (' + itemEffect + ')';
 			if (item) itemText = '<small>Item:</small> ' + item + itemEffect;
 		} else if (clientPokemon) {
@@ -881,10 +957,10 @@ class BattleTooltips {
 			if (clientPokemon.prevItem) {
 				item = 'None';
 				if (itemEffect) itemEffect += '; ';
-				let prevItem = Dex.items.get(clientPokemon.prevItem).name;
+				let prevItem = this.battle.dex.items.get(clientPokemon.prevItem).name;
 				itemEffect += clientPokemon.prevItemEffect ? prevItem + ' was ' + clientPokemon.prevItemEffect : 'was ' + prevItem;
 			}
-			if (pokemon.item) item = Dex.items.get(pokemon.item).name;
+			if (pokemon.item) item = this.battle.dex.items.get(pokemon.item).name;
 			if (itemEffect) itemEffect = ' (' + itemEffect + ')';
 			if (item) itemText = '<small>Item:</small> ' + item + itemEffect;
 		}
@@ -907,7 +983,7 @@ class BattleTooltips {
 			text += `<p class="section">`;
 			const battlePokemon = clientPokemon || this.battle.findCorrespondingPokemon(pokemon);
 			for (const moveid of serverPokemon.moves) {
-				const move = Dex.moves.get(moveid);
+				const move = this.battle.dex.moves.get(moveid);
 				let moveName = `&#8226; ${move.name}`;
 				if (battlePokemon?.moveTrack) {
 					for (const row of battlePokemon.moveTrack) {
@@ -1017,6 +1093,8 @@ class BattleTooltips {
 		if (pokemon.status) {
 			if (this.battle.gen > 2 && ability === 'guts') {
 				stats.atk = Math.floor(stats.atk * 1.5);
+			} else if (ability === 'flareheal') {
+				// Skip modification for flare heal
 			} else if (this.battle.gen < 2 && pokemon.status === 'brn') {
 				stats.atk = Math.floor(stats.atk * 0.5);
 			}
@@ -1044,7 +1122,7 @@ class BattleTooltips {
 			item = '' as ID;
 		}
 
-		const species = Dex.species.get(serverPokemon.speciesForme).baseSpecies;
+		const species = this.battle.dex.species.get(serverPokemon.speciesForme).baseSpecies;
 		const isTransform = clientPokemon?.volatiles.transform;
 		const speciesName = isTransform && clientPokemon?.volatiles.formechange?.[1] && this.battle.gen <= 4 ?
 			this.battle.dex.species.get(clientPokemon.volatiles.formechange[1]).baseSpecies : species;
@@ -1053,15 +1131,40 @@ class BattleTooltips {
 
 		// check for light ball, thick club, metal/quick powder
 		// the only stat modifying items in gen 2 were light ball, thick club, metal powder
-		if (item === 'lightball' && speciesName === 'Pikachu' && this.battle.gen !== 4) {
-			if (this.battle.gen > 4) stats.atk *= 2;
-			stats.spa *= 2;
+		if (item === 'lightball') {
+			if (species === 'Pikachu' || species === 'Ampstar') {
+				if (this.battle.gen >= 4) stats.atk *= 2;
+				stats.spa *= 2;
+			} else if (species === 'Pikotton') {
+				stats.spa *= 2;
+			} else if (speciesName === 'Blobbos-Pika') {
+				stats.atk *= 2;
+				stats.spa *= 2;
+			}
 		}
 
 		if (item === 'thickclub') {
 			if (speciesName === 'Marowak' || speciesName === 'Cubone') {
 				stats.atk *= 2;
 			}
+		}
+
+		if (item === 'thiccbone') {
+			if (species === 'Masdawg' || species === 'Pasdawg' || species === 'Naughtycoot') {
+				stats.atk *= 2;
+			}
+		}
+
+		if (item === 'bigfaggot' && species === 'Flameboyan') {
+			stats.spa *= 2;
+		}
+
+		if (item === 'baconstrip' && species === 'Urswine') {
+			stats.spd *= 2;
+		}
+
+		if (item === 'suedeshoes' && species === 'Pretzely') {
+			stats.spe *= 2;
 		}
 
 		if (speciesName === 'Ditto' && !(clientPokemon && 'transform' in clientPokemon.volatiles)) {
@@ -1095,7 +1198,24 @@ class BattleTooltips {
 		if (ability === 'purepower' || ability === 'hugepower') {
 			stats.atk *= 2;
 		}
-		if (ability === 'hustle' || (ability === 'gorillatactics' && !clientPokemon?.volatiles['dynamax'])) {
+		if (ability === 'bigbrain') {
+			stats.spa *= 2;
+		}
+		if (ability === 'asoneblobbos') {
+			stats.atk *= 4;
+		}
+		if (item === 'tumultuoustibia') {
+			if (speciesName === 'Blobbos-Skeleton') {
+				stats.atk *= 2;
+			}
+		}
+		if (item === 'mascotsorb') {
+			if (speciesName === 'Blobbos-Pika') {
+				stats.atk *= 2;
+				stats.spa *= 2;
+			}
+		}
+		if (ability === 'hustle' || (ability === 'gorillatactics' && !clientPokemon?.volatiles['dynamax']) || (ability === 'boardpowerv')) {
 			stats.atk = Math.floor(stats.atk * 1.5);
 		}
 		if (weather) {
@@ -1177,6 +1297,15 @@ class BattleTooltips {
 			stats.def = Math.floor(stats.def * 1.5);
 			stats.spd = Math.floor(stats.spd * 1.5);
 		}
+		if (item === 'skub') {
+			if (speciesName === 'Skub') {
+				stats.def *= 1.5;
+				stats.spd *= 1.5;
+			} else if (speciesName === 'Skub-Anti') {
+				stats.atk *= 1.5;
+				stats.spa *= 1.5;
+			}
+		}
 		if (ability === 'grasspelt' && this.battle.hasPseudoWeather('Grassy Terrain')) {
 			stats.def = Math.floor(stats.def * 1.5);
 		}
@@ -1251,8 +1380,14 @@ class BattleTooltips {
 		if (sideConditions['tailwind']) {
 			speedModifiers.push(2);
 		}
+		if (sideConditions['backdraft']) {
+			speedModifiers.push(2);
+		}
 		if (sideConditions['grasspledge']) {
 			speedModifiers.push(0.25);
+		}
+		if (sideConditions['maplewarrior']) {
+			speedModifiers.push(1.2);
 		}
 
 		let chainedSpeedModifier = 1;
@@ -1269,6 +1404,34 @@ class BattleTooltips {
 			} else {
 				stats.spe = Math.floor(stats.spe * 0.25);
 			}
+		}
+
+		if (clientPokemon?.volatiles['agile']) {
+			stats.spe = Math.floor(stats.spe * 1.25);
+		} else if (clientPokemon?.volatiles['strong']) {
+			stats.spe = Math.floor(stats.spe * 0.75);
+		}
+
+		if (clientPokemon?.volatiles['colorboost']) {
+			stats.atk = Math.floor(stats.atk * 1.25);
+		}
+
+		/** Wack item additions */
+
+		if (item === 'choicecloak' && !clientPokemon?.volatiles['dynamax']) {
+			stats.spd = Math.floor(stats.spd * 1.5);
+		}
+		if (item === 'choicejacket' && !clientPokemon?.volatiles['dynamax']) {
+			stats.def = Math.floor(stats.def * 1.5);
+		}
+
+		if (item === 'eviolate' && isNFE) {
+			stats.atk = Math.floor(stats.atk * 1.5);
+			stats.spa = Math.floor(stats.spa * 1.5);
+		}
+
+		if (item === 'eviocicle' && isNFE) {
+			stats.spe = Math.floor(stats.spe * 1.5);
 		}
 
 		return stats;
@@ -1331,7 +1494,7 @@ class BattleTooltips {
 			maxpp = 5;
 		} else {
 			move = this.battle.dex.moves.get(moveName);
-			maxpp = (move.pp === 1 || move.noPPBoosts ? move.pp : move.pp * 8 / 5);
+			maxpp = (move.pp === 1 || move.noPPBoosts ? move.pp : Math.floor(move.pp * 8 / 5));
 			if (this.battle.gen < 3) maxpp = Math.min(61, maxpp);
 		}
 		const bullet = moveName.charAt(0) === '*' || move.isZ ? '<span style="color:#888">&#8226;</span>' : '&#8226;';
@@ -1407,11 +1570,11 @@ class BattleTooltips {
 
 		let pokemonTypes = pokemon.getTypeList(serverPokemon);
 		value.reset();
-		if (move.id === 'revelationdance') {
+		if (move.id === 'revelationdance' || move.id === 'jacsmack') {
 			moveType = pokemonTypes[0];
 		}
 		// Moves that require an item to change their type.
-		let item = Dex.items.get(value.itemName);
+		let item = this.battle.dex.items.get(value.itemName);
 		if (move.id === 'multiattack' && item.onMemory) {
 			if (value.itemModify(0)) moveType = item.onMemory;
 		}
@@ -1423,6 +1586,169 @@ class BattleTooltips {
 		}
 		if (move.id === 'naturalgift' && item.naturalGift) {
 			if (value.itemModify(0)) moveType = item.naturalGift.type;
+		}
+		if (category === 'Physical' || category === 'Special') {
+			switch (item.id) {
+			case 'blooddust':
+				if (value.itemModify(0)) moveType = 'Blood';
+				break;
+			case 'bonedust':
+				if (value.itemModify(0)) moveType = 'Bone';
+				break;
+			case 'bugdust':
+				if (value.itemModify(0)) moveType = 'Bug';
+				break;
+			case 'chaosdust':
+				if (value.itemModify(0)) moveType = 'Chaos';
+				break;
+			case 'cosmicdust':
+				if (value.itemModify(0)) moveType = 'Cosmic';
+				break;
+			case 'crystaldust':
+				if (value.itemModify(0)) moveType = 'Crystal';
+				break;
+			case 'cyberdust':
+				if (value.itemModify(0)) moveType = 'Cyber';
+				break;
+			case 'darkdust':
+				if (value.itemModify(0)) moveType = 'Dark';
+				break;
+			case 'divinedust':
+				if (value.itemModify(0)) moveType = 'Divine';
+				break;
+			case 'dragondust':
+				if (value.itemModify(0)) moveType = 'Dragon';
+				break;
+			case 'electricdust':
+				if (value.itemModify(0)) moveType = 'Electric';
+				break;
+			case 'fabricdust':
+				if (value.itemModify(0)) moveType = 'Fabric';
+				break;
+			case 'fairydust':
+				if (value.itemModify(0)) moveType = 'Fairy';
+				break;
+			case 'feardust':
+				if (value.itemModify(0)) moveType = 'Fear';
+				break;
+			case 'fightingdust':
+				if (value.itemModify(0)) moveType = 'Fighting';
+				break;
+			case 'firedust':
+				if (value.itemModify(0)) moveType = 'Fire';
+				break;
+			case 'flyingdust':
+				if (value.itemModify(0)) moveType = 'Flying';
+				break;
+			case 'fooddust':
+				if (value.itemModify(0)) moveType = 'Food';
+				break;
+			case 'ghostdust':
+				if (value.itemModify(0)) moveType = 'Ghost';
+				break;
+			case 'glassdust':
+				if (value.itemModify(0)) moveType = 'Glass';
+				break;
+			case 'grassdust':
+				if (value.itemModify(0)) moveType = 'Grass';
+				break;
+			case 'greasydust':
+				if (value.itemModify(0)) moveType = 'Greasy';
+				break;
+			case 'grounddust':
+				if (value.itemModify(0)) moveType = 'Ground';
+				break;
+			case 'heartdust':
+				if (value.itemModify(0)) moveType = 'Heart';
+				break;
+			case 'icedust':
+				if (value.itemModify(0)) moveType = 'Ice';
+				break;
+			case 'lightdust':
+				if (value.itemModify(0)) moveType = 'Light';
+				break;
+			case 'magicdust':
+				if (value.itemModify(0)) moveType = 'Magic';
+				break;
+			case 'magmadust':
+				if (value.itemModify(0)) moveType = 'Magma';
+				break;
+			case 'memedust':
+				if (value.itemModify(0)) moveType = 'Meme';
+				break;
+			case 'normaldust':
+				if (value.itemModify(0)) moveType = 'Normal';
+				break;
+			case 'nucleardust':
+				if (value.itemModify(0)) moveType = 'Nuclear';
+				break;
+			case 'ogredust':
+				if (value.itemModify(0)) moveType = 'Ogre';
+				break;
+			case 'paintdust':
+				if (value.itemModify(0)) moveType = 'Paint';
+				break;
+			case 'paperdust':
+				if (value.itemModify(0)) moveType = 'Paper';
+				break;
+			case 'plasticdust':
+				if (value.itemModify(0)) moveType = 'Plastic';
+				break;
+			case 'poisondust':
+				if (value.itemModify(0)) moveType = 'Poison';
+				break;
+			case 'psychicdust':
+				if (value.itemModify(0)) moveType = 'Psychic';
+				break;
+			case 'qmarksdust':
+				if (value.itemModify(0)) moveType = 'Qmarks';
+				break;
+			case 'rockdust':
+				if (value.itemModify(0)) moveType = 'Rock';
+				break;
+			case 'rubberdust':
+				if (value.itemModify(0)) moveType = 'Rubber';
+				break;
+			case 'shadowdust':
+				if (value.itemModify(0)) moveType = 'Shadow';
+				break;
+			case 'sounddust':
+				if (value.itemModify(0)) moveType = 'Sound';
+				break;
+			case 'steamdust':
+				if (value.itemModify(0)) moveType = 'Steam';
+				break;
+			case 'steeldust':
+				if (value.itemModify(0)) moveType = 'Steel';
+				break;
+			case 'techdust':
+				if (value.itemModify(0)) moveType = 'Tech';
+				break;
+			case 'timedust':
+				if (value.itemModify(0)) moveType = 'Time';
+				break;
+			case 'virusdust':
+				if (value.itemModify(0)) moveType = 'Virus';
+				break;
+			case 'voiddust':
+				if (value.itemModify(0)) moveType = 'Void';
+				break;
+			case 'wackdust':
+				if (value.itemModify(0)) moveType = 'Wack';
+				break;
+			case 'waterdust':
+				if (value.itemModify(0)) moveType = 'Water';
+				break;
+			case 'winddust':
+				if (value.itemModify(0)) moveType = 'Wind';
+				break;
+			case 'wooddust':
+				if (value.itemModify(0)) moveType = 'Wood';
+				break;
+			case 'zombiedust':
+				if (value.itemModify(0)) moveType = 'Zombie';
+				break;
+			}
 		}
 		// Weather and pseudo-weather type changes.
 		if (move.id === 'weatherball' && value.weatherModify(0)) {
@@ -1443,6 +1769,15 @@ class BattleTooltips {
 			case 'hail':
 			case 'snow':
 				moveType = 'Ice';
+				break;
+			case 'acidrain':
+				moveType = 'Poison';
+				break;
+			case 'midnight':
+				moveType = 'Ghost';
+				break;
+			case 'bladerain':
+				moveType = 'Steel';
 				break;
 			}
 		}
@@ -1498,6 +1833,7 @@ class BattleTooltips {
 		const noTypeOverride = [
 			'judgment', 'multiattack', 'naturalgift', 'revelationdance', 'struggle', 'technoblast', 'terrainpulse', 'weatherball',
 		];
+
 		const allowTypeOverride = !noTypeOverride.includes(move.id) && (move.id !== 'terablast' || !pokemon.terastallized);
 		if (allowTypeOverride) {
 			if (this.battle.rules['Revelationmons Mod']) {
@@ -1515,8 +1851,22 @@ class BattleTooltips {
 					if (value.abilityModify(0, 'Galvanize')) moveType = 'Electric';
 					if (value.abilityModify(0, 'Pixilate')) moveType = 'Fairy';
 					if (value.abilityModify(0, 'Refrigerate')) moveType = 'Ice';
+					if (value.abilityModify(0, 'Degenerate')) moveType = 'Dark';
+					if (value.abilityModify(0, 'He Will Be Dragon')) moveType = 'Dragon';
+					if (value.abilityModify(0, 'Windate')) moveType = 'Wind';
+					if (value.abilityModify(0, 'Immolate')) moveType = 'Fire';
+					if (value.abilityModify(0, 'Magicate')) moveType = 'Magic';
+					if (value.abilityModify(0, 'Evaporate')) moveType = 'Steam';
+					if (value.abilityModify(0, 'Martialate')) moveType = 'Fighting';
+					if (value.abilityModify(0, 'Hydrate')) moveType = 'Water';
+					if (value.abilityModify(0, 'Ionate')) moveType = 'Electric';
+					if (value.abilityModify(0, 'Thunderstorm')) moveType = 'Electric';
 				}
 				if (value.abilityModify(0, 'Normalize')) moveType = 'Normal';
+				if (value.abilityModify(0, 'Wacky')) moveType = 'Wack';
+				if (move.flags.sound) {
+					if (value.abilityModify(0, 'Ghost Note')) moveType = 'Ghost';
+				}
 			}
 
 			// There aren't any max moves with the sound flag, but if there were, Liquid Voice would make them water type
@@ -1556,6 +1906,9 @@ class BattleTooltips {
 			value.weatherModify(0, 'Primordial Sea');
 		}
 		value.abilityModify(0, 'No Guard');
+		if (move.flags.kick) {
+			value.abilityModify(0, 'Striker');
+		}
 		if (!value.value) return value;
 
 		// OHKO moves don't use standard accuracy / evasion modifiers
@@ -1588,7 +1941,8 @@ class BattleTooltips {
 			accuracyModifiers.push(6840);
 			value.modify(5 / 3, "Gravity");
 		}
-
+		value.abilityModify(1.3, "Compound Eyes");
+		value.abilityModify(1.3, "Illuminate");
 		for (const active of pokemon.side.active) {
 			if (!active || active.fainted) continue;
 			const ability = this.getAllyAbility(active);
@@ -1625,6 +1979,14 @@ class BattleTooltips {
 		if (move.id === 'hurricane' || move.id === 'thunder') {
 			if (value.tryWeather('Sunny Day')) value.set(50, 'Sunny Day');
 			if (value.tryWeather('Desolate Land')) value.set(50, 'Desolate Land');
+		}
+
+		if (value.tryWeather('Dense Fog')) {
+			value.modify(3 / 5, 'Dense Fog');
+
+			if (value.tryAbility('Fog of War')) {
+				value.modify(2, 'Fog of War');
+			}
 		}
 
 		// Chained modifiers round down on 0.5
@@ -1805,7 +2167,7 @@ class BattleTooltips {
 		}
 		// Moves which have base power changed due to items
 		if (serverPokemon.item) {
-			let item = Dex.items.get(serverPokemon.item);
+			let item = this.battle.dex.items.get(serverPokemon.item);
 			if (move.id === 'fling' && item.fling) {
 				value.itemModify(item.fling.basePower);
 			}
@@ -1872,7 +2234,7 @@ class BattleTooltips {
 			value.abilityModify(1.5, "Toxic Boost");
 		}
 		if (this.battle.gen > 2 && serverPokemon.status === 'brn' && move.id !== 'facade' && move.category === 'Physical') {
-			if (!value.tryAbility("Guts")) value.modify(0.5, 'Burn');
+			if (!value.tryAbility("Guts") || !value.tryAbility("Flare Heal")) value.modify(0.5, 'Burn');
 		}
 		if (['Rock', 'Ground', 'Steel'].includes(moveType) && this.battle.weather === 'sandstorm') {
 			if (value.tryAbility("Sand Force")) value.weatherModify(1.3, "Sandstorm", "Sand Force");
@@ -1888,6 +2250,7 @@ class BattleTooltips {
 		}
 		if (move.flags['slicing']) {
 			value.abilityModify(1.5, "Sharpness");
+			value.abilityModify(1.2, 'Blademaster');
 		}
 		for (let i = 1; i <= 5 && i <= pokemon.side.faintCounter; i++) {
 			if (pokemon.volatiles[`fallen${i}`]) {
@@ -1914,13 +2277,32 @@ class BattleTooltips {
 				value.abilityModify(this.battle.gen > 6 ? 1.2 : 1.3, "Galvanize");
 				value.abilityModify(this.battle.gen > 6 ? 1.2 : 1.3, "Pixilate");
 				value.abilityModify(this.battle.gen > 6 ? 1.2 : 1.3, "Refrigerate");
+				value.abilityModify(this.battle.gen > 6 ? 1.2 : 1.3, "Degenerate");
+				value.abilityModify(this.battle.gen > 6 ? 1.2 : 1.3, "He Will Be Dragon");
 			}
 			if (this.battle.gen > 6) {
 				value.abilityModify(1.2, "Normalize");
 			}
 		}
+		if (move.flags['kick']) {
+			value.abilityModify(1.2, 'Striker');
+		}
+		if (move.flags['hammer']) {
+			value.abilityModify(1.2, 'Admin Abuse');
+		}
 		if (move.recoil || move.hasCrashDamage) {
 			value.abilityModify(1.2, 'Reckless');
+		}
+		if (move.type === 'Poison') {
+			value.abilityModify(1.5, 'Pozzed');
+		}
+		if (move.type === 'Ghost') {
+			value.abilityModify(1.5, 'Phantasma');
+		}
+		if (pokemon?.volatiles['agile']) {
+			value.abilityModify(0.75, 'Ancient Style');
+		} else if (pokemon?.volatiles['strong']) {
+			value.abilityModify(1.25, 'Ancient Style');
 		}
 
 		if (move.category !== 'Status') {
@@ -2034,6 +2416,8 @@ class BattleTooltips {
 		'Soft Sand': 'Ground',
 		'Spell Tag': 'Ghost',
 		'Twisted Spoon': 'Psychic',
+		'Katana': 'Steel',
+		'Cute Bow': 'Fairy',
 	};
 	static orbUsers: {[speciesForme: string]: string[]} = {
 		'Latias': ['Soul Dew'],
@@ -2107,10 +2491,20 @@ class BattleTooltips {
 			return value;
 		}
 
+		if (item.name === 'Manifesto' && this.battle.dex.species.get(value.serverPokemon.speciesForme).baseSpecies === 'Walruskie' && ['Steel', 'Ice'].includes(moveType)) {
+			value.itemModify(1.5);
+			return value;
+		}
+
+		if (item.name === "Pirate's Jug" && this.battle.dex.species.get(value.serverPokemon.speciesForme).baseSpecies === 'Octai' && moveName === 'Lactose Shot') {
+			value.itemModify(2);
+			return value;
+		}
+
 		// Gems
 		if (BattleTooltips.noGemMoves.includes(moveName)) return value;
 		if (itemName === moveType + ' Gem') {
-			value.itemModify(this.battle.gen < 6 ? 1.5 : 1.3);
+			value.itemModify(this.battle.gen < 6 ? 1.5 : this.battle.gen === 8 ? 1.5 : 1.3);
 			return value;
 		}
 
@@ -2138,13 +2532,13 @@ class BattleTooltips {
 	}
 	getAllyAbility(ally: Pokemon) {
 		// this will only be available if the ability announced itself in some way
-		let allyAbility = Dex.abilities.get(ally.ability).name;
+		let allyAbility = this.battle.dex.abilities.get(ally.ability).name;
 		// otherwise fall back on the original set data sent from the server
 		if (!allyAbility) {
 			if (this.battle.myAllyPokemon) { // multi battle ally
-				allyAbility = Dex.abilities.get(this.battle.myAllyPokemon[ally.slot].ability).name;
+				allyAbility = this.battle.dex.abilities.get(this.battle.myAllyPokemon[ally.slot].ability || '').name;
 			} else if (this.battle.myPokemon) {
-				allyAbility = Dex.abilities.get(this.battle.myPokemon[ally.slot].ability).name;
+				allyAbility = this.battle.dex.abilities.get(this.battle.myPokemon[ally.slot].ability || '').name;
 			}
 		}
 		return allyAbility;
@@ -2189,12 +2583,12 @@ class BattleTooltips {
 		if (!isActive) {
 			// for switch tooltips, only show the original ability
 			const ability = abilityData.baseAbility || abilityData.ability;
-			if (ability) text = '<small>Ability:</small> ' + Dex.abilities.get(ability).name;
+			if (ability) text = '<small>Ability:</small> ' + this.battle.dex.abilities.get(ability).name;
 		} else {
 			if (abilityData.ability) {
-				const abilityName = Dex.abilities.get(abilityData.ability).name;
+				const abilityName = this.battle.dex.abilities.get(abilityData.ability).name;
 				text = '<small>Ability:</small> ' + abilityName;
-				const baseAbilityName = Dex.abilities.get(abilityData.baseAbility).name;
+				const baseAbilityName = this.battle.dex.abilities.get(abilityData.baseAbility).name;
 				if (baseAbilityName && baseAbilityName !== abilityName) text += ' (base: ' + baseAbilityName + ')';
 			}
 		}
@@ -2259,7 +2653,21 @@ class BattleStatGuesser {
 
 	constructor(formatid: ID) {
 		this.formatid = formatid;
-		this.dex = formatid ? Dex.mod(formatid.slice(0, 4) as ID) : Dex;
+		let gen = +formatid.slice(3,4)
+		if (Number.isNaN(gen)) {
+			gen = 8;
+		}
+		const modMatch = this.formatid.match(/^gen(\d+)([a-z]+)(only|nationaldex)/);
+		if (modMatch) {
+			const [, genNumber, modName, modified] = modMatch;
+			if (!Number.isNaN(parseInt(genNumber, 10))) {
+				gen = parseInt(genNumber, 10);
+			}
+			this.dex = Dex.mod(gen, `${modName}${modified === 'only' ? 'only' : 'natdex'}` as ID);
+		} else {
+			this.dex = formatid ? Dex.mod(8) : Dex;
+		}
+
 		this.ignoreEVLimits = (
 			this.dex.gen < 3 ||
 			((this.formatid.endsWith('hackmons') || this.formatid.endsWith('bh')) && this.dex.gen !== 6) ||

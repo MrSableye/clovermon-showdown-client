@@ -343,7 +343,7 @@
 
 		// abilities
 		if (gen >= 3) {
-			var abilities = Dex.forGen(gen).species.get(id).abilities;
+			var abilities = (this.engine.dex || Dex.forGen(gen)).species.get(id).abilities;
 			if (gen >= 5) {
 				if (abilities['1']) {
 					buf += '<span class="col twoabilitycol">' + abilities['0'] + '<br />' +
@@ -488,7 +488,7 @@
 		}
 
 		// desc
-		buf += '<span class="col itemdesccol">' + BattleLog.escapeHTML(item.shortDesc) + '</span> ';
+		buf += '<span class="col teambuildercol teambuildercol itemdesccol">' + BattleLog.escapeHTML(item.shortDesc) + '</span> ';
 
 		buf += '</a></li>';
 
@@ -514,7 +514,7 @@
 			return buf;
 		}
 
-		buf += '<span class="col abilitydesccol">' + BattleLog.escapeHTML(ability.shortDesc) + '</span> ';
+		buf += '<span class="col teambuildercol abilitydesccol">' + BattleLog.escapeHTML(ability.shortDesc) + '</span> ';
 
 		buf += '</a></li>';
 
@@ -560,14 +560,14 @@
 		buf += '</span> ';
 
 		// power, accuracy, pp
-		var pp = (move.pp === 1 || move.noPPBoosts ? move.pp : move.pp * 8 / 5);
+		var pp = (move.pp === 1 || move.noPPBoosts ? move.pp : Math.floor(move.pp * 8 / 5));
 		if (this.engine && this.engine.dex.gen < 3) pp = Math.min(61, pp);
 		buf += '<span class="col labelcol">' + (move.category !== 'Status' ? ('<em>Power</em><br />' + (move.basePower || '&mdash;')) : '') + '</span> ';
 		buf += '<span class="col widelabelcol"><em>Accuracy</em><br />' + (move.accuracy && move.accuracy !== true ? move.accuracy + '%' : '&mdash;') + '</span> ';
 		buf += '<span class="col pplabelcol"><em>PP</em><br />' + pp + '</span> ';
 
 		// desc
-		buf += '<span class="col movedesccol">' + BattleLog.escapeHTML(move.shortDesc) + '</span> ';
+		buf += '<span class="col teambuildercol movedesccol">' + BattleLog.escapeHTML(move.shortDesc) + '</span> ';
 
 		buf += '</a></li>';
 
@@ -597,14 +597,14 @@
 		buf += '</span> ';
 
 		// power, accuracy, pp
-		var pp = (move.pp === 1 || move.noPPBoosts ? move.pp : move.pp * 8 / 5);
+		var pp = (move.pp === 1 || move.noPPBoosts ? move.pp : Math.floor(move.pp * 8 / 5));
 		if (this.engine && this.engine.dex.gen < 3) pp = Math.min(61, pp);
 		buf += '<span class="col labelcol">' + (move.category !== 'Status' ? ('<em>Power</em><br />' + (move.basePower || '&mdash;')) : '') + '</span> ';
 		buf += '<span class="col widelabelcol"><em>Accuracy</em><br />' + (move.accuracy && move.accuracy !== true ? move.accuracy + '%' : '&mdash;') + '</span> ';
 		buf += '<span class="col pplabelcol"><em>PP</em><br />' + pp + '</span> ';
 
 		// desc
-		buf += '<span class="col movedesccol">' + BattleLog.escapeHTML(move.shortDesc || move.desc) + '</span> ';
+		buf += '<span class="col teambuildercol movedesccol">' + BattleLog.escapeHTML(move.shortDesc || move.desc) + '</span> ';
 
 		buf += '</a>';
 
@@ -638,10 +638,10 @@
 		// power, accuracy, pp
 		buf += '<span class="col labelcol">' + (move.category !== 'Status' ? ('<em>Power</em><br />' + (move.basePower || '&mdash;')) : '') + '</span> ';
 		buf += '<span class="col widelabelcol"><em>Accuracy</em><br />' + (move.accuracy && move.accuracy !== true ? move.accuracy + '%' : '&mdash;') + '</span> ';
-		buf += '<span class="col pplabelcol"><em>PP</em><br />' + (move.pp !== 1 ? move.pp * 8 / 5 : move.pp) + '</span> ';
+		buf += '<span class="col pplabelcol"><em>PP</em><br />' + (move.pp !== 1 ? Math.floor(move.pp * 8 / 5) : move.pp) + '</span> ';
 
 		// desc
-		buf += '<span class="col movedesccol">' + BattleLog.escapeHTML(move.shortDesc || move.desc) + '</span> ';
+		buf += '<span class="col teambuildercol movedesccol">' + BattleLog.escapeHTML(move.shortDesc || move.desc) + '</span> ';
 
 		buf += '</a></li>';
 
@@ -716,9 +716,9 @@
 
 		// article
 		if (isSearchType) {
-			buf += '<span class="col movedesccol">(search type)</span> ';
+			buf += '<span class="col teambuildercol movedesccol">(search type)</span> ';
 		} else {
-			buf += '<span class="col movedesccol">(article)</span> ';
+			buf += '<span class="col teambuildercol movedesccol">(article)</span> ';
 		}
 
 		// error

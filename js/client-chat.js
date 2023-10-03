@@ -1069,6 +1069,12 @@
 				}
 				return false;
 
+			case 'nowplaying':
+				if (this.battle && this.battle.scene && this.battle.scene.bgm && this.battle.scene.bgm.url) {
+					this.add(this.battle.scene.bgm.url + ' is playing.');
+				}
+				return false;
+
 			// documentation of client commands
 			case 'help':
 			case 'h':
@@ -1402,6 +1408,8 @@
 					var id = row[1];
 					name = row[2];
 					name2 = row[3];
+					name3 = row[4];
+					name4 = row[5];
 					silent = (row[0] === 'B');
 
 					var matches = ChatRoom.parseBattleID(id);
@@ -1418,7 +1426,19 @@
 						battletype = format + ' battle';
 						if (format === 'Random Battle') battletype = 'Random Battle';
 					}
-					this.$chat.append('<div class="notice"><a href="' + app.root + id + '" class="ilink">' + battletype + ' started between <strong style="' + BattleLog.hashColor(toUserid(name)) + '">' + BattleLog.escapeHTML(name) + '</strong> and <strong style="' + BattleLog.hashColor(toUserid(name2)) + '">' + BattleLog.escapeHTML(name2) + '</strong>.</a></div>');
+					var playerElements = [name, name2, name3, name4]
+						.filter((playerName) => (playerName !== null) && (playerName !== undefined))
+						.map((playerName) => '<strong style="' + BattleLog.hashColor(toUserid(playerName)) + '">' + BattleLog.escapeHTML(playerName) + '</strong>');
+					var playerList = '';
+					if (playerElements.length === 2) {
+						playerList = playerElements[0] + ' and ' + playerElements[1];
+					} else {
+						var allButLast = playerElements.slice(0, -1);
+						var last = playerElements.slice(-1);
+						playerList = allButLast.join(', ');
+						playerList += ' and ' + last;
+					}
+					this.$chat.append('<div class="notice"><a href="' + app.root + id + '" class="ilink">' + battletype + ' started between ' + playerList + '</a></div>');
 					break;
 
 				case 'j':

@@ -8,18 +8,18 @@ const child_process = require("child_process");
 const rootDir = path.resolve(__dirname, '..');
 process.chdir(rootDir);
 
-if (!fs.existsSync('data/pokemon-showdown')) {
-	child_process.execSync('git clone https://github.com/smogon/pokemon-showdown.git', {
+if (!fs.existsSync('data/clovermon-showdown')) {
+	child_process.execSync('git clone https://github.com/showderp/clovermon-showdown.git', {
 		cwd: 'data',
 	});
 }
 
 process.stdout.write("Syncing data from Git repository... ");
-child_process.execSync('git pull', {cwd: 'data/pokemon-showdown'});
-child_process.execSync('npm run build', {cwd: 'data/pokemon-showdown'});
+child_process.execSync('git pull', {cwd: 'data/clovermon-showdown'});
+child_process.execSync('npm run build', {cwd: 'data/clovermon-showdown'});
 console.log("DONE");
 
-const Dex = require('../data/pokemon-showdown/dist/sim/dex').Dex;
+const Dex = require('../data/clovermon-showdown/dist/sim/dex').Dex;
 const toID = Dex.toID;
 process.stdout.write("Loading gen 6 data... ");
 Dex.includeData();
@@ -37,6 +37,8 @@ function requireNoCache(pathSpec) {
 	return require(pathSpec);
 }
 
+const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { modGen: 8, mod: 'cloverblobboscap' }, { modGen: 8, mod: 'sandbox' }, {modGen: 8, mod: 'cope'}, {modGen: 8, mod: 'wack'}, {modGen: 8, mod: 'sburbmons'}];
+
 /*********************************************************
  * Build search-index.js
  *********************************************************/
@@ -46,11 +48,20 @@ function requireNoCache(pathSpec) {
 
 	let index = [];
 
+	let types = {};
+	for (const {mod} of MODS) {
+		const modDex = Dex.mod(mod);
+		const modData = modDex.data;
+		for (const type of Object.keys(modData.TypeChart)) {
+			types[type] = true;
+		}
+	}
+
 	index = index.concat(Object.keys(Dex.data.Pokedex).map(x => x + ' pokemon'));
 	index = index.concat(Object.keys(Dex.data.Moves).map(x => x + ' move'));
 	index = index.concat(Object.keys(Dex.data.Items).map(x => x + ' item'));
 	index = index.concat(Object.keys(Dex.data.Abilities).map(x => x + ' ability'));
-	index = index.concat(Object.keys(Dex.data.TypeChart).map(x => toID(x) + ' type'));
+	index = index.concat(Object.keys(types).map(x => toID(x) + ' type'));
 	index = index.concat(['physical', 'special', 'status'].map(x => toID(x) + ' category'));
 	index = index.concat(['monster', 'water1', 'bug', 'flying', 'field', 'fairy', 'grass', 'humanlike', 'water3', 'mineral', 'amorphous', 'water2', 'ditto', 'dragon', 'undiscovered'].map(x => toID(x) + ' egggroup'));
 	index = index.concat(['ou', 'uu', 'ru', 'nu', 'pu', 'lc', 'nfe', 'uber', 'uubl', 'rubl', 'nubl', 'publ', 'cap', 'caplc', 'capnfe'].map(x => toID(x) + ' tier'));
@@ -303,6 +314,710 @@ function requireNoCache(pathSpec) {
 	fs.writeFileSync('data/search-index.js', buf);
 }
 
+/*********************************************************
+ * Build battle-icons.js
+ *********************************************************/
+
+process.stdout.write("Building `data/battle-icons.js`... ");
+
+{
+	const BattlePokemonIconIndexes = {
+		egg: 1020 + 1,
+		pikachubelle: 1020 + 2,
+		pikachulibre: 1020 + 3,
+		pikachuphd: 1020 + 4,
+		pikachupopstar: 1020 + 5,
+		pikachurockstar: 1020 + 6,
+		pikachucosplay: 1020 + 7,
+		unownexclamation: 1020 + 8,
+		unownquestion: 1020 + 9,
+		unownb: 1020 + 10,
+		unownc: 1020 + 11,
+		unownd: 1020 + 12,
+		unowne: 1020 + 13,
+		unownf: 1020 + 14,
+		unowng: 1020 + 15,
+		unownh: 1020 + 16,
+		unowni: 1020 + 17,
+		unownj: 1020 + 18,
+		unownk: 1020 + 19,
+		unownl: 1020 + 20,
+		unownm: 1020 + 21,
+		unownn: 1020 + 22,
+		unowno: 1020 + 23,
+		unownp: 1020 + 24,
+		unownq: 1020 + 25,
+		unownr: 1020 + 26,
+		unowns: 1020 + 27,
+		unownt: 1020 + 28,
+		unownu: 1020 + 29,
+		unownv: 1020 + 30,
+		unownw: 1020 + 31,
+		unownx: 1020 + 32,
+		unowny: 1020 + 33,
+		unownz: 1020 + 34,
+		castformrainy: 1020 + 35,
+		castformsnowy: 1020 + 36,
+		castformsunny: 1020 + 37,
+		deoxysattack: 1020 + 38,
+		deoxysdefense: 1020 + 39,
+		deoxysspeed: 1020 + 40,
+		burmysandy: 1020 + 41,
+		burmytrash: 1020 + 42,
+		wormadamsandy: 1020 + 43,
+		wormadamtrash: 1020 + 44,
+		cherrimsunshine: 1020 + 45,
+		shelloseast: 1020 + 46,
+		gastrodoneast: 1020 + 47,
+		rotomfan: 1020 + 48,
+		rotomfrost: 1020 + 49,
+		rotomheat: 1020 + 50,
+		rotommow: 1020 + 51,
+		rotomwash: 1020 + 52,
+		giratinaorigin: 1020 + 53,
+		shayminsky: 1020 + 54,
+		unfezantf: 1020 + 55,
+		basculinbluestriped: 1020 + 56,
+		darmanitanzen: 1020 + 57,
+		deerlingautumn: 1020 + 58,
+		deerlingsummer: 1020 + 59,
+		deerlingwinter: 1020 + 60,
+		sawsbuckautumn: 1020 + 61,
+		sawsbucksummer: 1020 + 62,
+		sawsbuckwinter: 1020 + 63,
+		frillishf: 1020 + 64,
+		jellicentf: 1020 + 65,
+		tornadustherian: 1020 + 66,
+		thundurustherian: 1020 + 67,
+		landorustherian: 1020 + 68,
+		kyuremblack: 1020 + 69,
+		kyuremwhite: 1020 + 70,
+		keldeoresolute: 1020 + 71,
+		meloettapirouette: 1020 + 72,
+		vivillonarchipelago: 1020 + 73,
+		vivilloncontinental: 1020 + 74,
+		vivillonelegant: 1020 + 75,
+		vivillonfancy: 1020 + 76,
+		vivillongarden: 1020 + 77,
+		vivillonhighplains: 1020 + 78,
+		vivillonicysnow: 1020 + 79,
+		vivillonjungle: 1020 + 80,
+		vivillonmarine: 1020 + 81,
+		vivillonmodern: 1020 + 82,
+		vivillonmonsoon: 1020 + 83,
+		vivillonocean: 1020 + 84,
+		vivillonpokeball: 1020 + 85,
+		vivillonpolar: 1020 + 86,
+		vivillonriver: 1020 + 87,
+		vivillonsandstorm: 1020 + 88,
+		vivillonsavanna: 1020 + 89,
+		vivillonsun: 1020 + 90,
+		vivillontundra: 1020 + 91,
+		pyroarf: 1020 + 92,
+		flabebeblue: 1020 + 93,
+		flabebeorange: 1020 + 94,
+		flabebewhite: 1020 + 95,
+		flabebeyellow: 1020 + 96,
+		floetteblue: 1020 + 97,
+		floetteeternal: 1020 + 98,
+		floetteorange: 1020 + 99,
+		floettewhite: 1020 + 100,
+		floetteyellow: 1020 + 101,
+		florgesblue: 1020 + 102,
+		florgesorange: 1020 + 103,
+		florgeswhite: 1020 + 104,
+		florgesyellow: 1020 + 105,
+		furfroudandy: 1020 + 106,
+		furfroudebutante: 1020 + 107,
+		furfroudiamond: 1020 + 108,
+		furfrouheart: 1020 + 109,
+		furfroukabuki: 1020 + 110,
+		furfroulareine: 1020 + 111,
+		furfroumatron: 1020 + 112,
+		furfroupharaoh: 1020 + 113,
+		furfroustar: 1020 + 114,
+		meowsticf: 1020 + 115,
+		aegislashblade: 1020 + 116,
+		xerneasneutral: 1020 + 117,
+		hoopaunbound: 1020 + 118,
+		rattataalola: 1020 + 119,
+		raticatealola: 1020 + 120,
+		raichualola: 1020 + 121,
+		sandshrewalola: 1020 + 122,
+		sandslashalola: 1020 + 123,
+		vulpixalola: 1020 + 124,
+		ninetalesalola: 1020 + 125,
+		diglettalola: 1020 + 126,
+		dugtrioalola: 1020 + 127,
+		meowthalola: 1020 + 128,
+		persianalola: 1020 + 129,
+		geodudealola: 1020 + 130,
+		graveleralola: 1020 + 131,
+		golemalola: 1020 + 132,
+		grimeralola: 1020 + 133,
+		mukalola: 1020 + 134,
+		exeggutoralola: 1020 + 135,
+		marowakalola: 1020 + 136,
+		greninjaash: 1020 + 137,
+		zygarde10: 1020 + 138,
+		zygardecomplete: 1020 + 139,
+		oricoriopompom: 1020 + 140,
+		oricoriopau: 1020 + 141,
+		oricoriosensu: 1020 + 142,
+		lycanrocmidnight: 1020 + 143,
+		wishiwashischool: 1020 + 144,
+		miniormeteor: 1020 + 145,
+		miniororange: 1020 + 146,
+		minioryellow: 1020 + 147,
+		miniorgreen: 1020 + 148,
+		miniorblue: 1020 + 149,
+		miniorindigo: 1020 + 150,
+		miniorviolet: 1020 + 151,
+		magearnaoriginal: 1020 + 152,
+		pikachuoriginal: 1020 + 153,
+		pikachuhoenn: 1020 + 154,
+		pikachusinnoh: 1020 + 155,
+		pikachuunova: 1020 + 156,
+		pikachukalos: 1020 + 157,
+		pikachualola: 1020 + 158,
+		pikachupartner: 1020 + 159,
+		lycanrocdusk: 1020 + 160,
+		necrozmaduskmane: 1020 + 161,
+		necrozmadawnwings: 1020 + 162,
+		necrozmaultra: 1020 + 163,
+		pikachustarter: 1020 + 164,
+		eeveestarter: 1020 + 165,
+		meowthgalar: 1020 + 166,
+		ponytagalar: 1020 + 167,
+		rapidashgalar: 1020 + 168,
+		farfetchdgalar: 1020 + 169,
+		weezinggalar: 1020 + 170,
+		mrmimegalar: 1020 + 171,
+		corsolagalar: 1020 + 172,
+		zigzagoongalar: 1020 + 173,
+		linoonegalar: 1020 + 174,
+		darumakagalar: 1020 + 175,
+		darmanitangalar: 1020 + 176,
+		darmanitangalarzen: 1020 + 177,
+		yamaskgalar: 1020 + 178,
+		stunfiskgalar: 1020 + 179,
+		cramorantgulping: 1020 + 180,
+		cramorantgorging: 1020 + 181,
+		toxtricitylowkey: 1020 + 182,
+		sinisteaantique: 854,
+		polteageistantique: 855,
+		alcremierubycream: 1020 + 183,
+		alcremiematchacream: 1020 + 184,
+		alcremiemintcream: 1020 + 185,
+		alcremielemoncream: 1020 + 186,
+		alcremiesaltedcream: 1020 + 187,
+		alcremierubyswirl: 1020 + 188,
+		alcremiecaramelswirl: 1020 + 189,
+		alcremierainbowswirl: 1020 + 190,
+		eiscuenoice: 1020 + 191,
+		indeedeef: 1020 + 192,
+		morpekohangry: 1020 + 193,
+		zaciancrowned: 1020 + 194,
+		zamazentacrowned: 1020 + 195,
+		slowpokegalar: 1020 + 196,
+		slowbrogalar: 1020 + 197,
+		zarudedada: 1020 + 198,
+		pikachuworld: 1020 + 199,
+		articunogalar: 1020 + 200,
+		zapdosgalar: 1020 + 201,
+		moltresgalar: 1020 + 202,
+		slowkinggalar: 1020 + 203,
+		calyrexice: 1020 + 204,
+		calyrexshadow: 1020 + 205,
+		growlithehisui: 1020 + 206,
+		arcaninehisui: 1020 + 207,
+		voltorbhisui: 1020 + 208,
+		electrodehisui: 1020 + 209,
+		typhlosionhisui: 1020 + 210,
+		qwilfishhisui: 1020 + 211,
+		sneaselhisui: 1020 + 212,
+		samurotthisui: 1020 + 213,
+		lilliganthisui: 1020 + 214,
+		zoruahisui: 1020 + 215,
+		zoroarkhisui: 1020 + 216,
+		braviaryhisui: 1020 + 217,
+		sliggoohisui: 1020 + 218,
+		goodrahisui: 1020 + 219,
+		avalugghisui: 1020 + 220,
+		decidueyehisui: 1020 + 221,
+		basculegionf: 1020 + 222,
+		enamorustherian: 1020 + 223,
+		taurospaldea: 1020 + 224,
+		taurospaldeafire: 1020 + 225,
+		taurospaldeawater: 1020 + 226,
+		wooperpaldea: 1020 + 227,
+		oinkolognef: 1020 + 228,
+		palafinhero: 1020 + 229,
+		mausholdfour: 1020 + 230,
+		tatsugiridroopy: 1020 + 231,
+		tatsugiristretchy: 1020 + 232,
+		squawkabillyblue: 1020 + 233,
+		squawkabillyyellow: 1020 + 234,
+		squawkabillywhite: 1020 + 235,
+		gimmighoulroaming: 1020 + 236,
+		dialgaorigin: 1020 + 237,
+		palkiaorigin: 1020 + 238,
+		basculinwhitestriped: 1020 + 239,
+	
+		gumshoostotem: 735,
+		raticatealolatotem: 1020 + 120,
+		marowakalolatotem: 1020 + 136,
+		araquanidtotem: 752,
+		lurantistotem: 754,
+		salazzletotem: 758,
+		vikavolttotem: 738,
+		togedemarutotem: 777,
+		mimikyutotem: 778,
+		mimikyubustedtotem: 778,
+		ribombeetotem: 743,
+		kommoototem: 784,
+	
+		venusaurmega: 1260 + 0,
+		charizardmegax: 1260 + 1,
+		charizardmegay: 1260 + 2,
+		blastoisemega: 1260 + 3,
+		beedrillmega: 1260 + 4,
+		pidgeotmega: 1260 + 5,
+		alakazammega: 1260 + 6,
+		slowbromega: 1260 + 7,
+		gengarmega: 1260 + 8,
+		kangaskhanmega: 1260 + 9,
+		pinsirmega: 1260 + 10,
+		gyaradosmega: 1260 + 11,
+		aerodactylmega: 1260 + 12,
+		mewtwomegax: 1260 + 13,
+		mewtwomegay: 1260 + 14,
+		ampharosmega: 1260 + 15,
+		steelixmega: 1260 + 16,
+		scizormega: 1260 + 17,
+		heracrossmega: 1260 + 18,
+		houndoommega: 1260 + 19,
+		tyranitarmega: 1260 + 20,
+		sceptilemega: 1260 + 21,
+		blazikenmega: 1260 + 22,
+		swampertmega: 1260 + 23,
+		gardevoirmega: 1260 + 24,
+		sableyemega: 1260 + 25,
+		mawilemega: 1260 + 26,
+		aggronmega: 1260 + 27,
+		medichammega: 1260 + 28,
+		manectricmega: 1260 + 29,
+		sharpedomega: 1260 + 30,
+		cameruptmega: 1260 + 31,
+		altariamega: 1260 + 32,
+		banettemega: 1260 + 33,
+		absolmega: 1260 + 34,
+		glaliemega: 1260 + 35,
+		salamencemega: 1260 + 36,
+		metagrossmega: 1260 + 37,
+		latiasmega: 1260 + 38,
+		latiosmega: 1260 + 39,
+		kyogreprimal: 1260 + 40,
+		groudonprimal: 1260 + 41,
+		rayquazamega: 1260 + 42,
+		lopunnymega: 1260 + 43,
+		garchompmega: 1260 + 44,
+		lucariomega: 1260 + 45,
+		abomasnowmega: 1260 + 46,
+		gallademega: 1260 + 47,
+		audinomega: 1260 + 48,
+		dianciemega: 1260 + 49,
+		charizardgmax: 1260 + 50,
+		butterfreegmax: 1260 + 51,
+		pikachugmax: 1260 + 52,
+		meowthgmax: 1260 + 53,
+		machampgmax: 1260 + 54,
+		gengargmax: 1260 + 55,
+		kinglergmax: 1260 + 56,
+		laprasgmax: 1260 + 57,
+		eeveegmax: 1260 + 58,
+		snorlaxgmax: 1260 + 59,
+		garbodorgmax: 1260 + 60,
+		melmetalgmax: 1260 + 61,
+		corviknightgmax: 1260 + 62,
+		orbeetlegmax: 1260 + 63,
+		drednawgmax: 1260 + 64,
+		coalossalgmax: 1260 + 65,
+		flapplegmax: 1260 + 66,
+		appletungmax: 1260 + 67,
+		sandacondagmax: 1260 + 68,
+		toxtricitygmax: 1260 + 69,
+		toxtricitylowkeygmax: 1260 + 69,
+		centiskorchgmax: 1260 + 70,
+		hatterenegmax: 1260 + 71,
+		grimmsnarlgmax: 1260 + 72,
+		alcremiegmax: 1260 + 73,
+		copperajahgmax: 1260 + 74,
+		duraludongmax: 1260 + 75,
+		eternatuseternamax: 1260 + 76,
+		venusaurgmax: 1260 + 77,
+		blastoisegmax: 1260 + 78,
+		rillaboomgmax: 1260 + 79,
+		cinderacegmax: 1260 + 80,
+		inteleongmax: 1260 + 81,
+		urshifugmax: 1260 + 82,
+		urshifurapidstrikegmax: 1260 + 83,
+	
+		syclant: 1452 + 0,
+		revenankh: 1452 + 1,
+		pyroak: 1452 + 2,
+		fidgit: 1452 + 3,
+		stratagem: 1452 + 4,
+		arghonaut: 1452 + 5,
+		kitsunoh: 1452 + 6,
+		cyclohm: 1452 + 7,
+		colossoil: 1452 + 8,
+		krilowatt: 1452 + 9,
+		voodoom: 1452 + 10,
+		tomohawk: 1452 + 11,
+		necturna: 1452 + 12,
+		mollux: 1452 + 13,
+		aurumoth: 1452 + 14,
+		malaconda: 1452 + 15,
+		cawmodore: 1452 + 16,
+		volkraken: 1452 + 17,
+		plasmanta: 1452 + 18,
+		naviathan: 1452 + 19,
+		crucibelle: 1452 + 20,
+		crucibellemega: 1452 + 21,
+		kerfluffle: 1452 + 22,
+		pajantom: 1452 + 23,
+		jumbao: 1452 + 24,
+		caribolt: 1452 + 25,
+		smokomodo: 1452 + 26,
+		snaelstrom: 1452 + 27,
+		equilibra: 1452 + 28,
+		astrolotl: 1452 + 29,
+		miasmaw: 1452 + 30,
+		chromera: 1452 + 31,
+		venomicon: 1452 + 32,
+		venomiconepilogue: 1452 + 33,
+		saharaja: 1452 + 34,
+	
+		syclar: 1488 + 0,
+		embirch: 1488 + 1,
+		flarelm: 1488 + 2,
+		breezi: 1488 + 3,
+		scratchet: 1488 + 4,
+		necturine: 1488 + 5,
+		cupra: 1488 + 6,
+		argalis: 1488 + 7,
+		brattler: 1488 + 8,
+		cawdet: 1488 + 9,
+		volkritter: 1488 + 10,
+		snugglow: 1488 + 11,
+		floatoy: 1488 + 12,
+		caimanoe: 1488 + 13,
+		pluffle: 1488 + 14,
+		rebble: 1488 + 15,
+		tactite: 1488 + 16,
+		privatyke: 1488 + 17,
+		nohface: 1488 + 18,
+		monohm: 1488 + 19,
+		duohm: 1488 + 20,
+		protowatt: 1488 + 21,
+		voodoll: 1488 + 22,
+		mumbao: 1488 + 23,
+		fawnifer: 1488 + 24,
+		electrelk: 1488 + 25,
+		smogecko: 1488 + 26,
+		smoguana: 1488 + 27,
+		swirlpool: 1488 + 28,
+		coribalis: 1488 + 29,
+		justyke: 1488 + 30,
+		solotl: 1488 + 31,
+		miasmite: 1488 + 32,
+		dorsoil: 1488 + 33,
+		saharascal: 1488 + 34,
+
+		// Clover
+		fontabaa: 1379 + (45 * 12) + 1,
+		fontabab: 1379 + (45 * 12) + 2,
+		fontabac: 1379 + (45 * 12) + 3,
+		fontabaco: 1379 + (45 * 12) + 4,
+		fontabad: 1379 + (45 * 12) + 5,
+		fontabaf: 1379 + (45 * 12) + 6,
+		fontabafa: 1379 + (45 * 12) + 7,
+		fontabafit: 1379 + (45 * 12) + 8,
+		fontabag: 1379 + (45 * 12) + 9,
+		fontabah: 1379 + (45 * 12) + 10,
+		fontabaint: 1379 + (45 * 12) + 11,
+		fontabajp: 1379 + (45 * 12) + 12,
+		fontabak: 1379 + (45 * 12) + 13,
+		fontabaout: 1379 + (45 * 12) + 14,
+		fontabapol: 1379 + (45 * 12) + 15,
+		fontabar9k: 1379 + (45 * 12) + 16,
+		fontabas: 1379 + (45 * 12) + 17,
+		fontabas4s: 1379 + (45 * 12) + 18,
+		fontabasoc: 1379 + (45 * 12) + 19,
+		fontabasp: 1379 + (45 * 12) + 20,
+		fontabatrv: 1379 + (45 * 12) + 21,
+		fontabatv: 1379 + (45 * 12) + 22,
+		fontabav: 1379 + (45 * 12) + 23,
+		fontabavg: 1379 + (45 * 12) + 24,
+		fontabavp: 1379 + (45 * 12) + 25,
+		fontabavr: 1379 + (45 * 12) + 26,
+		fontabax: 1379 + (45 * 12) + 27,
+		fontabaz: 1379 + (45 * 12) + 28,
+	
+		// CAP Formes
+		jerminswarm: 1379 + (64 * 12) + 1,
+		skubaanti: 1379 + (64 * 12) + 2,
+		disbearyebil: 1379 + (64 * 12) + 3,
+		gargarramerawoken: 1379 + (64 * 12) + 4,
+		eccosmicmagellanic: 1379 + (64 * 12) + 5,
+		eccosmicsol: 1379 + (64 * 12) + 6,
+		eccosmicstarburst: 1379 + (64 * 12) + 7,
+		eccosmicquasar: 1379 + (64 * 12) + 8,
+		eccosmicnebula: 1379 + (64 * 12) + 9,
+		eccosmicmilkyway: 1379 + (64 * 12) + 10,
+	
+		// Blobbos CAP
+		blobboshenesys: 1379 + (65 * 12) + 1,
+		blobbosnega: 1379 + (65 * 12) + 2,
+		blobbosreverse: 1379 + (65 * 12) + 3,
+		blobbosgalar: 1379 + (65 * 12) + 4,
+		blobbosvalian: 1379 + (65 * 12) + 5,
+		blobbosdouble: 1379 + (65 * 12) + 6,
+		bootlos: 1379 + (65 * 12) + 7,
+		blobbosunova: 1379 + (65 * 12) + 8,
+		blobbosshining: 1379 + (65 * 12) + 9,
+		blobbosmagic: 1379 + (65 * 12) + 10,
+		blobbosultra: 1379 + (65 * 12) + 11,
+		blobbosking: 1379 + (65 * 12) + 12,
+		blobbosangel: 1379 + (65 * 12) + 13,
+		blobbosnonfungible: 1379 + (65 * 12) + 14,
+		blobbosnice: 1379 + (65 * 12) + 15,
+		blobbosalola: 1379 + (65 * 12) + 16,
+		blobbosarceus: 1379 + (65 * 12) + 17,
+		blobboschad: 1379 + (65 * 12) + 18,
+		blobbosgnome: 1379 + (65 * 12) + 19,
+		blobbosmini: 1379 + (65 * 12) + 20,
+		blobbosdust: 1379 + (65 * 12) + 21,
+		blobbostherian: 1379 + (65 * 12) + 22,
+		blobbospostmodern: 1379 + (65 * 12) + 23,
+		blobbosfnaf: 1379 + (65 * 12) + 24,
+		blobbostriple: 1379 + (65 * 12) + 25,
+		blobbosbirb: 1379 + (65 * 12) + 26,
+		blobbosathlete: 1379 + (65 * 12) + 27,
+		blobbosgay: 1379 + (65 * 12) + 28,
+		blobbosmountain: 1379 + (65 * 12) + 29,
+		blobbospika: 1379 + (65 * 12) + 30,
+		blobboschef: 1379 + (65 * 12) + 31,
+		blobbosmexican: 1379 + (65 * 12) + 32,
+		blobbosfish: 1379 + (65 * 12) + 33,
+		blobbospizza: 1379 + (65 * 12) + 34,
+		blobbosnightmare: 1379 + (65 * 12) + 35,
+		blobboshoenn: 1379 + (65 * 12) + 36,
+		blobboskirby: 1379 + (65 * 12) + 37,
+		blobbosjackolantern: 1379 + (65 * 12) + 38,
+		blobboseggdog: 1379 + (65 * 12) + 39,
+		blobbosmetal: 1379 + (65 * 12) + 40,
+		blobbosadesign: 1379 + (65 * 12) + 41,
+		blobbosexplosion: 1379 + (65 * 12) + 42,
+		blobboskalos: 1379 + (65 * 12) + 43,
+		blobbosmega: 1379 + (65 * 12) + 44,
+		blobboselectric: 1379 + (65 * 12) + 45,
+		blobbosomori: 1379 + (65 * 12) + 46,
+		blobbossneed: 1379 + (65 * 12) + 47,
+		blobbossus: 1379 + (65 * 12) + 48,
+		blobbostandor: 1379 + (65 * 12) + 49,
+		blobbosayylien: 1379 + (65 * 12) + 50,
+		blobbosmimikyu: 1379 + (65 * 12) + 51,
+		blobbosbloody: 1379 + (65 * 12) + 52,
+		blobboscandycorn: 1379 + (65 * 12) + 53,
+		blobboscreature: 1379 + (65 * 12) + 54,
+		blobbosdrowned: 1379 + (65 * 12) + 55,
+		blobbosexe: 1379 + (65 * 12) + 56,
+		blobboseye: 1379 + (65 * 12) + 57,
+		blobbosinfected: 1379 + (65 * 12) + 58,
+		blobbosmoniker: 1379 + (65 * 12) + 59,
+		blobbosmummy: 1379 + (65 * 12) + 60,
+		blobbosshadow: 1379 + (65 * 12) + 61,
+		blobbosskeleton: 1379 + (65 * 12) + 62,
+		blobbosspooky: 1379 + (65 * 12) + 63,
+		blobbosvampire: 1379 + (65 * 12) + 64,
+		blobbossexy: 1379 + (65 * 12) + 65,
+		blobboszombie: 1379 + (65 * 12) + 67,
+		blobbosartist: 1379 + (65 * 12) + 68,
+		blobbosbee: 1379 + (65 * 12) + 69,
+		blobboshologram: 1379 + (65 * 12) + 70,
+		blobbosretro: 1379 + (65 * 12) + 71,
+		blobboscalamity: 1379 + (65 * 12) + 72,
+		blobbosmuhmentum: 1379 + (65 * 12) + 73,
+		blobboscap: 1379 + (65 * 12) + 74,
+		blobboscup: 1379 + (65 * 12) + 75,
+		blobbosdarkmatter: 1379 + (65 * 12) + 76,
+		blobbosdelinquent: 1379 + (65 * 12) + 77,
+		blobbosdoctor: 1379 + (65 * 12) + 78,
+		blobboshardcore: 1379 + (65 * 12) + 79,
+		blobbosmarx: 1379 + (65 * 12) + 80,
+		blobbosclassy: 1379 + (65 * 12) + 81,
+		blobbosplok: 1379 + (65 * 12) + 82,
+		blobboswack: 1379 + (65 * 12) + 83,
+		blobboszero: 1379 + (65 * 12) + 84,
+		blobbosmushroom:  1379 + (65 * 12) + 85,
+		blobbosnegatandor:  1379 + (65 * 12) + 86,
+		blobbospaper:  1379 + (65 * 12) + 87,
+		blobbosattorney:  1379 + (65 * 12) + 88,
+		blobbosbeetle:  1379 + (65 * 12) + 89,
+		blobboscloud:  1379 + (65 * 12) + 90,
+		blobbosocean:  1379 + (65 * 12) + 91,
+		blobbosvolcano:  1379 + (65 * 12) + 92,
+		blobboscell:  1379 + (65 * 12) + 93,
+		blobbosdemifiend:  1379 + (65 * 12) + 94,
+		blobbosdemon:  1379 + (65 * 12) + 95,
+		blobbosdoll:  1379 + (65 * 12) + 96,
+		blobbosdollpossessed:  1379 + (65 * 12) + 97,
+		blobbosfools:  1379 + (65 * 12) + 98,
+		ironblob:  1379 + (65 * 12) + 99,
+		blobboshisui:  1379 + (65 * 12) + 100,
+		blobboskorea:  1379 + (65 * 12) + 101,
+		blobboswackmega:  1379 + (65 * 12) + 102,
+		blobbosmetaknight:  1379 + (65 * 12) + 103,
+		blobbosmidjourney:  1379 + (65 * 12) + 104,
+		blobbosstarfymonstar:  1379 + (65 * 12) + 105,
+		blobbosnoke:  1379 + (65 * 12) + 106,
+		blobbosogre:  1379 + (65 * 12) + 107,
+		blobbospaldea:  1379 + (65 * 12) + 108,
+		cavernsnore:  1379 + (65 * 12) + 109,
+		blobbosrobotnik:  1379 + (65 * 12) + 110,
+		blobbosstarfyroostar:  1379 + (65 * 12) + 111,
+		blobbossalt:  1379 + (65 * 12) + 112,
+		blobbosshoreline:  1379 + (65 * 12) + 113,
+		blobbosshrimp:  1379 + (65 * 12) + 114,
+		blobbossnek:  1379 + (65 * 12) + 115,
+		sobbolb:  1379 + (65 * 12) + 116,
+		blobbosstarfystarfright:  1379 + (65 * 12) + 117,
+		blobbosstarfy:  1379 + (65 * 12) + 118,
+		blobbosstarfystarpedo:  1379 + (65 * 12) + 119,
+		blobbosswitch:  1379 + (65 * 12) + 120,
+		blobbosswitchblue:  1379 + (65 * 12) + 121,
+		blobbosswitchred:  1379 + (65 * 12) + 122,
+	};
+	
+	const BattlePokemonIconIndexesLeft = {
+		pikachubelle: 1344 + 0,
+		pikachupopstar: 1344 + 1,
+		clefairy: 1344 + 2,
+		clefable: 1344 + 3,
+		jigglypuff: 1344 + 4,
+		wigglytuff: 1344 + 5,
+		dugtrioalola: 1344 + 6,
+		poliwhirl: 1344 + 7,
+		poliwrath: 1344 + 8,
+		mukalola: 1344 + 9,
+		kingler: 1344 + 10,
+		croconaw: 1344 + 11,
+		cleffa: 1344 + 12,
+		igglybuff: 1344 + 13,
+		politoed: 1344 + 14,
+		unownb: 1344 + 15,
+		unownc: 1344 + 16,
+		unownd: 1344 + 17,
+		unowne: 1344 + 18,
+		unownf: 1344 + 19,
+		unowng: 1344 + 20,
+		unownh: 1344 + 21,
+		unownj: 1344 + 22,
+		unownk: 1344 + 23,
+		unownl: 1344 + 24,
+		unownm: 1344 + 25,
+		unownn: 1344 + 26,
+		unownp: 1344 + 27,
+		unownq: 1344 + 28,
+		unownquestion: 1344 + 29,
+		unownr: 1344 + 30,
+		unowns: 1344 + 31,
+		unownt: 1344 + 32,
+		unownv: 1344 + 33,
+		unownz: 1344 + 34,
+		sneasel: 1344 + 35,
+		teddiursa: 1344 + 36,
+		roselia: 1344 + 37,
+		zangoose: 1344 + 38,
+		seviper: 1344 + 39,
+		castformsnowy: 1344 + 40,
+		absolmega: 1344 + 41,
+		absol: 1344 + 42,
+		regirock: 1344 + 43,
+		torterra: 1344 + 44,
+		budew: 1344 + 45,
+		roserade: 1344 + 46,
+		magmortar: 1344 + 47,
+		togekiss: 1344 + 48,
+		rotomwash: 1344 + 49,
+		shayminsky: 1344 + 50,
+		emboar: 1344 + 51,
+		pansear: 1344 + 52,
+		simisear: 1344 + 53,
+		drilbur: 1344 + 54,
+		excadrill: 1344 + 55,
+		sawk: 1344 + 56,
+		lilligant: 1344 + 57,
+		garbodor: 1344 + 58,
+		solosis: 1344 + 59,
+		vanilluxe: 1344 + 60,
+		amoonguss: 1344 + 61,
+		klink: 1344 + 62,
+		klang: 1344 + 63,
+		klinklang: 1344 + 64,
+		litwick: 1344 + 65,
+		golett: 1344 + 66,
+		golurk: 1344 + 67,
+		kyuremblack: 1344 + 68,
+		kyuremwhite: 1344 + 69,
+		kyurem: 1344 + 70,
+		keldeoresolute: 1344 + 71,
+		meloetta: 1344 + 72,
+		greninja: 1344 + 73,
+		greninjaash: 1344 + 74,
+		furfroudebutante: 1344 + 75,
+		barbaracle: 1344 + 76,
+		clauncher: 1344 + 77,
+		clawitzer: 1344 + 78,
+		sylveon: 1344 + 79,
+		klefki: 1344 + 80,
+		zygarde: 1344 + 81,
+		zygarde10: 1344 + 82,
+		zygardecomplete: 1344 + 83,
+		dartrix: 1344 + 84,
+		steenee: 1344 + 85,
+		tsareena: 1344 + 86,
+		comfey: 1344 + 87,
+		miniormeteor: 1344 + 88,
+		minior: 1344 + 89,
+		miniororange: 1344 + 90,
+		minioryellow: 1344 + 91,
+		miniorgreen: 1344 + 92,
+		miniorblue: 1344 + 93,
+		miniorviolet: 1344 + 94,
+		miniorindigo: 1344 + 95,
+		dhelmise: 1344 + 96,
+		necrozma: 1344 + 97,
+		marshadow: 1344 + 98,
+		pikachuoriginal: 1344 + 99,
+		pikachupartner: 1344 + 100,
+		necrozmaduskmane: 1344 + 101,
+		necrozmadawnwings: 1344 + 102,
+		necrozmaultra: 1344 + 103,
+		stakataka: 1344 + 104,
+		blacephalon: 1344 + 105,
+	};
+
+
+	let buf = 'exports.BattlePokemonIconIndexes = ' + JSON.stringify(BattlePokemonIconIndexes) + ';\n\n';
+	buf += 'exports.BattlePokemonIconIndexesLeft = ' + JSON.stringify(BattlePokemonIconIndexesLeft) + ';\n\n';
+
+	fs.writeFileSync('data/battle-icons.js', buf);
+	fs.writeFileSync('data/battle-icons.json', JSON.stringify({ indexes: BattlePokemonIconIndexes, indexesLeft: BattlePokemonIconIndexesLeft }));
+}
+
 console.log("DONE");
 
 /*********************************************************
@@ -450,8 +1165,8 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (species.forme) {
 				if (
 					[
-						'Aegislash', 'Castform', 'Cherrim', 'Cramorant', 'Eiscue', 'Meloetta', 'Mimikyu', 'Minior', 'Morpeko', 'Wishiwashi',
-					].includes(species.baseSpecies) || species.forme.includes('Totem') || species.forme.includes('Zen') ||
+						'Aegislash', 'Castform', 'Cherrim', 'Cramorant', 'Eiscue', 'Meloetta', 'Mimikyu', 'Minior', 'Morpeko', 'Wishiwashi', 'Eccosmic', 'Fontaba', 'Fucker', 'Himpaper', 'Maidcoresh'
+					].includes(species.baseSpecies) || species.forme.includes('Totem') || species.forme.includes('Zen')
 					(species.baseSpecies === 'Ogerpon' && species.forme.includes('Tera'))
 				) {
 					continue;
@@ -1090,13 +1805,102 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 
-	for (const mod of ['gen7letsgo', 'gen8bdsp']) {
+	for (const {mod, modGen} of MODS) {
 		const modDex = Dex.mod(mod);
 		const modData = modDex.data;
-		const parentDex = Dex.forGen(modDex.gen);
+		const parentDex = Dex.forGen(modGen);
+
+		const pokemon = Object.keys(modDex.data.Pokedex);
+		pokemon.sort();
+
+		const modOnlyTierTable = {};
+		const modOnlyOverrideTier = {};
+		const natDexTierTable = {};
+		const natDexOverrideTier = {};
+		for (const pokemonId of pokemon) {
+			const species = modDex.species.get(pokemonId);
+			let modOnlyTier = 'Illegal';
+			let natDexTier = 'Illegal';
+
+			if (!species.isNonstandard) {
+				modOnlyTier = species.tier;
+				natDexTier = species.tier;
+			} else {
+				natDexTier = species.natDexTier;
+			}
+
+			if (!modOnlyTierTable[modOnlyTier]) modOnlyTierTable[modOnlyTier] = [];
+			if (!natDexTierTable[natDexTier]) natDexTierTable[natDexTier] = [];
+
+			modOnlyTierTable[modOnlyTier].push(pokemonId);
+			modOnlyOverrideTier[pokemonId] = modOnlyTier;
+			natDexTierTable[natDexTier].push(pokemonId);
+			natDexOverrideTier[pokemonId] = natDexTier;
+		}
+
+		const modOnlyTiers = []
+		const modOnlyFormatSlices = {};
+		const natDexTiers = [];
+		const natDexFormatSlices = {};
+		const tierOrder = ["CAP", "CAP NFE", "CAP LC", "AG", "Uber", "(Uber)", "OU", "UUBL", "(OU)", "UU", "RUBL", "(UU)", "RU", "NUBL", "(RU)", "NU", "NFE", "LC Uber", "LC"];
+		for (const tier of tierOrder) {
+			if (tier in { OU: 1, AG: 1, Uber: 1, UU: 1, "(UU)": 1, RU: 1, NU: 1, NFE: 1, LC: 1 }) {
+				let usedTier = tier;
+				if (usedTier === "(UU)") usedTier = "RU";
+				modOnlyFormatSlices[usedTier] = modOnlyTiers.length;
+				natDexFormatSlices[usedTier] = natDexTiers.length;
+			}
+
+			if (modOnlyTierTable[tier]) {
+				if (tier === "(UU)") {
+					modOnlyTiers.push(['header', "Below UU"]);
+				} else if (tier.charAt(0) === '(') {
+					modOnlyTiers.push(['header', tier.slice(1, -1) + " by technicality"]);
+				} else if (tier === "NFE") {
+					modOnlyTiers.push(['header', "NFEs not in a higher tier"]);
+				} else {
+					modOnlyTiers.push(['header', tier]);
+				}
+				modOnlyTiers.push(...modOnlyTierTable[tier]);
+			}
+
+			if (natDexTierTable[tier]) {
+				if (tier === "(UU)") {
+					natDexTiers.push(['header', "Below UU"]);
+				} else if (tier.charAt(0) === '(') {
+					natDexTiers.push(['header', tier.slice(1, -1) + " by technicality"]);
+				} else if (tier === "NFE") {
+					natDexTiers.push(['header', "NFEs not in a higher tier"]);
+				} else {
+					natDexTiers.push(['header', tier]);
+				}
+				natDexTiers.push(...natDexTierTable[tier]);
+			}
+		}
+
+		const itemList = Object.keys(modDex.data.Items);
+		itemList.sort();
+		const modOnlyItems = [];
+		const natDexItems = [];
+		for (const itemId of itemList) {
+			const item = modDex.items.get(itemId);
+
+			if (!item.isNonstandard) {
+				modOnlyItems.push(itemId);
+				natDexItems.push(itemId);
+			} else {
+				if (!item.isNonstandard || item.isNonstandard === "Past") {
+					natDexItems.push(itemId);
+				} else {
+					if (item.isNonstandard) {
+						if (item.isNonstandard !== "Past") continue;
+						if (!item.itemUser && !item.zMove) continue;
+					}
+				}
+			}
+		}
 
 		const overrideSpeciesData = {};
-		BattleTeambuilderTable[mod].overrideSpeciesData = overrideSpeciesData;
 		for (const id in modData.Pokedex) {
 			const modEntry = modDex.species.get(id);
 			const parentEntry = parentDex.species.get(id);
@@ -1109,7 +1913,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		const overrideMoveData = {};
-		BattleTeambuilderTable[mod].overrideMoveData = overrideMoveData;
 		for (const id in modData.Moves) {
 			const modEntry = modDex.moves.get(id);
 			const parentEntry = parentDex.moves.get(id);
@@ -1123,7 +1926,6 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		}
 
 		const overrideAbilityData = {};
-		BattleTeambuilderTable[mod].overrideAbilityData = overrideAbilityData;
 		for (const id in modData.Abilities) {
 			const modEntry = modDex.abilities.get(id);
 			const parentEntry = parentDex.abilities.get(id);
@@ -1134,6 +1936,107 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				}
 			}
 		}
+
+		const overrideItemDesc = {};
+		for (const id in modData.Items) {
+			const modEntry = modDex.items.get(id);
+			const parentEntry = parentDex.items.get(id);
+
+			if ((parentEntry.parentEntry || parentEntry.desc) !== (modEntry.shortDesc || modEntry.desc)) {
+				overrideItemDesc[id] = (modEntry.shortDesc || modEntry.desc);
+			}
+		}
+
+		const overrideTypeChart = {};
+		for (const id in modData.TypeChart) {
+			const modEntry = modData.TypeChart[id];
+			const parentEntry = parentDex.data.TypeChart[id];
+			if (JSON.stringify(modEntry) !== JSON.stringify(parentEntry)) {
+				overrideTypeChart[id] = modEntry;
+			}
+		}
+
+		const removeType = {};
+		for (const id in parentDex.data.TypeChart) {
+			const modEntry = modData.TypeChart[id];
+			if (modEntry.isNonstandard) {
+				removeType[id] = true;
+				continue;
+			}
+		}
+
+		const moddedLearnsets = {};
+		for (const id in modDex.data.Learnsets) {
+			const learnset = modDex.data.Learnsets[id].learnset;
+			if (!learnset) continue;
+			moddedLearnsets[id] = {};
+			for (const moveid in learnset) {
+				const gens = learnset[moveid].map(x => Number(x[0]));
+				const minGen = Math.min(...gens);
+				const vcOnly = (minGen === 7 && learnset[moveid].every(x => x[0] !== '7' || x === '7V') ||
+					minGen === 8 && learnset[moveid].every(x => x[0] !== '8' || x === '8V'));
+
+				if (minGen <= 4 && (gen3HMs.has(moveid) || gen4HMs.has(moveid))) {
+					let legalGens = '';
+					let available = false;
+
+					if (minGen === 3) {
+						legalGens += '3';
+						available = true;
+					}
+					if (available) available = !gen3HMs.has(moveid);
+
+					if (available || gens.includes(4)) {
+						legalGens += '4';
+						available = true;
+					}
+					if (available) available = !gen4HMs.has(moveid);
+
+					let minUpperGen = available ? 5 : Math.min(
+						...gens.filter(gen => gen > 4)
+					);
+					legalGens += '012345678'.slice(minUpperGen);
+					moddedLearnsets[id][moveid] = legalGens;
+				} else {
+					moddedLearnsets[id][moveid] = '012345678'.slice(minGen);
+				}
+
+				if (gens.indexOf(6) >= 0) moddedLearnsets[id][moveid] += 'p';
+				if (gens.indexOf(7) >= 0 && !vcOnly) moddedLearnsets[id][moveid] += 'q';
+				if (gens.indexOf(8) >= 0 && !vcOnly) moddedLearnsets[id][moveid] += 'g';
+			}
+		}
+
+		const modOnlyTable = {};
+		modOnlyTable.learnsets = moddedLearnsets;
+		modOnlyTable.overrideTier = modOnlyOverrideTier;
+		modOnlyTable.tiers = modOnlyTiers;
+		modOnlyTable.items = [['header', "Items"], ...modOnlyItems];
+		modOnlyTable.formatSlices = modOnlyFormatSlices;
+		modOnlyTable.overrideItemDesc = overrideItemDesc;
+		modOnlyTable.overrideSpeciesData = overrideSpeciesData;
+		modOnlyTable.overrideAbilityData = overrideAbilityData;
+		modOnlyTable.overrideMoveData = overrideMoveData;
+		modOnlyTable.overrideTypeChart = overrideTypeChart;
+		modOnlyTable.removeType = removeType;
+
+		const natdexTable = {};
+		natdexTable.learnsets = moddedLearnsets;
+		natdexTable.overrideTier = natDexOverrideTier;
+		natdexTable.tiers = natDexTiers;
+		natdexTable.items = [['header', "Items"], ...natDexItems];
+		natdexTable.formatSlices = natDexFormatSlices;
+		natdexTable.overrideItemDesc = overrideItemDesc;
+		natdexTable.overrideSpeciesData = overrideSpeciesData;
+		natdexTable.overrideAbilityData = overrideAbilityData;
+		natdexTable.overrideMoveData = overrideMoveData;
+		natdexTable.overrideTypeChart = overrideTypeChart;
+		natdexTable.removeType = removeType;
+
+		let modBuf = `window.BattleTeambuilderTable['${mod}only'] = JSON.parse('${JSON.stringify(modOnlyTable).replace(/['\\]/g, "\\$&")}');\n\n`;
+		modBuf += `window.BattleTeambuilderTable['${mod}natdex'] = JSON.parse('${JSON.stringify(natdexTable).replace(/['\\]/g, "\\$&")}');\n\n`;
+
+		fs.writeFileSync(`data/teambuilder-table-${mod}.js`, modBuf);
 	}
 
 	buf += `exports.BattleTeambuilderTable = JSON.parse('${JSON.stringify(BattleTeambuilderTable).replace(/['\\]/g, "\\$&")}');\n\n`;
@@ -1150,7 +2053,7 @@ console.log("DONE");
 process.stdout.write("Building `data/pokedex.js`... ");
 
 {
-	const Pokedex = requireNoCache('../data/pokemon-showdown/dist/data/pokedex.js').Pokedex;
+	const Pokedex = requireNoCache('../data/clovermon-showdown/dist/data/pokedex.js').Pokedex;
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
 		if (Dex.data.FormatsData[id]) {
@@ -1175,7 +2078,7 @@ console.log("DONE");
 process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.js`...");
 
 {
-	const Moves = requireNoCache('../data/pokemon-showdown/dist/data/moves.js').Moves;
+	const Moves = requireNoCache('../data/clovermon-showdown/dist/data/moves.js').Moves;
 	for (const id in Moves) {
 		const move = Dex.moves.get(Moves[id].name);
 		if (move.desc) Moves[id].desc = move.desc;
@@ -1191,7 +2094,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Items = requireNoCache('../data/pokemon-showdown/dist/data/items.js').Items;
+	const Items = requireNoCache('../data/clovermon-showdown/dist/data/items.js').Items;
 	for (const id in Items) {
 		const item = Dex.items.get(Items[id].name);
 		if (item.desc) Items[id].desc = item.desc;
@@ -1199,6 +2102,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	}
 	const buf = 'exports.BattleItems = ' + es3stringify(Items) + ';';
 	fs.writeFileSync('data/items.js', buf);
+	fs.writeFileSync('data/items.json', JSON.stringify(Items));
 }
 
 /*********************************************************
@@ -1206,7 +2110,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Abilities = requireNoCache('../data/pokemon-showdown/dist/data/abilities.js').Abilities;
+	const Abilities = requireNoCache('../data/clovermon-showdown/dist/data/abilities.js').Abilities;
 	for (const id in Abilities) {
 		const ability = Dex.abilities.get(Abilities[id].name);
 		if (ability.desc) Abilities[id].desc = ability.desc;
@@ -1214,6 +2118,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	}
 	const buf = 'exports.BattleAbilities = ' + es3stringify(Abilities) + ';';
 	fs.writeFileSync('data/abilities.js', buf);
+	fs.writeFileSync('data/abilities.json', JSON.stringify(Abilities));
 }
 
 /*********************************************************
@@ -1221,9 +2126,10 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const TypeChart = requireNoCache('../data/pokemon-showdown/dist/data/typechart.js').TypeChart;
+	const TypeChart = requireNoCache('../data/clovermon-showdown/dist/data/typechart.js').TypeChart;
 	const buf = 'exports.BattleTypeChart = ' + es3stringify(TypeChart) + ';';
 	fs.writeFileSync('data/typechart.js', buf);
+	fs.writeFileSync('data/typechart.json', JSON.stringify(TypeChart));
 }
 
 /*********************************************************
@@ -1231,9 +2137,10 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Aliases = requireNoCache('../data/pokemon-showdown/dist/data/aliases.js').Aliases;
+	const Aliases = requireNoCache('../data/clovermon-showdown/dist/data/aliases.js').Aliases;
 	const buf = 'exports.BattleAliases = ' + es3stringify(Aliases) + ';';
 	fs.writeFileSync('data/aliases.js', buf);
+	fs.writeFileSync('data/aliases.json', JSON.stringify(Aliases));
 }
 
 /*********************************************************
@@ -1241,9 +2148,10 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const FormatsData = requireNoCache('../data/pokemon-showdown/dist/data/formats-data.js').FormatsData;
+	const FormatsData = requireNoCache('../data/clovermon-showdown/dist/data/formats-data.js').FormatsData;
 	const buf = 'exports.BattleFormatsData = ' + es3stringify(FormatsData) + ';';
 	fs.writeFileSync('data/formats-data.js', buf);
+	fs.writeFileSync('data/formats-data.json', JSON.stringify(FormatsData));
 }
 
 /*********************************************************
@@ -1251,9 +2159,10 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Formats = requireNoCache('../data/pokemon-showdown/dist/config/formats.js').Formats;
+	const Formats = requireNoCache('../data/clovermon-showdown/dist/config/formats.js').Formats;
 	const buf = 'exports.Formats = ' + es3stringify(Formats) + ';';
 	fs.writeFileSync('data/formats.js', buf);
+	fs.writeFileSync('data/formats.json', JSON.stringify(Formats));
 }
 
 /*********************************************************
@@ -1261,7 +2170,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
  *********************************************************/
 
 {
-	const Learnsets = requireNoCache('../data/pokemon-showdown/dist/data/learnsets.js').Learnsets;
+	const Learnsets = requireNoCache('../data/clovermon-showdown/dist/data/learnsets.js').Learnsets;
 	const buf = 'exports.BattleLearnsets = ' + es3stringify(Learnsets) + ';';
 	fs.writeFileSync('data/learnsets.js', buf);
 	fs.writeFileSync('data/learnsets.json', JSON.stringify(Learnsets));
@@ -1296,6 +2205,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 
 	const buf = 'exports.BattleText = ' + es3stringify(Text) + ';';
 	fs.writeFileSync('data/text.js', buf);
+	fs.writeFileSync('data/text.json', JSON.stringify(Text));
 }
 
 console.log("DONE");

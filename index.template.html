@@ -35,6 +35,7 @@ https://psim.us/dev
 <link rel="stylesheet" href="//play.pokemonshowdown.com/style/sim-types.css?" />
 <link rel="stylesheet" href="//play.pokemonshowdown.com/style/utilichart.css?" />
 <link rel="stylesheet" href="//play.pokemonshowdown.com/style/font-awesome.css?" />
+<link rel="stylesheet" href="//play.pokemonshowdown.com:8443/custom.css" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <link rel="manifest" href="/manifest.json" />
 <!--[if lte IE 8]><script>document.location.replace('http://pokemonshowdown.com/autodownload/win');</script><![endif]-->
@@ -48,12 +49,6 @@ https://psim.us/dev
 	<div class="leftmenu">
 		<div class="activitymenu">
 			<div class="pmbox">
-				<div class="pm-window news-embed" data-newsid="<!-- newsid -->">
-					<h3><button class="closebutton" tabindex="-1"><i class="fa fa-times-circle"></i></button><button class="minimizebutton" tabindex="-1"><i class="fa fa-minus-circle"></i></button>News</h3>
-					<div class="pm-log" style="max-height:none">
-						<!-- news -->
-					</div>
-				</div>
 			</div>
 		</div>
 		<div class="mainmenu">
@@ -64,7 +59,7 @@ https://psim.us/dev
 	</div>
 	<div class="mainmenufooter">
 		<div class="bgcredit"></div>
-		<small><a href="//dex.pokemonshowdown.com/" target="_blank">Pok&eacute;dex</a> | <a href="//replay.pokemonshowdown.com/" target="_blank">Replays</a> | <a href="//pokemonshowdown.com/rules" target="_blank">Rules</a> | <a href="//pokemonshowdown.com/credits" target="_blank">Credits</a> | <a href="http://smogon.com/forums/" target="_blank">Forum</a> | <a href="//pokemonshowdown.com/privacy" target="_blank">Privacy policy</a></small>
+		<small><a href="//replay.pokemonshowdown.com/" target="_blank">Replays</a></small>
 	</div>
 </div></div>
 <script>
@@ -81,6 +76,7 @@ https://psim.us/dev
 <script src="//play.pokemonshowdown.com/js/lib/lodash.core.js?"></script>
 <script src="//play.pokemonshowdown.com/js/lib/backbone.js?"></script>
 <script src="//play.pokemonshowdown.com/js/lib/d3.v3.min.js"></script>
+<script src="//play.pokemonshowdown.com/js/lib/string-template.js"></script>
 
 <script>
 	LM.innerHTML += ' DONE<br />Loading data...';
@@ -120,8 +116,16 @@ https://psim.us/dev
 <script src="//play.pokemonshowdown.com/data/abilities.js?"></script>
 
 <script src="//play.pokemonshowdown.com/data/search-index.js?"></script>
+<script src="//play.pokemonshowdown.com/data/battle-icons.js?"></script>
 <script src="//play.pokemonshowdown.com/data/teambuilder-tables.js?"></script>
 <script src="//play.pokemonshowdown.com/js/battle-dex-search.js?"></script>
 <script src="//play.pokemonshowdown.com/js/search.js?"></script>
 
 <script src="//play.pokemonshowdown.com/data/aliases.js?" async="async"></script>
+<script src="//play.pokemonshowdown.com/data/teambuilder-table-clover.js?" defer="defer"></script>
+<script src="//play.pokemonshowdown.com/data/teambuilder-table-clovercap.js?" defer="defer"></script>
+<script src="//play.pokemonshowdown.com/data/teambuilder-table-cloverblobboscap.js?" defer="defer"></script>
+<script src="//play.pokemonshowdown.com/data/teambuilder-table-cope.js?" defer="defer"></script>
+<script src="//play.pokemonshowdown.com/data/teambuilder-table-sandbox.js?" defer="defer"></script>
+<script src="//play.pokemonshowdown.com/data/teambuilder-table-wack.js?" defer="defer"></script>
+<script src="//play.pokemonshowdown.com/data/teambuilder-table-sburbmons.js?" defer="defer"></script>

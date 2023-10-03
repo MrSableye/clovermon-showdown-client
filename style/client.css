@@ -13,8 +13,8 @@ body {
 	font-size: 11pt;
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 
-	/* see https://pokemonshowdown.com/credits */
-	background: #344b6c url(../fx/client-bg-charizards.jpg) no-repeat left center fixed;
+	/* see http://pokemonshowdown.com/credits */
+	background: #344b6c url(../fx/client-bg-team-forest.jpg) no-repeat left center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -1260,27 +1260,27 @@ p.or:after {
 }
 .roomcounters .usercount {
 	display: block;
-	width: 49px;
-	height: 63px;
+	width: 96px;
+	height: 96px;
 	position: absolute;
-	left: -30px;
-	bottom: -5px;
-	background: url(https://play.pokemonshowdown.com/sprites/gen5/meloetta.png) center no-repeat;
+	left: -60px;
+	bottom: -18px;
+	background: url(/sprites/gen5/geigh.png) center no-repeat;
 }
 .roomcounters button:hover .usercount {
-	background: url(https://play.pokemonshowdown.com/sprites/gen5ani/meloetta.gif) center no-repeat;
+	background: url(/sprites/gen5/geigh.png) center no-repeat;
 }
 .roomcounters .battlecount {
 	display: block;
-	width: 46px;
-	height: 76px;
+	width: 96px;
+	height: 96px;
 	position: absolute;
-	right: -30px;
-	bottom: -10px;
-	background: url(https://play.pokemonshowdown.com/sprites/gen5/meloetta-pirouette.png) center no-repeat;
+	right: -60px;
+	bottom: -18px;
+	background: url(/sprites/gen5/dragking.png) center no-repeat;
 }
 .roomcounters button:hover .battlecount {
-	background: url(https://play.pokemonshowdown.com/sprites/gen5ani/meloetta-pirouette.gif) center no-repeat;
+	background: url(/sprites/gen5/dragking.png) center no-repeat;
 }
 
 .roomlist {
@@ -1646,6 +1646,10 @@ a.ilink.yours {
 	display: block;
 }
 .tournament-team {
+	padding-bottom: 5px;
+}
+.tournament-teamlocked, .tournament-teamlock-warning {
+	display: none;
 	padding-bottom: 5px;
 }
 .tournament-challenge-user,
@@ -3226,6 +3230,10 @@ a.ilink.yours {
 .userdetails .offline {
 	color: red;
 }
+.userdetails .userbadge {
+	float: none !important;
+	margin-left: 0 !important;
+}
 .trainersprite.yours {
 	cursor: pointer;
 }
@@ -3252,7 +3260,7 @@ a.ilink.yours {
 .avatarlist button {
 	width: 80px;
 	height: 80px;
-	background: transparent url(https://play.pokemonshowdown.com/sprites/trainers-sheet.png) no-repeat scroll 0px 0px;
+	background: transparent url(/sprites/trainers-sheet.png) no-repeat scroll 0px 0px;
 }
 .bglist button span {
 	display: block;
@@ -3637,4 +3645,36 @@ blink {
 	animation-timing-function: cubic-bezier(1.0,0,0,1.0);
 	animation-duration: 1s;
 	text-decoration: none;
+}
+
+/*********************************************************
+ * Badge Marquee
+ *********************************************************/
+.badge-marquee-wrapper {
+  overflow: hidden;
+	display: inline-block;
+}
+
+.badge-marquee-wrapper .badge-marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  animation: marquee 10s linear infinite;
+}
+
+.badge-marquee-wrapper:hover .badge-marquee {
+  animation-play-state: paused;
+}
+
+.badge-marquee .userbadges {
+  display: inline-block;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
