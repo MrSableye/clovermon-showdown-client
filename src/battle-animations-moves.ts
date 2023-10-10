@@ -48849,6 +48849,8 @@ BattleMoveAnims['violentvines'] = {anim: BattleMoveAnims['powerwhip'].anim};
 BattleMoveAnims['bubble'] = {anim: BattleMoveAnims['bubblebeam'].anim};
 BattleMoveAnims['sparklingaria'] = {anim: BattleMoveAnims['bubblebeam'].anim};
 
+BattleMoveAnims['boil'] = {anim: BattleMoveAnims['scald'].anim}; // 2) BOIL YOURSELF IN OIL
+
 BattleMoveAnims['watergun'] = {anim: BattleMoveAnims['watersport'].anim};
 BattleMoveAnims['whirlpool'] = {anim: BattleMoveAnims['watersport'].anim};
 
