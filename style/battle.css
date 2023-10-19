@@ -459,6 +459,10 @@ License: GPLv2
 	background: #AAAAAA url(../fx/weather-strongwind.png) no-repeat scroll left top;
 	color: #666666;
 }
+.acidicrainfallweather {
+	background: #073f0f url(../fx/weather-acidicrainfall.jpg) no-repeat scroll left top;
+	color: #145008;
+}
 .mistyterrainweather {
 	background: #EEAACC url(../fx/weather-mistyterrain.png) no-repeat scroll left top;
 	color: #551144;
