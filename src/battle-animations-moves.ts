@@ -677,6 +677,9 @@ export const BattleMoveAnims: AnimTable = {
 	snowscape: {
 		anim: BattleOtherAnims.dance.anim,
 	},
+	acidicrainfall: {
+		anim: BattleOtherAnims.dance.anim,
+	},
 	chillyreception: {
 		anim(scene, [attacker, defender]) {
 			scene.backgroundEffect('#000000', 750, 1, 50);
