@@ -1554,12 +1554,13 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 						continue;
 					}
 					if (
+						(this.formatType !== 'natdex' && (!isModdedFormatType(this.formatType) || !this.formatType.isNatDex)) &&
 						!learnsetEntry.includes(gen) &&
 						(!isTradebacks ? true : !(move.gen <= dex.gen && learnsetEntry.includes('' + (dex.gen + 1))))
 					) {
 						continue;
 					}
-					if (this.formatType !== 'natdex' && move.isNonstandard === "Past") {
+					if ((this.formatType !== 'natdex' && (!isModdedFormatType(this.formatType) || !this.formatType.isNatDex)) && move.isNonstandard === "Past") {
 						continue;
 					}
 					if (
@@ -1574,7 +1575,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 					) {
 						continue;
 					}
-					if (this.dex.gen >= 8 && this.dex.moves.get(moveid).isNonstandard === "Past" && (this.formatType !== 'natdex' || (isModdedFormatType(this.formatType) && !this.formatType.isNatDex))) continue;
+					if (this.dex.gen >= 8 && this.dex.moves.get(moveid).isNonstandard === "Past" && (this.formatType !== 'natdex' && (!isModdedFormatType(this.formatType) || !this.formatType.isNatDex))) continue;
 					if (moves.includes(moveid)) continue;
 					moves.push(moveid);
 					if (moveid === 'sketch') sketch = true;
