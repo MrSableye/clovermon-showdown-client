@@ -1968,6 +1968,10 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const moddedLearnsets = {};
 		for (const id in modDex.data.Learnsets) {
 			const learnset = modDex.data.Learnsets[id].learnset;
+			const baseLearnset = parentDex.data.Learnsets[id].learnset;
+			if (baseLearnset && (JSON.stringify(learnset) === JSON.stringify(baseLearnset))) {
+				continue;
+			}
 			if (!learnset) continue;
 			moddedLearnsets[id] = {};
 			for (const moveid in learnset) {

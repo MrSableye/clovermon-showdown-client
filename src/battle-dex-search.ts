@@ -748,7 +748,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (this.formatType === 'bdsp' || this.formatType === 'bdspdoubles') table = table['gen8bdsp'];
 		if (this.formatType === 'letsgo') table = table['gen7letsgo'];
 		if (isModdedFormatType(this.formatType)) table = table[getModdedFormatTableName(this.formatType)];
-		if (speciesid in table.learnsets) return speciesid;
+		if ((speciesid in table.learnsets) || (speciesid in BattleTeambuilderTable.learnsets)) return speciesid;
 		const species = this.dex.species.get(speciesid);
 		if (!species.exists) return '' as ID;
 
@@ -756,7 +756,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 		if (typeof species.battleOnly === 'string' && species.battleOnly !== species.baseSpecies) {
 			baseLearnsetid = toID(species.battleOnly);
 		}
-		if (baseLearnsetid in table.learnsets) return baseLearnsetid;
+		if ((baseLearnsetid in table.learnsets) || (baseLearnsetid in BattleTeambuilderTable.learnsets)) return baseLearnsetid;
 		return '' as ID;
 	}
 	protected nextLearnsetid(learnsetid: ID, speciesid: ID) {
@@ -806,7 +806,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			if (this.formatType === 'bdsp' || this.formatType === 'bdspdoubles') table = table['gen8bdsp'];
 			if (this.formatType === 'letsgo') table = table['gen7letsgo'];
 			if (isModdedFormatType(this.formatType)) table = table[getModdedFormatTableName(this.formatType)];
-			let learnset = table.learnsets[learnsetid];
+			let learnset = table.learnsets[learnsetid] || BattleTeambuilderTable.learnsets[learnsetid];
 			if (learnset && (moveid in learnset) && (!this.format.startsWith('tradebacks') ? learnset[moveid].includes(genChar) :
 				learnset[moveid].includes(genChar) ||
 					(learnset[moveid].includes(`${gen + 1}`) && move.gen === gen))) {
@@ -1542,7 +1542,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		if (this.formatType === 'ssdlc1') lsetTable = lsetTable['gen8dlc1'];
 		if (isModdedFormatType(this.formatType)) lsetTable = lsetTable[getModdedFormatTableName(this.formatType)];
 		while (learnsetid) {
-			let learnset = lsetTable.learnsets[learnsetid];
+			let learnset = lsetTable.learnsets[learnsetid] || BattleTeambuilderTable.learnsets[learnsetid];
 			if (this.formatType === 'letsgo') learnset = BattleTeambuilderTable['letsgo'].learnsets[learnsetid];
 			if (typeof this.formatType === 'string' && this.formatType?.startsWith('dlc1')) learnset = BattleTeambuilderTable['gen8dlc1'].learnsets[learnsetid];
 			if (learnset) {
