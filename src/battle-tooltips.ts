@@ -529,7 +529,19 @@ class BattleTooltips {
 		Wack: "",
 		Wind: "",
 		Wood: "",
-		Zombie: ""
+		Zombie: "",
+		Vanilla: "",
+		Cherry: "",
+		Strawberry: "",
+		Apple: "",
+		Orange: "",
+		Banana: "",
+		Lemon: "",
+		Lime: "",
+		Blueberry: "",
+		Grape: "",
+		Raspberry: "",
+		Chocolate: ""
 	};
 
 	static maxMoveTable: {[type in TypeName]: string} = {
@@ -586,7 +598,19 @@ class BattleTooltips {
 		Wack: "",
 		Wind: "",
 		Wood: "",
-		Zombie: ""
+		Zombie: "",
+		Vanilla: "",
+		Cherry: "",
+		Strawberry: "",
+		Apple: "",
+		Orange: "",
+		Banana: "",
+		Lemon: "",
+		Lime: "",
+		Blueberry: "",
+		Grape: "",
+		Raspberry: "",
+		Chocolate: ""
 	};
 
 	getMaxMoveFromType(type: TypeName, gmaxMove?: string | Move) {

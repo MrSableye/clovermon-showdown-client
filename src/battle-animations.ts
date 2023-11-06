@@ -614,7 +614,7 @@ export class BattleScene implements BattleSceneStub {
 	}
 
 	updateGen() {
-		let forceGen3 = ['cloveronly', 'clovercaponly', 'cloverblobboscaponly', 'sburbmonsonly'];
+		let forceGen3 = ['cloveronly', 'clovercaponly', 'cloverblobboscaponly', 'sburbmonsonly', 'sweetonly'];
 		let gen = this.battle.gen;
 		if (Dex.prefs('nopastgens')) gen = 6;
 		if (Dex.prefs('bwgfx') && gen > 5) gen = 5;

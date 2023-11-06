@@ -564,7 +564,8 @@ type TypeName = 'Normal' | 'Fighting' | 'Flying' | 'Poison' | 'Ground' | 'Rock' 
 	'Fire' | 'Water' | 'Grass' | 'Electric' | 'Psychic' | 'Ice' | 'Dragon' | 'Dark' | 'Fairy' | '???' | 'Blood' |
 	'Bone' | 'Chaos' | 'Cosmic' | 'Crystal' | 'Cyber' | 'Divine' | 'Fabric' | 'Fear' | 'Food' | 'Glass' | 'Greasy' |
 	'Heart' | 'Light' | 'Magic' | 'Magma' | 'Meme' | 'Nuclear' | 'Ogre' | 'Paint' | 'Paper' | 'Plastic' | 'Qmarks' |
-	'Rubber' | 'Shadow' | 'Sound' | 'Steam' | 'Tech' | 'Time' | 'Virus' | 'Void' | 'Wack' | 'Wind' | 'Wood' | 'Zombie';
+	'Rubber' | 'Shadow' | 'Sound' | 'Steam' | 'Tech' | 'Time' | 'Virus' | 'Void' | 'Wack' | 'Wind' | 'Wood' | 'Zombie' |
+	'Vanilla' | 'Cherry' | 'Strawberry' | 'Apple' | 'Orange' | 'Banana' | 'Lemon' | 'Lime' | 'Blueberry' | 'Grape' | 'Raspberry' | 'Chocolate';
 type StatusName = 'par' | 'psn' | 'frz' | 'slp' | 'brn';
 type BoostStatName = 'atk' | 'def' | 'spa' | 'spd' | 'spe' | 'evasion' | 'accuracy' | 'spc';
 type GenderName = 'M' | 'F' | 'N';
