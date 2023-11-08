@@ -888,6 +888,44 @@ class ModdedDex {
 
 			let data = {...Dex.moves.get(name)};
 
+			if (!data && id.substr(0, 11) === 'hiddenpower' && id.length > 11) {
+				let [, hpWithType, hpPower] = /([a-z]*)([0-9]*)/.exec(id)!;
+				id = toID(hpWithType);
+				data = {
+					...(window.BattleMovedex[hpWithType] || {}),
+					basePower: Number(hpPower) || 60,
+				};
+			}
+			if (!data && id.substr(0, 6) === 'return' && id.length > 6) {
+				const newBasePower = Number(id.slice(6));
+				id = toID(id.substr(0, 6));
+				data = {
+					...(window.BattleMovedex['return'] || {}),
+					basePower: newBasePower,
+				};
+			}
+			if (!data && id.substr(0, 11) === 'frustration' && id.length > 11) {
+				const newBasePower = Number(id.slice(11));
+				id = toID(id.substr(0, 11));
+				data = {
+					...(window.BattleMovedex['frustration'] || {}),
+					basePower: newBasePower,
+				};
+			}
+
+			if (!data && id.substr(0, 11) === 'hiddenpower' && id.length > 11) {
+				id = toID(id.substr(0, 11));
+				data = Dex.moves.get(id);
+			}
+			if (!data && id.substr(0, 6) === 'return' && id.length > 6) {
+				id = toID(id.substr(0, 6));
+				data = Dex.moves.get(id);
+			}
+			if (!data && id.substr(0, 11) === 'frustration' && id.length > 11) {
+				id = toID(id.substr(0, 11));
+				data = Dex.moves.get(id);
+			}
+
 			for (let i = Dex.gen - 1; i >= this.gen; i--) {
 				const table = window.BattleTeambuilderTable[`gen${i}`];
 				if (id in table.overrideMoveData) {
