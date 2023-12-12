@@ -48531,6 +48531,9 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'linear');
 		},
 	},
+	radishpunch: {
+		anim: BattleOtherAnims.punchattack.anim,
+	},
 	nuclearwinter: {
 		anim(scene, [attacker, ...defenders]) {
 			scene.backgroundEffect(`url('${Config.routes.clientProtocol}://${Config.routes.client}/sprites/gen6bgs/bg-icecave.jpg')`, 1000, 0.6);
