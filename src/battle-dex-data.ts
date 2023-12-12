@@ -566,7 +566,7 @@ type TypeName = 'Normal' | 'Fighting' | 'Flying' | 'Poison' | 'Ground' | 'Rock' 
 	'Heart' | 'Light' | 'Magic' | 'Magma' | 'Meme' | 'Nuclear' | 'Ogre' | 'Paint' | 'Paper' | 'Plastic' | 'Qmarks' |
 	'Rubber' | 'Shadow' | 'Sound' | 'Steam' | 'Tech' | 'Time' | 'Virus' | 'Void' | 'Wack' | 'Wind' | 'Wood' | 'Zombie' |
 	'Vanilla' | 'Cherry' | 'Strawberry' | 'Apple' | 'Orange' | 'Banana' | 'Lemon' | 'Lime' | 'Blueberry' | 'Grape' | 'Raspberry' | 'Chocolate';
-type StatusName = 'par' | 'psn' | 'frz' | 'slp' | 'brn';
+type StatusName = 'par' | 'psn' | 'frz' | 'slp' | 'brn' | 'radish';
 type BoostStatName = 'atk' | 'def' | 'spa' | 'spd' | 'spe' | 'evasion' | 'accuracy' | 'spc';
 type GenderName = 'M' | 'F' | 'N';
 

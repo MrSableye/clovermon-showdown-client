@@ -1688,6 +1688,9 @@ a.ilink.yours {
 .status.frz {
 	background: #009AA4;
 }
+.status.radish {
+	background: #08ad08;
+}
 
 .movemenu button {
 	float: left;
