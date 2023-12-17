@@ -49289,3 +49289,7 @@ BattleMoveAnims['flintfang'] = {anim: BattleMoveAnims['bite'].anim};
 BattleMoveAnims['calibrate'] = {anim: BattleMoveAnims['laserfocus'].anim};
 BattleMoveAnims['newcannon'] = {anim: BattleMoveAnims['infernooverdrive'].anim};
 BattleMoveAnims['devilsharvest'] = {anim: BattleMoveAnims['milkdrink'].anim};
+
+BattleMoveAnims['oceanhorn'] = {anim: BattleMoveAnims['wavecrash'].anim};
+BattleMoveAnims['blazingwheel'] = {anim: BattleMoveAnims['flamecharge'].anim};
+BattleMoveAnims['prisonroots'] = {anim: BattleMoveAnims['enema'].anim};
