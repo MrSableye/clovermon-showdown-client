@@ -1069,6 +1069,12 @@
 				}
 				return false;
 
+			case 'nowplaying':
+				if (this.battle && this.battle.scene && this.battle.scene.bgm && this.battle.scene.bgm.url) {
+					this.add(this.battle.scene.bgm.url + ' is playing.');
+				}
+				return false;
+
 			// documentation of client commands
 			case 'help':
 			case 'h':

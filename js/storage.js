@@ -395,7 +395,7 @@ Storage.onMessage = function ($e) {
 	switch (data.charAt(0)) {
 	case 'c':
 		Config.server = JSON.parse(data.substr(1));
-		if (Config.server.registered && Config.server.id !== 'showdown' && Config.server.id !== 'smogtours') {
+		if (Config.server.registered && Config.server.id !== 'showdown' && Config.server.id !== 'smogtours' && Config.server.id !== 'clodown') {
 			var $link = $('<link rel="stylesheet" ' +
 				'href="//' + Config.routes.client + '/customcss.php?server=' +
 				encodeURIComponent(Config.server.id) + '" />');
@@ -586,6 +586,40 @@ Storage.loadTeams = function () {
 	} catch (e) {}
 };
 
+Storage.loadRemoteTeams = function (after) {
+	$.get(app.user.getActionPHP(), {act: 'getteams'}, Storage.safeJSON(function (data) {
+		if (data.actionerror) {
+			return app.addPopupMessage('Error loading uploaded teams: ' + data.actionerror);
+		}
+		for (var i = 0; i < data.teams.length; i++) {
+			var team = data.teams[i];
+			var matched = false;
+			for (var j = 0; j < Storage.teams.length; j++) {
+				var curTeam = Storage.teams[j];
+				if (curTeam.teamid === team.teamid) {
+					// prioritize locally saved teams over remote
+					// as so to not overwrite changes
+					matched = true;
+					break;
+				}
+			}
+			team.loaded = false;
+			if (!matched) {
+				// hack so that it shows up in the format selector list
+				team.folder = '';
+				// team comes down from loginserver as comma-separated list of mons
+				// to save bandwidth
+				var mons = team.team.split(',').map(function (mon) {
+					return {species: mon};
+				});
+				team.team = Storage.packTeam(mons);
+				Storage.teams.unshift(team);
+			}
+		}
+		if (typeof after === 'function') after();
+	}));
+};
+
 Storage.loadPackedTeams = function (buffer) {
 	try {
 		this.teams = Storage.unpackAllTeams(buffer);
@@ -647,7 +681,7 @@ Storage.unpackAllTeams = function (buffer) {
 	if (buffer.charAt(0) === '[' && $.trim(buffer).indexOf('\n') < 0) {
 		// old format
 		return JSON.parse(buffer).map(function (oldTeam) {
-			var format = oldTeam.format || 'gen8';
+			var format = oldTeam.format || 'gen9';
 			var capacity = 6;
 			if (format && format.slice(0, 3) !== 'gen') format = 'gen6' + format;
 			if (format && format.endsWith('-box')) {
@@ -657,6 +691,7 @@ Storage.unpackAllTeams = function (buffer) {
 			return {
 				name: oldTeam.name || '',
 				format: format,
+				gen: parseInt(format[3], 10) || 6,
 				team: Storage.packTeam(oldTeam.team),
 				capacity: capacity,
 				folder: '',
@@ -669,18 +704,23 @@ Storage.unpackAllTeams = function (buffer) {
 };
 
 Storage.unpackLine = function (line) {
+	var leftBracketIndex = line.indexOf('[');
+	if (leftBracketIndex < 0) leftBracketIndex = 0;
 	var pipeIndex = line.indexOf('|');
 	if (pipeIndex < 0) return null;
+	if (leftBracketIndex > pipeIndex) leftBracketIndex = 0;
 	var bracketIndex = line.indexOf(']');
 	if (bracketIndex > pipeIndex) bracketIndex = -1;
 	var isBox = line.slice(0, bracketIndex).endsWith('-box');
 	var slashIndex = line.lastIndexOf('/', pipeIndex);
 	if (slashIndex < 0) slashIndex = bracketIndex; // line.slice(slashIndex + 1, pipeIndex) will be ''
-	var format = bracketIndex > 0 ? line.slice(0, isBox ? bracketIndex - 4 : bracketIndex) : 'gen8';
+	var format = bracketIndex > 0 ? line.slice((leftBracketIndex ? leftBracketIndex + 1 : 0), isBox ? bracketIndex - 4 : bracketIndex) : 'gen9';
 	if (format && format.slice(0, 3) !== 'gen') format = 'gen6' + format;
 	return {
+		teamid: leftBracketIndex > 0 ? Number(line.slice(0, leftBracketIndex)) : undefined,
 		name: line.slice(slashIndex + 1, pipeIndex),
 		format: format,
+		gen: parseInt(format[3], 10) || 6,
 		team: line.slice(pipeIndex + 1),
 		capacity: isBox ? 24 : 6,
 		folder: line.slice(bracketIndex + 1, slashIndex > 0 ? slashIndex : bracketIndex + 1),
@@ -690,7 +730,12 @@ Storage.unpackLine = function (line) {
 
 Storage.packAllTeams = function (teams) {
 	return teams.map(function (team) {
-		return (team.format ? '' + team.format + (team.capacity === 24 ? '-box]' : ']') : '') + (team.folder ? '' + team.folder + '/' : '') + team.name + '|' + Storage.getPackedTeam(team);
+		return (
+			(team.teamid ? '' + team.teamid + '[' : '') +
+			(team.format ? '' + team.format + (team.capacity === 24 ? '-box]' : ']') : '') +
+			(team.folder ? '' + team.folder + '/' : '') + team.name + '|' +
+			Storage.getPackedTeam(team)
+		);
 	}).join('\n');
 };
 
@@ -1117,7 +1162,7 @@ Storage.importTeam = function (buffer, teams) {
 		} else if (line.substr(0, 3) === '===' && teams) {
 			team = [];
 			line = $.trim(line.substr(3, line.length - 6));
-			var format = 'gen8';
+			var format = 'gen9';
 			var capacity = 6;
 			var bracketIndex = line.indexOf(']');
 			if (bracketIndex >= 0) {
@@ -1129,7 +1174,6 @@ Storage.importTeam = function (buffer, teams) {
 				}
 				line = $.trim(line.substr(bracketIndex + 1));
 			}
-			var gen = parseInt(format[3], 10) || 6;
 			if (teams.length && typeof teams[teams.length - 1].team !== 'string') {
 				teams[teams.length - 1].team = Storage.packTeam(teams[teams.length - 1].team);
 			}
@@ -1142,7 +1186,7 @@ Storage.importTeam = function (buffer, teams) {
 			teams.push({
 				name: line,
 				format: format,
-				gen: gen,
+				gen: parseInt(format[3], 10) || 6,
 				team: team,
 				capacity: capacity,
 				folder: folder,
@@ -1333,7 +1377,8 @@ Storage.exportTeam = function (team, gen, hidestats) {
 			text += 'Gigantamax: Yes  \n';
 		}
 		if (gen === 9) {
-			text += 'Tera Type: ' + (curSet.teraType || Dex.species.get(curSet.species).types[0]) + "  \n";
+			var species = Dex.species.get(curSet.species);
+			text += 'Tera Type: ' + (species.forceTeraType || curSet.teraType || species.types[0]) + "  \n";
 		}
 		if (!hidestats) {
 			var first = true;
@@ -1567,7 +1612,7 @@ Storage.nwLoadTeamFile = function (filename, localApp) {
 		return;
 	}
 
-	var format = 'gen8';
+	var format = 'gen9';
 	var capacity = 6;
 	var bracketIndex = line.indexOf(']');
 	if (bracketIndex >= 0) {
@@ -1585,6 +1630,7 @@ Storage.nwLoadTeamFile = function (filename, localApp) {
 			self.teams.push({
 				name: line,
 				format: format,
+				gen: parseInt(format[3], 10) || 6,
 				team: Storage.packTeam(Storage.importTeam('' + data)),
 				capacity: capacity,
 				folder: folder,

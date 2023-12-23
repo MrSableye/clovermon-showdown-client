@@ -220,6 +220,9 @@ function toId() {
 			if (Config.testclient) {
 				ret = Config.routes.clientProtocol + '://' + Config.routes.client + ret;
 			}
+			if (Config.server.loginOverride) {
+				ret = Config.server.loginOverride + '/~~' + Config.server.id + '/action.php';
+			}
 			return (this.getActionPHP = function () {
 				return ret;
 			})();
@@ -258,6 +261,7 @@ function toId() {
 			} else if (assertion.indexOf('\n') >= 0 || !assertion) {
 				app.addPopupMessage("Something is interfering with our connection to the login server.");
 			} else {
+				app.trigger('loggedin');
 				app.send('/trn ' + name + ',0,' + assertion);
 			}
 		},
@@ -437,7 +441,7 @@ function toId() {
 					var autojoinIds = [];
 					if (typeof autojoin === 'string') {
 						// Use the existing autojoin string for showdown, and an empty string for other servers.
-						if (Config.server.id !== 'showdown') autojoin = '';
+						if (Config.server.id !== 'clodown') autojoin = '';
 					} else {
 						// If there is not autojoin data for this server, use a empty string.
 						autojoin = autojoin[Config.server.id] || '';
@@ -448,7 +452,7 @@ function toId() {
 							var roomid = toRoomid(autojoins[i]);
 							app.addRoom(roomid, null, true, autojoins[i]);
 							if (roomid === 'staff' || roomid === 'upperstaff') continue;
-							if (Config.server.id !== 'showdown' && roomid === 'lobby') continue;
+							if (Config.server.id !== 'clodown' && roomid === 'lobby') continue;
 							autojoinIds.push(roomid);
 						}
 					}
@@ -551,6 +555,15 @@ function toId() {
 
 			this.user.on('login:authrequired', function (name, special) {
 				self.addPopup(LoginPasswordPopup, {username: name, special: special});
+			});
+
+			this.on('loggedin', function () {
+				Storage.loadRemoteTeams(function () {
+					if (app.rooms.teambuilder) {
+						// if they have it open, be sure to update so it doesn't show 'no teams'
+						app.rooms.teambuilder.update();
+					}
+				});
 			});
 
 			this.on('response:savereplay', this.uploadReplay, this);
@@ -878,10 +891,11 @@ function toId() {
 		serializeForm: function (form, checkboxOnOff) {
 			// querySelector dates back to IE8 so we can use it
 			// fortunate, because form serialization is a HUGE MESS in older browsers
-			var elements = form.querySelectorAll('input[name], select[name], textarea[name], keygen[name]');
+			var elements = form.querySelectorAll('input[name], select[name], textarea[name], keygen[name], button[value]');
 			var out = [];
 			for (var i = 0; i < elements.length; i++) {
 				var element = elements[i];
+				if ($(element).attr('type') === 'submit') continue;
 				if (element.type === 'checkbox' && !element.value && checkboxOnOff) {
 					out.push([element.name, element.checked ? 'on' : 'off']);
 				} else if (!['checkbox', 'radio'].includes(element.type) || element.checked) {
@@ -910,16 +924,50 @@ function toId() {
 				e.stopPropagation();
 			}
 		},
+		loadingTeam: null,
+		loadingTeamQueue: [],
+		loadTeam: function (team, callback) {
+			if (!team.teamid) return;
+			if (!this.loadingTeam) {
+				var app = this;
+				this.loadingTeam = true;
+				$.get(app.user.getActionPHP(), {
+					act: 'getteam',
+					teamid: team.teamid,
+				}, Storage.safeJSON(function (data) {
+					app.loadingTeam = false;
+					if (data.actionerror) {
+						return app.addPopupMessage("Error loading team: " + data.actionerror);
+					}
+					team.privacy = data.privacy;
+					team.team = data.team;
+					team.loaded = true;
+					callback(team);
+					var entry = app.loadingTeamQueue.shift();
+					if (entry) {
+						app.loadTeam(entry[0], entry[1]);
+					}
+				}));
+			} else {
+				this.loadingTeamQueue.push([team, callback]);
+			}
+		},
 		/**
 		 * Send team to sim server
 		 */
-		sendTeam: function (team) {
+		sendTeam: function (team, callback) {
+			if (team && team.teamid && !team.loaded) {
+				return this.loadTeam(team, function (team) {
+					app.sendTeam(team, callback);
+				});
+			}
 			var packedTeam = '' + Storage.getPackedTeam(team);
-			if (packedTeam.length > 100 * 1024 - 6) {
-				alert("Your team is over 100 KB, usually caused by having over 600 Pokemon in it. Please use a smaller team.");
+			if (packedTeam.length > 25 * 1024 - 6) {
+				alert("Your team is over 25 KB. Please use a smaller team.");
 				return;
 			}
 			this.send('/utm ' + packedTeam);
+			callback();
 		},
 		/**
 		 * Receive from sim server
@@ -982,7 +1030,7 @@ function toId() {
 					this.renameRoom(roomid, parts[0], parts[1]);
 				} else if (data === 'nonexistent' && Config.server.id && roomid.slice(0, 7) === 'battle-' && errormessage) {
 					var replayid = roomid.slice(7);
-					if (Config.server.id !== 'showdown') replayid = Config.server.id + '-' + replayid;
+					if (Config.server.id !== 'clodown') replayid = Config.server.id + '-' + replayid;
 					var replayLink = 'https://' + Config.routes.replays + '/' + replayid;
 					$.ajax(replayLink + '.json', {dataType: 'json'}).done(function (replay) {
 						if (replay) {
@@ -1257,6 +1305,9 @@ function toId() {
 			var columnChanged = false;
 
 			window.NonBattleGames = {rps: 'Rock Paper Scissors'};
+			for (var i = 3; i <= 9; i = i + 2) {
+				window.NonBattleGames['bestof' + i] = 'Best-of-' + i;
+			}
 			window.BattleFormats = {};
 			for (var j = 1; j < formatsList.length; j++) {
 				if (isSection) {
@@ -1387,7 +1438,7 @@ function toId() {
 			var id = data.id;
 			var serverid = Config.server.id && toID(Config.server.id.split(':')[0]);
 			var silent = data.silent;
-			if (serverid && serverid !== 'showdown') id = serverid + '-' + id;
+			if (serverid && serverid !== 'clodown') id = serverid + '-' + id;
 			$.post(app.user.getActionPHP(), {
 				act: 'uploadreplay',
 				log: data.log,
@@ -1421,7 +1472,7 @@ function toId() {
 				if (this.className === 'closebutton') return; // handled elsewhere
 				if (this.className.indexOf('minilogo') >= 0) return; // handled elsewhere
 				if (!this.href) return; // should never happen
-				var isReplayLink = this.host === Config.routes.replays && Config.server.id === 'showdown';
+				var isReplayLink = this.host === Config.routes.replays && Config.server.id === 'clodown';
 				if ((
 					isReplayLink || [Config.routes.client, 'psim.us', location.host].includes(this.host)
 				) && this.className !== 'no-panel-intercept') {
@@ -1968,7 +2019,7 @@ function toId() {
 				var room = rooms[i];
 				if (room.type !== 'chat') continue;
 				autojoins.push(room.id.indexOf('-') >= 0 ? room.id : (room.title || room.id));
-				if (room.id === 'staff' || room.id === 'upperstaff' || (Config.server.id !== 'showdown' && room.id === 'lobby')) continue;
+				if (room.id === 'staff' || room.id === 'upperstaff' || (Config.server.id !== 'clodown' && room.id === 'lobby')) continue;
 				autojoinCount++;
 				if (autojoinCount >= 15) break;
 			}
@@ -1977,10 +2028,10 @@ function toId() {
 				if (curAutojoin[Config.server.id] === autojoins.join(',')) return;
 				if (!autojoins.length) {
 					delete curAutojoin[Config.server.id];
-					// If the only key left is 'showdown', revert to the string method for storing autojoin.
+					// If the only key left is 'clodown', revert to the string method for storing autojoin.
 					var hasSideServer = false;
 					for (var key in curAutojoin) {
-						if (key === 'showdown') continue;
+						if (key === 'clodown') continue;
 						hasSideServer = true;
 						break;
 					}
@@ -1989,9 +2040,9 @@ function toId() {
 					curAutojoin[Config.server.id] = autojoins.join(',');
 				}
 			} else {
-				if (Config.server.id !== 'showdown') {
+				if (Config.server.id !== 'clodown') {
 					// Switch to the autojoin object to handle multiple servers
-					curAutojoin = {showdown: curAutojoin};
+					curAutojoin = {clodown: curAutojoin};
 					if (!autojoins.length) return;
 					curAutojoin[Config.server.id] = autojoins.join(',');
 				} else {
@@ -2111,12 +2162,15 @@ function toId() {
 		},
 		dispatchClickButton: function (e) {
 			var target = e.currentTarget;
-			if (target.name) {
+			var type = $(target).attr('type');
+			if (type === 'submit') type = null;
+			if (target.name || type) {
 				app.dismissingSource = app.dismissPopups();
 				app.dispatchingButton = target;
 				e.preventDefault();
 				e.stopImmediatePropagation();
-				this[target.name](target.value, target);
+				if (target.name && this[target.name]) this[target.name](target.value, target);
+				if (type && this[type]) this[type](target.value, target);
 				delete app.dismissingSource;
 				delete app.dispatchingButton;
 			}
@@ -2142,6 +2196,31 @@ function toId() {
 		 */
 		receive: function (data) {
 			//
+		},
+
+		/**
+		 * Used for <formatselect>, does format popup and caches value in button value
+		 */
+		selectformat: function (value, target) {
+			var format = value || 'gen9randombattle';
+			app.addPopup(FormatPopup, {format: format, sourceEl: target, selectType: 'watch', onselect: function (newFormat) {
+				target.value = newFormat;
+			}});
+		},
+
+		copyText: function (value, target) {
+			var dummyInput = document.createElement("input");
+			// This is a hack. You can only "select" an input field.
+			//  The trick is to create a short lived input element and destroy it after a copy.
+			// (stolen from the replay code, obviously --mia)
+			dummyInput.id = "dummyInput";
+			dummyInput.value = value || target.value || target.href || "";
+			dummyInput.style.position = 'absolute';
+			target.appendChild(dummyInput);
+			dummyInput.select();
+			document.execCommand("copy");
+			target.removeChild(dummyInput);
+			$(target).text('Copied!');
 		},
 
 		// layout
@@ -2667,7 +2746,13 @@ function toId() {
 					const port = server.https ? server.port : server.httpport;
 					const badgeSrc = protocol + '://' + server.host + ':' + port +
 						'/badges/' + encodeURIComponent(badge.file_name).replace(/\%3F/g, '?');
-					badgeBuffer += '<img class="userbadge" height="16" width="16" alt="' + badge.badge_name + '" title="' + badge.badge_name + '" src="' + badgeSrc + '" />';
+					let badgeName = badge.badge_name;
+					if (badge.badge_name_template && badge.badge_data) {
+						try {
+							badgeName = stringTemplate(badge.badge_name_template, JSON.parse(badge.badge_data));
+						} catch(e) {}
+					}
+					badgeBuffer += '<img class="userbadge" height="16" width="16" alt="' + badgeName + '" title="' + badgeName + '" src="' + badgeSrc + '" />';
 				});
 				badgeBuffer += '</span>';
 

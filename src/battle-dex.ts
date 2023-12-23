@@ -213,7 +213,7 @@ const Dex = new class implements ModdedDex {
 		if (avatar.charAt(0) === '#') {
 			return this.resourcePrefix + 'sprites/trainers-custom/' + toID(avatar.substr(1)) + '.png';
 		}
-		if (avatar.includes('.') && window.Config?.server?.registered) {
+		if (avatar.includes('.') && (window.Config?.server?.registered || window.Config.isReplay)) {
 			const server = Config.server || Config.defaultserver;
 			const protocol = server.https ? 'https' : 'http';
 			const port = server.https ? server.port : server.httpport;
@@ -547,7 +547,7 @@ const Dex = new class implements ModdedDex {
 		let baseDir = ['', 'gen1', 'gen2', 'gen3', 'gen4', 'gen5', '', '', '', ''][spriteData.gen];
 
 		// TODO: Remove Clover-specific logic
-		if ((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num <= -42001 && species.num >= -42999)) {
+		if ((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num <= -42001 && species.num >= -42999) || (species.num <= -8000 && species.num >= -8999) || (species.num <= 413999 && species.num >= 413001) || (species.num <= 999999 && species.num >= 999001)) {
 			graphicsGen = 3;
 			spriteData.gen = 3;
 			baseDir = 'gen5';
@@ -568,7 +568,7 @@ const Dex = new class implements ModdedDex {
 		if (!animationData) animationData = {};
 		if (!miscData) miscData = {};
 
-		if (miscData.num !== 0 && miscData.num > -5000) {
+		if (miscData.num !== 0) {
 			let baseSpeciesid = toID(species.baseSpecies);
 			spriteData.cryurl = 'audio/cries/' + baseSpeciesid;
 			let formeid = species.formeid;
@@ -576,11 +576,14 @@ const Dex = new class implements ModdedDex {
 				formeid === '-crowned' ||
 				formeid === '-eternal' ||
 				formeid === '-eternamax' ||
+				formeid === '-four' ||
 				formeid === '-hangry' ||
+				formeid === '-hero' ||
 				formeid === '-lowkey' ||
 				formeid === '-noice' ||
 				formeid === '-primal' ||
 				formeid === '-rapidstrike' ||
+				formeid === '-roaming' ||
 				formeid === '-school' ||
 				formeid === '-sky' ||
 				formeid === '-starter' ||
@@ -593,8 +596,10 @@ const Dex = new class implements ModdedDex {
 				baseSpeciesid === 'indeedee' ||
 				baseSpeciesid === 'lycanroc' ||
 				baseSpeciesid === 'necrozma' ||
+				baseSpeciesid === 'oinkologne' ||
 				baseSpeciesid === 'oricorio' ||
 				baseSpeciesid === 'slowpoke' ||
+				baseSpeciesid === 'tatsugiri' ||
 				baseSpeciesid === 'zygarde'
 			)) {
 				spriteData.cryurl += formeid;
@@ -620,7 +625,7 @@ const Dex = new class implements ModdedDex {
 				spriteData.y += -11;
 			}
 			// TODO: Remove Clover-specific logic
-			if (!((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num >= -42001 && species.num <= -42999))) {
+			if (!((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num >= -42001 && species.num <= -42999) || (species.num <= -8000 && species.num >= -8999) || (species.num <= 413999 && species.num >= 413001) || (species.num <= 999999 && species.num >= 999001))) {
 				return spriteData;
 			}
 		}
@@ -702,6 +707,10 @@ const Dex = new class implements ModdedDex {
 			num = 1379 + (48 * 12) + Math.abs(num % 42000);
 		} else if (num > 42000 && num <= 42999) { // Clover CAPmons
 			num = 1379 + (49 * 12) + num % 42000;
+		} else if (num > 413000 && num <= 413999) {
+			num = 1379 + (76 * 12) + num % 413000; // Sburbmons
+		} else if (num > 999000 && num <= 999999) {
+			num = 1379 + (76 * 12) + num % 999000; // TODO: Sweet (but not really, not yet...)
 		} else if (num > 1010) {
 			num = 0;
 		}
@@ -879,6 +888,31 @@ class ModdedDex {
 
 			let data = {...Dex.moves.get(name)};
 
+			if (id.substr(0, 11) === 'hiddenpower' && id.length > 11) {
+				let [, hpWithType, hpPower] = /([a-z]*)([0-9]*)/.exec(id)!;
+				id = toID(hpWithType);
+				data = {
+					...(window.BattleMovedex[hpWithType] || {}),
+					basePower: Number(hpPower) || 60,
+				};
+			}
+			if (id.substr(0, 6) === 'return' && id.length > 6) {
+				const newBasePower = Number(id.slice(6));
+				id = toID(id.substr(0, 6));
+				data = {
+					...(window.BattleMovedex['return'] || {}),
+					basePower: newBasePower,
+				};
+			}
+			if (id.substr(0, 11) === 'frustration' && id.length > 11) {
+				const newBasePower = Number(id.slice(11));
+				id = toID(id.substr(0, 11));
+				data = {
+					...(window.BattleMovedex['frustration'] || {}),
+					basePower: newBasePower,
+				};
+			}
+
 			for (let i = Dex.gen - 1; i >= this.gen; i--) {
 				const table = window.BattleTeambuilderTable[`gen${i}`];
 				if (id in table.overrideMoveData) {
@@ -1020,6 +1054,16 @@ class ModdedDex {
 					break;
 				}
 				if (id in table.overrideTypeChart) {
+					data = {...data, ...table.overrideTypeChart[id]};
+				}
+			}
+
+			if (this.modid !== `gen${this.gen}`) {
+				const table = window.BattleTeambuilderTable[this.modid];
+				if (id in table.removeType) {
+					data.exists = false;
+					// don't bother correcting its attributes given it doesn't exist
+				} else if (id in table.overrideTypeChart) {
 					data = {...data, ...table.overrideTypeChart[id]};
 				}
 			}

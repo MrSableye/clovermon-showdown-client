@@ -183,6 +183,12 @@ class BattleTextParser {
 			break;
 		}
 
+		case '-heal': {
+			const id = BattleTextParser.effectId(kwArgs.from);
+			if (['dryskin', 'eartheater', 'voltabsorb', 'waterabsorb'].includes(id)) kwArgs.of = '';
+			break;
+		}
+
 		case '-nothing':
 			// OLD: |-nothing
 			// NEW: |-activate||move:Splash
@@ -819,9 +825,6 @@ class BattleTextParser {
 				return this.template('upkeep', weather, 'NODEFAULT');
 			}
 			const line1 = this.maybeAbility(kwArgs.from, kwArgs.of);
-			if (BattleTextParser.effectId(kwArgs.from) === 'orichalcumpulse') {
-				return line1 + this.template('start', 'orichalcumpulse').replace('[POKEMON]', this.pokemon(kwArgs.of));
-			}
 			let template = this.template('start', weather, 'NODEFAULT');
 			if (!template) template = this.template('startFieldEffect').replace('[EFFECT]', this.effect(weather));
 			return line1 + template;
@@ -889,6 +892,14 @@ class BattleTextParser {
 				return line1 + template.replace('[TARGET]', this.pokemon(target));
 			}
 
+			if (id === 'commander') {
+				// Commander didn't have a message prior to v1.2.0 of SV
+				// so this is for backwards compatibility
+				if (target === pokemon) return line1;
+				const template = this.template('activate', id);
+				return line1 + template.replace('[POKEMON]', this.pokemon(pokemon)).replace(/\[TARGET\]/g, this.pokemon(target));
+			}
+
 			if (id === 'dispenser') {
 				const template = this.template('activate', effect);
 				return template.replace('[SOURCE]', this.pokemon(kwArgs.of)).replace('[TARGET]', this.pokemon(pokemon)).replace('[MOVE]', kwArgs.move);
@@ -922,6 +933,9 @@ class BattleTextParser {
 			}
 			if ((id === 'protosynthesis' || id === 'quarkdrive') && kwArgs.fromitem) {
 				templateId = 'activateFromItem';
+			}
+			if (id === 'orichalcumpulse' && kwArgs.source) {
+				templateId = 'start';
 			}
 			let template = this.template(templateId, effect, 'NODEFAULT');
 			if (!template) {
@@ -980,7 +994,7 @@ class BattleTextParser {
 		case '-heal': {
 			let [, pokemon] = args;
 			let template = this.template('heal', kwArgs.from, 'NODEFAULT');
-			const line1 = this.maybeAbility(kwArgs.from, pokemon);
+			const line1 = this.maybeAbility(kwArgs.from, kwArgs.of || pokemon);
 			if (template) {
 				return line1 + template.replace('[POKEMON]', this.pokemon(pokemon)).replace('[SOURCE]', this.pokemon(kwArgs.of)).replace('[NICKNAME]', kwArgs.wisher);
 			}
@@ -1010,7 +1024,7 @@ class BattleTextParser {
 				return line1 + template.replace('[POKEMON]', this.pokemon(pokemon)).replace('[STAT]', BattleTextParser.stat(stat)).replace('[ITEM]', this.effect(kwArgs.from));
 			}
 			const template = this.template(templateId, kwArgs.from);
-			return line1 + template.replace('[POKEMON]', this.pokemon(pokemon)).replace('[STAT]', BattleTextParser.stat(stat));
+			return line1 + template.replace(/\[POKEMON\]/g, this.pokemon(pokemon)).replace('[STAT]', BattleTextParser.stat(stat));
 		}
 
 		case '-setboost': {

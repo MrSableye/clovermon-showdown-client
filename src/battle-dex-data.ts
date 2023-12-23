@@ -561,8 +561,12 @@ type NatureName = 'Adamant' | 'Bashful' | 'Bold' | 'Brave' | 'Calm' | 'Careful' 
 	'Quiet' | 'Quirky' | 'Rash' | 'Relaxed' | 'Sassy' | 'Serious' | 'Timid';
 type StatNameExceptHP = 'atk' | 'def' | 'spa' | 'spd' | 'spe';
 type TypeName = 'Normal' | 'Fighting' | 'Flying' | 'Poison' | 'Ground' | 'Rock' | 'Bug' | 'Ghost' | 'Steel' |
-	'Fire' | 'Water' | 'Grass' | 'Electric' | 'Psychic' | 'Ice' | 'Dragon' | 'Dark' | 'Fairy' | '???';
-type StatusName = 'par' | 'psn' | 'frz' | 'slp' | 'brn';
+	'Fire' | 'Water' | 'Grass' | 'Electric' | 'Psychic' | 'Ice' | 'Dragon' | 'Dark' | 'Fairy' | '???' | 'Blood' |
+	'Bone' | 'Chaos' | 'Cosmic' | 'Crystal' | 'Cyber' | 'Divine' | 'Fabric' | 'Fear' | 'Food' | 'Glass' | 'Greasy' |
+	'Heart' | 'Light' | 'Magic' | 'Magma' | 'Meme' | 'Nuclear' | 'Ogre' | 'Paint' | 'Paper' | 'Plastic' | 'Qmarks' |
+	'Rubber' | 'Shadow' | 'Sound' | 'Steam' | 'Tech' | 'Time' | 'Virus' | 'Void' | 'Wack' | 'Wind' | 'Wood' | 'Zombie' |
+	'Vanilla' | 'Cherry' | 'Strawberry' | 'Apple' | 'Orange' | 'Banana' | 'Lemon' | 'Lime' | 'Blueberry' | 'Grape' | 'Raspberry' | 'Chocolate';
+type StatusName = 'par' | 'psn' | 'frz' | 'slp' | 'brn' | 'radish';
 type BoostStatName = 'atk' | 'def' | 'spa' | 'spd' | 'spe' | 'evasion' | 'accuracy' | 'spc';
 type GenderName = 'M' | 'F' | 'N';
 
@@ -985,9 +989,10 @@ class Species implements Effect {
 	readonly tier: string;
 	readonly isTotem: boolean;
 	readonly isMega: boolean;
-	readonly cannotDynamax: boolean;
-	readonly canGigantamax: boolean;
 	readonly isPrimal: boolean;
+	readonly canGigantamax: boolean;
+	readonly cannotDynamax: boolean;
+	readonly forceTeraType: TypeName;
 	readonly battleOnly: string | string[] | undefined;
 	readonly isNonstandard: string | null;
 	readonly unreleasedHidden: boolean | 'Past';
@@ -1006,6 +1011,7 @@ class Species implements Effect {
 		this.formeid = (baseId === this.id ? '' : '-' + toID(this.forme));
 		this.spriteid = baseId + this.formeid;
 		if (this.spriteid.slice(-5) === 'totem') this.spriteid = this.spriteid.slice(0, -5);
+		if (this.spriteid === 'greninja-bond') this.spriteid = 'greninja';
 		if (this.spriteid.slice(-1) === '-') this.spriteid = this.spriteid.slice(0, -1);
 		this.baseForme = data.baseForme || '';
 
@@ -1038,9 +1044,10 @@ class Species implements Effect {
 
 		this.isTotem = false;
 		this.isMega = !!(this.forme && ['-mega', '-megax', '-megay'].includes(this.formeid));
-		this.cannotDynamax = !!data.cannotDynamax;
-		this.canGigantamax = !!data.canGigantamax;
 		this.isPrimal = !!(this.forme && this.formeid === '-primal');
+		this.canGigantamax = !!data.canGigantamax;
+		this.cannotDynamax = !!data.cannotDynamax;
+		this.forceTeraType = data.forceTeraType || '';
 		this.battleOnly = data.battleOnly || undefined;
 		this.isNonstandard = data.isNonstandard || null;
 		this.unreleasedHidden = data.unreleasedHidden || false;

@@ -37,6 +37,8 @@ class PSRouter {
 				url = url.slice(7);
 			} else if (url.startsWith('replay.pokemonshowdown.com')) {
 				url = url.slice(26).replace('/', '/battle-');
+			} else if (PS.server.id === 'clodown' && url.startsWith('clover.weedl.es')) {
+				url = url.slice(15);
 			}
 		}
 		if (url.startsWith('/')) url = url.slice(1);

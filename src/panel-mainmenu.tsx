@@ -97,6 +97,9 @@ class MainMenuRoom extends PSRoom {
 		let column = 0;
 
 		window.NonBattleGames = {rps: 'Rock Paper Scissors'};
+		for (let i = 3; i <= 9; i = i + 2) {
+			window.NonBattleGames['bestof' + i] = 'Best-of-' + i;
+		}
 		window.BattleFormats = {};
 		for (let j = 1; j < formatsList.length; j++) {
 			const entry = formatsList[j];
@@ -377,7 +380,7 @@ class MainMenuPanel extends PSRoomPanel<MainMenuRoom> {
 				</div>
 				<div class="rightmenu" style={{display: PS.leftRoomWidth ? 'none' : 'block'}}>
 					<div class="menugroup">
-						{PS.server.id === 'showdown' ?
+						{PS.server.id === 'clodown' ?
 							<p><button class={"mainmenu1" + onlineButton} name="joinRoom" value="rooms">Join chat</button></p>
 						:
 							<p><button class={"mainmenu1" + onlineButton} name="joinRoom" value="lobby">Join lobby chat</button></p>
@@ -387,11 +390,7 @@ class MainMenuPanel extends PSRoomPanel<MainMenuRoom> {
 				<div class="mainmenufooter">
 					<div class="bgcredit"></div>
 					<small>
-						<a href={`//${Config.routes.dex}/`} target="_blank">Pok&eacute;dex</a> | {}
-						<a href={`//${Config.routes.replays}/`} target="_blank">Replays</a> | {}
-						<a href={`//${Config.routes.root}/rules`} target="_blank">Rules</a> | {}
-						<a href={`//${Config.routes.dex}/credits`} target="_blank">Credits</a> | {}
-						<a href="//smogon.com/forums/" target="_blank">Forum</a>
+						<a href={`//${Config.routes.replays}/`} target="_blank">Replays</a>
 					</small>
 				</div>
 			</div>

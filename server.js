@@ -8,7 +8,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const yargs = require('yargs');
 
-const { ports, defaultserver, ssl, proxies } = require('./config/config-server');
+const { ports, ssl } = require('./config/config-server');
 
 const argv = yargs.option('httpOnly', {
   alias: 'http',
@@ -17,63 +17,28 @@ const argv = yargs.option('httpOnly', {
   default: false,
 }).parse();
 
+const checkLoginResponse = (loginDataString) => {
+  if (loginDataString.charAt(0) === ']') {
+    const loginData = JSON.parse(loginDataString.substring(1));
+    return loginData.actionsuccess === true;
+  }
+
+  return false;
+};
+
+const checkRegisteredResponse = (loginDataString) => {
+  if (loginDataString.charAt(0) === ']') {
+    const loginData = JSON.parse(loginDataString.substring(1));
+    return !('actionerror' in loginData);
+  }
+
+  return false;
+};
+
 const app = express();
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.post(`/~~${defaultserver.id}/action.php`, (request, response, next) => {
-  try {
-    if (request.body.act && request.body.act === 'register') {
-      return response.send(']{"actionerror":"Please register on https:\/\/play.pokemonshowdown.com\/."}')
-    }
-  
-    let headers = {};
-    const cookieHeader = request.headers['Cookie'] || request.headers['cookie'];
-    if (cookieHeader) {
-      headers.cookie = cookieHeader;
-    }
-  
-    const requestOptions = {
-      method: 'POST',
-      url: 'http://play.pokemonshowdown.com/action.php',
-      data: request.body,
-      headers,
-    };
-  
-    if (proxies && proxies.length) {
-      const proxy = proxies[Math.floor(Math.random() * proxies.length)];
-      requestOptions.proxy = {
-        protocol: proxy.protocol | 'http',
-        host: proxy.ip,
-        port: proxy.port,
-      };
-  
-      if (proxy.username) {
-        requestOptions.proxy.auth = {
-          username: proxy.username,
-          password: proxy.password || '',
-        };
-      }
-    }
-  
-    axios(requestOptions).then((res) => {
-      const setCookieHeader = res.headers['Set-Cookie'] || res.headers['set-cookie'];
-      if (setCookieHeader) {
-        if (Array.isArray(setCookieHeader)) {
-          setCookieHeader.forEach((header) => {
-            response.setHeader('set-cookie', header.replace('pokemonshowdown.com', defaultserver.clientHost));
-          });
-        } else {
-          response.setHeader('set-cookie', setCookieHeader.replace('pokemonshowdown.com', defaultserver.clientHost));
-        }
-      };
-      response.send(res.data)
-    })
-    .catch((error) => next(error));
-  } catch (error) {
-    next(error);
-  }
-});
 app.use('*.php', (request, response) => response.sendStatus(404));
 app.get('/lobby-banner', (request, response) => {
   const banners = fs.readdirSync('./banners');

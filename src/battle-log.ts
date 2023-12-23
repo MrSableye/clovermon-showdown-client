@@ -29,6 +29,7 @@ export class BattleLog {
 	scene: BattleScene | null = null;
 	preemptElem: HTMLDivElement = null!;
 	atBottom = true;
+	skippedLines = false;
 	className: string;
 	battleParser: BattleTextParser | null = null;
 	joinLeave: {
@@ -78,12 +79,42 @@ export class BattleLog {
 	reset() {
 		this.innerElem.innerHTML = '';
 		this.atBottom = true;
+		this.skippedLines = false;
 	}
 	destroy() {
 		this.elem.onscroll = null;
 	}
+	addSeekEarlierButton() {
+		if (this.skippedLines) return;
+		this.skippedLines = true;
+		const el = document.createElement('div');
+		el.className = 'chat';
+		el.innerHTML = '<button class="button earlier-button"><i class="fa fa-caret-up"></i><br />Earlier messages</button>';
+		const button = el.getElementsByTagName('button')[0];
+		button?.addEventListener?.('click', e => {
+			e.preventDefault();
+			this.scene?.battle.seekTurn(this.scene.battle.turn - 100);
+		});
+		this.addNode(el);
+	}
 	add(args: Args, kwArgs?: KWArgs, preempt?: boolean) {
 		if (kwArgs?.silent) return;
+		if (this.scene?.battle.seeking) {
+			const battle = this.scene.battle;
+			if (battle.stepQueue.length > 2000) {
+				// adding elements gets slower and slower the more there are
+				// (so showing 100 turns takes around 2 seconds, and 1000 turns takes around a minute)
+				// capping at 100 turns makes everything _reasonably_ snappy
+				if (
+					battle.seeking === Infinity ?
+						battle.currentStep < battle.stepQueue.length - 2000 :
+						battle.turn < battle.seeking! - 100
+				) {
+					this.addSeekEarlierButton();
+					return;
+				}
+			}
+		}
 		let divClass = 'chat';
 		let divHTML = '';
 		let noNotify: boolean | undefined;
@@ -710,6 +741,8 @@ export class BattleLog {
 		};
 	})();
 
+	static players: any[] = [];
+	static ytLoading: Promise<void> | null = null;
 	static tagPolicy: ((tagName: string, attribs: string[]) => any) | null = null;
 	static initSanitizeHTML() {
 		if (this.tagPolicy) return;
@@ -726,6 +759,8 @@ export class BattleLog {
 			username: 0,
 			spotify: 0,
 			youtube: 0,
+			formatselect: 0,
+			copytext: 0,
 			twitch: 0,
 			badge: 0,
 			avatar: 0,
@@ -749,9 +784,11 @@ export class BattleLog {
 			'psicon::pokemon': 0,
 			'psicon::item': 0,
 			'psicon::type': 0,
+			'selectformat::type': 0,
 			'psicon::category': 0,
 			'username::name': 0,
 			'form::data-submitsend': 0,
+			'formatselect::format': 0,
 			'div::data-server': 0,
 			'button::data-send': 0,
 			'form::data-delimiter': 0,
@@ -873,13 +910,36 @@ export class BattleLog {
 				if (!videoId) return {tagName: 'img', attribs: ['alt', `invalid src for <youtube>`]};
 
 				const time = /(?:\?|&)(?:t|start)=([0-9]+)/.exec(src)?.[1];
-
+				this.players.push(null);
+				const idx = this.players.length;
+				this.initYoutubePlayer(idx);
 				return {
 					tagName: 'iframe',
 					attribs: [
+						'id', `youtube-iframe-${idx}`,
 						'width', width, 'height', height,
-						'src', `https://www.youtube.com/embed/${videoId}${time ? `?start=${time}` : ''}`,
+						'src', `https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1${time ? `&start=${time}` : ''}`,
 						'frameborder', '0', 'allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture', 'allowfullscreen', 'allowfullscreen',
+					],
+				};
+			} else if (tagName === 'formatselect') {
+				return {
+					tagName: 'button',
+					attribs: [
+						'type', 'selectformat',
+						'class', "select formatselect",
+						'value', getAttrib('format') || getAttrib('value') || '',
+						'name', getAttrib('name') || '',
+					],
+				};
+			} else if (tagName === 'copytext') {
+				return {
+					tagName: 'button',
+					attribs: [
+						'type', getAttrib('type'),
+						'class', getAttrib('class') || 'button',
+						'value', getAttrib('value'),
+						'name', 'copyText',
 					],
 				};
 			} else if (tagName === 'psicon') {
@@ -1025,6 +1085,55 @@ export class BattleLog {
 		this.localizeTime);
 	}
 
+	static initYoutubePlayer(idx: number) {
+		const id = `youtube-iframe-${idx}`;
+		const loadPlayer = () => {
+			if (!$(`#${id}`).length) return;
+			const player = new window.YT.Player(id, {
+				events: {
+					onStateChange: (event: any) => {
+						if (event.data === window.YT.PlayerState.PLAYING) {
+							for (const curPlayer of BattleLog.players) {
+								if (player === curPlayer) continue;
+								curPlayer?.pauseVideo?.();
+							}
+						}
+					},
+				},
+			});
+			this.players[idx - 1] = player;
+		};
+		// wait for html element to be in DOM
+		this.ensureYoutube().then(() => {
+			setTimeout(() => loadPlayer(), 300);
+		});
+	}
+
+	static ensureYoutube(): Promise<void> {
+		if (this.ytLoading) return this.ytLoading;
+
+		this.ytLoading = new Promise(resolve => {
+			const el = document.createElement('script');
+			el.type = 'text/javascript';
+			el.async = true;
+			el.src = 'https://youtube.com/iframe_api';
+			el.onload = () => {
+				// since the src loads more files remotely we'll just wait
+				// until the player exists
+				const loopCheck = () => {
+					if (!window.YT?.Player) {
+						setTimeout(() => loopCheck(), 300);
+					} else {
+						resolve();
+					}
+				};
+				loopCheck();
+			};
+			document.body.appendChild(el);
+		});
+		return this.ytLoading;
+	}
+
 	/*********************************************************
 	 * Replay files
 	 *********************************************************/
@@ -1056,7 +1165,7 @@ export class BattleLog {
 		if (replayid) {
 			// battle room
 			replayid = replayid.slice(7);
-			if (Config.server.id !== 'showdown') {
+			if (Config.server.id !== 'clodown') {
 				if (!Config.server.registered) {
 					replayid = 'unregisteredserver-' + replayid;
 				} else {

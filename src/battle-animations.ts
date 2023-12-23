@@ -10,12 +10,71 @@
  * @author Guangcong Luo <guangcongluo@gmail.com>
  * @license MIT
  */
+declare var stringTemplate: (template: string, data: any) => string;
 
 import type {Battle, Pokemon, Side, WeatherState} from './battle';
 import type {BattleSceneStub} from './battle-scene-stub';
 import {BattleMoveAnims} from './battle-animations-moves';
 import {BattleLog} from './battle-log';
 import {BattleBGM, BattleSound} from './battle-sound';
+
+interface Track {
+	file: string;
+	start: number;
+	end: number;
+}
+
+const defaultTrack: Track = { file: 'audio/viol.mp3', start: 61783, end: 95529 };
+
+const cloverTracks: Track[] = [
+	defaultTrack,
+	{ file: 'audio/edgie.mp3', start: 88923, end: 189889 },
+	{ file: 'audio/gym-ebin.mp3', start: 52874, end: 169975 },
+	{ file: 'audio/gym-fochun.mp3', start: 128109, end: 260707 },
+	{ file: 'audio/keksandra.mp3', start: 25341, end: 119665 },
+	{ file: 'audio/trainer-ebin.mp3', start: 55535, end: 107208 },
+	{ file: 'audio/trainer-fochun.mp3', start: 50441, end: 117134 },
+	{ file: 'audio/battle-adesign.mp3', start: 5547, end: 284963 },
+	{ file: 'audio/battle-baddon.mp3', start: 10235, end: 104590 },
+	{ file: 'audio/gym-evil-leader.mp3', start: 3175, end: 93576 },
+	{ file: 'audio/grindhaus.mp3', start: 19501, end: 108502 },
+	{ file: 'audio/battle-heliofug.mp3', start: 123775, end: 256367 },
+	{ file: 'audio/battle-nomel-bro.mp3', start: 6902, end: 269898 },
+	{ file: 'audio/plastic-love.mp3', start: 29913, end: 234151 },
+	{ file: 'audio/battle-route-master.mp3', start: 225874, end: 449220 },
+	{ file: 'audio/battle-terry.mp3', start: 41332, end: 299997 },
+	{ file: 'audio/battle-vivaiger.mp3', start: 145231, end: 254827 },
+	{ file: 'audio/battle-vyglass.mp3', start: 4800, end: 156980 },
+	{ file: 'audio/battle-biteki.mp3', start: 6363, end: 18414 },
+];
+
+const wackTracks: Track[] = [
+	{ file: 'audio/darkgodsbattle.mp3', start: 0, end: 537000 },
+	{ file: 'audio/emotions.mp3', start: 0, end: 290000 },
+	{ file: 'audio/endoftheworld.mp3', start: 0,end: 309000 },
+	{ file: 'audio/hellwaltz.mp3', start: 0, end: 219000 },
+	{ file: 'audio/himtheme.mp3', start: 0, end: 225000 },
+	{ file: 'audio/humangods.mp3', start: 0, end: 248000 },
+	{ file: 'audio/israelianthemtechno.mp3', start: 0, end: 201000 },
+	{ file: 'audio/longinus.mp3', start: 0, end: 284000 },
+	{ file: 'audio/solarstorm.mp3', start: 0, end: 219000 },
+	{ file: 'audio/teamwack.mp3', start: 0, end: 126000 },
+	{ file: 'audio/teamwackadmin.mp3', start: 0, end: 317000 },
+	{ file: 'audio/thegoodbattle.mp3', start: 0, end: 140000 },
+	{ file: 'audio/tiresonfire.mp3', start: 0, end: 124000 },
+	{ file: 'audio/typingboss.mp3', start: 0, end: 320000 },
+	{ file: 'audio/unisoninabyss.mp3', start: 0, end: 270000 },
+	{ file: 'audio/valhalla.mp3', start: 0, end: 270000 },
+	{ file: 'audio/visions.mp3', start: 0, end: 259000 },
+	{ file: 'audio/vxacebattle6.mp3', start: 0, end: 140000 },
+	{ file: 'audio/zaydolfreturn.mp3', start: 0, end: 319000 },
+];
+
+type SpecialTrack = 'kojimakino';
+
+const specialTracks: Record<SpecialTrack, Track> = {
+	kojimakino: { file: 'audio/strand-type-music.mp3', start: 92778, end: 107077 },
+};
 
 /*
 
@@ -77,6 +136,7 @@ export class BattleScene implements BattleSceneStub {
 	bgm: BattleBGM | null = null;
 	backdropImage: string = '';
 	bgmNum = 0;
+	specialTrack: SpecialTrack | null = null;
 	preloadCache: {[url: string]: HTMLImageElement} = {};
 
 	messagebarOpen = false;
@@ -204,6 +264,7 @@ export class BattleScene implements BattleSceneStub {
 
 	animationOff() {
 		this.$battle.append('<div class="seeking"><strong>seeking...</strong></div>');
+		this.$frame.find('div.playbutton').remove();
 		this.stopAnimation();
 
 		this.animating = false;
@@ -235,10 +296,8 @@ export class BattleScene implements BattleSceneStub {
 	pause() {
 		this.stopAnimation();
 		this.updateBgm();
-		if (this.battle.turn > 0) {
-			this.$frame.append('<div class="playbutton"><button name="play"><i class="fa fa-play icon-play"></i> Resume</button></div>');
-		} else {
-			this.$frame.append('<div class="playbutton"><button name="play"><i class="fa fa-play"></i> Play</button><br /><br /><button name="play-muted" class="startsoundchooser" style="font-size:10pt;display:none">Play (music off)</button></div>');
+		if (!this.battle.started) {
+			this.$frame.append('<div class="playbutton"><button name="play" class="button"><i class="fa fa-play"></i> Play</button><br /><br /><button name="play-muted" class="startsoundchooser button" style="font-size:10pt">Play (music off)</button></div>');
 			this.$frame.find('div.playbutton button[name=play-muted]').click(() => {
 				this.setMute(true);
 				this.battle.play();
@@ -555,7 +614,7 @@ export class BattleScene implements BattleSceneStub {
 	}
 
 	updateGen() {
-		let forceGen3 = ['cloveronly', 'clovercaponly', 'cloverblobboscaponly'];
+		let forceGen3 = ['cloveronly', 'clovercaponly', 'cloverblobboscaponly', 'sburbmonsonly', 'sweetonly'];
 		let gen = this.battle.gen;
 		if (Dex.prefs('nopastgens')) gen = 6;
 		if (Dex.prefs('bwgfx') && gen > 5) gen = 5;
@@ -688,7 +747,13 @@ export class BattleScene implements BattleSceneStub {
 				const port = server.https ? server.port : server.httpport;
 				const badgeSrc = protocol + '://' + server.host + ':' + port +
 					'/badges/' + encodeURIComponent(badge.file_name).replace(/\%3F/g, '?');
-				badgeBuffer += '<img class="userbadge" height="16" width="16" alt="' + badge.badge_name + '" title="' + badge.badge_name + '" src="' + badgeSrc + '" />';
+				let badgeName = badge.badge_name;
+				if (badge.badge_name_template && badge.badge_data) {
+					try {
+						badgeName = stringTemplate(badge.badge_name_template, JSON.parse(badge.badge_data));
+					} catch(e) {}
+				}
+				badgeBuffer += '<img class="userbadge" height="16" width="16" alt="' + badgeName + '" title="' + badgeName + '" src="' + badgeSrc + '" />';
 			});
 			badgeBuffer += '</span>';
 
@@ -804,7 +869,6 @@ export class BattleScene implements BattleSceneStub {
 	}
 
 	teamPreview() {
-		let newBGNum = 0;
 		for (let siden = 0; siden < 2 || (this.battle.gameType === 'multi' && siden < 4); siden++) {
 			let side = this.battle.sides[siden];
 			const spriteIndex = +this.battle.sidesSwitched ^ (siden % 2);
@@ -864,17 +928,6 @@ export class BattleScene implements BattleSceneStub {
 				);
 			}
 			this.$sprites[spriteIndex].html(buf + buf2);
-
-			if (!newBGNum) {
-				if (ludicoloCount >= 2) {
-					newBGNum = -3;
-				} else if (ludicoloCount + lombreCount >= 2) {
-					newBGNum = -2;
-				}
-			}
-		}
-		if (newBGNum !== 0) {
-			this.setBgm(newBGNum);
 		}
 		this.wait(1000);
 		this.updateSidebars();
@@ -941,7 +994,11 @@ export class BattleScene implements BattleSceneStub {
 				snow: 'Snow',
 				deltastream: 'Strong Winds',
 				densefog: 'Dense Fog',
+				acidicrainfall: 'Acidic Rainfall',
 				timefall: 'Timefall',
+				acidrain: 'Acid Rain',
+				midnight: 'Midnight',
+				bladerain: 'Blade Rain',
 			};
 			weatherhtml = `${weatherNameTable[this.battle.weather] || this.battle.weather}`;
 			if (this.battle.weatherMinTimeLeft !== 0) {
@@ -1601,6 +1658,9 @@ export class BattleScene implements BattleSceneStub {
 	animDragOut(pokemon: Pokemon) {
 		return pokemon.sprite.animDragOut(pokemon);
 	}
+	resetStatbar(pokemon: Pokemon, startHidden?: boolean) {
+		return pokemon.sprite.resetStatbar(pokemon, startHidden);
+	}
 	updateStatbar(pokemon: Pokemon, updatePrevhp?: boolean, updateHp?: boolean) {
 		return pokemon.sprite.updateStatbar(pokemon, updatePrevhp, updateHp);
 	}
@@ -1667,76 +1727,31 @@ export class BattleScene implements BattleSceneStub {
 		this.preloadImage(Dex.resourcePrefix + 'sprites/ani-back/substitute.gif');
 	}
 	rollBgm() {
-		this.setBgm(1 + this.numericId % 19);
-	}
-	setBgm(bgmNum: number) {
-		if (this.bgmNum === bgmNum) return;
-		this.bgmNum = bgmNum;
-
-		switch (bgmNum) {
-		case -1:
-			this.bgm = BattleSound.loadBgm('audio/strand-type-music.mp3', 92778, 107077, this.bgm);
-			break;
-		case 1:
-			this.bgm = BattleSound.loadBgm('audio/edgie.mp3', 88923, 189889, this.bgm);
-			break;
-		case 2:
-			this.bgm = BattleSound.loadBgm('audio/gym-ebin.mp3', 52874, 169975, this.bgm);
-			break;
-		case 3:
-			this.bgm = BattleSound.loadBgm('audio/gym-fochun.mp3', 128109, 260707, this.bgm);
-			break;
-		case 4:
-			this.bgm = BattleSound.loadBgm('audio/keksandra.mp3', 25341, 119665, this.bgm);
-			break;
-		case 5:
-			this.bgm = BattleSound.loadBgm('audio/trainer-ebin.mp3', 55535, 107208, this.bgm);
-			break;
-		case 6:
-			this.bgm = BattleSound.loadBgm('audio/trainer-fochun.mp3', 50441, 117134, this.bgm);
-			break;	
-		case 7:
-			this.bgm = BattleSound.loadBgm('audio/battle-adesign.mp3', 5547, 284963, this.bgm);
-			break;
-		case 8:
-			this.bgm = BattleSound.loadBgm('audio/battle-baddon.mp3', 10235, 104590, this.bgm);
-			break;
-		case 9:
-			this.bgm = BattleSound.loadBgm('audio/gym-evil-leader.mp3', 3175, 93576, this.bgm);
-			break;
-		case 10:
-			this.bgm = BattleSound.loadBgm('audio/grindhaus.mp3', 19501, 108502, this.bgm);
-			break;
-		case 11:
-			this.bgm = BattleSound.loadBgm('audio/battle-heliofug.mp3', 123775, 256367, this.bgm);
-			break;
-		case 12:
-			this.bgm = BattleSound.loadBgm('audio/battle-nomel-bro.mp3', 6902, 269898, this.bgm);
-			break;
-		case 13:
-			this.bgm = BattleSound.loadBgm('audio/plastic-love.mp3', 29913, 234151, this.bgm);
-			break;
-		case 14:
-			this.bgm = BattleSound.loadBgm('audio/battle-route-master.mp3', 225874, 449220, this.bgm);
-			break;
-		case 15:
-			this.bgm = BattleSound.loadBgm('audio/battle-terry.mp3', 41332, 299997, this.bgm);
-			break;
-		case 16:
-			this.bgm = BattleSound.loadBgm('audio/battle-vivaiger.mp3', 145231, 254827, this.bgm);
-			break;
-		case 17:
-			this.bgm = BattleSound.loadBgm('audio/battle-vyglass.mp3', 4800, 156980, this.bgm);
-			break;
-		case 18:
-			this.bgm = BattleSound.loadBgm('audio/battle-biteki.mp3', 6363, 18414, this.bgm);
-			break;
-		case 19:
-		default:
-			this.bgm = BattleSound.loadBgm('audio/viol.mp3', 61783, 95529, this.bgm);
-			break;
+		if (['wackonly', 'wacknatdex'].includes(this.battle.modName || '')) {
+			this.setRandomTrack(wackTracks);
+		} else {
+			this.setRandomTrack(cloverTracks);
 		}
+	}
+	setRandomTrack(tracks: Track[]) {
+		const bgmNum = this.numericId % tracks.length;
+		if (this.bgm && (this.bgmNum === bgmNum)) return;
 
+		this.bgmNum = bgmNum;
+		this.specialTrack = null; // Just so we can get back to Kojima kino...
+
+		const track = tracks[bgmNum] ?? defaultTrack;
+		this.bgm = BattleSound.loadBgm(track.file, track.start, track.end, this.bgm);
+		this.updateBgm();
+	}
+	setSpecialBgm(specialBgm: SpecialTrack) {
+		if (this.specialTrack === specialBgm) return;
+	
+		this.bgmNum = -1; // No track is ever -1, setRandomTrack will always be happy
+		this.specialTrack = specialBgm;
+		
+		const track = specialTracks[specialBgm];
+		this.bgm = BattleSound.loadBgm(track.file, track.start, track.end, this.bgm);
 		this.updateBgm();
 	}
 	updateBgm() {
@@ -1932,6 +1947,7 @@ export class PokemonSprite extends Sprite {
 		octolock: ['Octolock', 'bad'],
 		tarshot: ['Tar Shot', 'bad'],
 		saltcure: ['Salt Cure', 'bad'],
+		syrupbomb: ['Syrupy', 'bad'],
 		doomdesire: null,
 		futuresight: null,
 		finalhour: null,
@@ -2792,8 +2808,8 @@ export class PokemonSprite extends Sprite {
 		if (pokemon.side.isFar) return;
 
 		if (pokemon.speciesForme === 'Blobbos-Strand') {
-			this.scene.setBgm(-1);
-		} else if (this.scene.bgmNum === -1) {
+			this.scene.setSpecialBgm('kojimakino');
+		} else {
 			this.scene.rollBgm();
 		}
 	}
@@ -2905,6 +2921,8 @@ export class PokemonSprite extends Sprite {
 			status += '<span class="par">PAR</span> ';
 		} else if (pokemon.status === 'frz') {
 			status += '<span class="frz">FRZ</span> ';
+		} else if (pokemon.status === 'radish') {
+			status += '<span class="radish">RADISH</span> ';
 		}
 		if (pokemon.terastallized) {
 			status += `<img src="${Dex.resourcePrefix}sprites/types/${encodeURIComponent(pokemon.terastallized)}.png" alt="${pokemon.terastallized}" class="pixelated" /> `;
