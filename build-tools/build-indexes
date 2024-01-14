@@ -901,6 +901,16 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		blobbosswitch:  1379 + (65 * 12) + 120,
 		blobbosswitchblue:  1379 + (65 * 12) + 121,
 		blobbosswitchred:  1379 + (65 * 12) + 122,
+		blobbosdalle:  1379 + (65 * 12) + 123,
+		blobbosdrill:  1379 + (65 * 12) + 124,
+		blobbosengineer:  1379 + (65 * 12) + 125,
+		blobbosgeno:  1379 + (65 * 12) + 126,
+		blobbosrembered:  1379 + (65 * 12) + 127,
+		blobbostapu:  1379 + (65 * 12) + 128,
+		blobbosblackmage:  1379 + (65 * 12) + 129,
+		blobbosflask:  1379 + (65 * 12) + 130,
+		blobbosfossil:  1379 + (65 * 12) + 131,
+		blobboskeks:  1379 + (65 * 12) + 132,
 	};
 	
 	const BattlePokemonIconIndexesLeft = {
