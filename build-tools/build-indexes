@@ -37,7 +37,7 @@ function requireNoCache(pathSpec) {
 	return require(pathSpec);
 }
 
-const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { modGen: 8, mod: 'cloverblobboscap' }, { modGen: 8, mod: 'sandbox' }, {modGen: 8, mod: 'cope'}, {modGen: 8, mod: 'wack'}, {modGen: 8, mod: 'sburbmons'}, {modGen: 8, mod: 'sweet'}];
+const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { modGen: 8, mod: 'cloverblobboscap' }, { modGen: 8, mod: 'sandbox' }, {modGen: 8, mod: 'cope'}, {modGen: 8, mod: 'wack'}, {modGen: 8, mod: 'sburbmons'}, {modGen: 8, mod: 'sweet'}, {modGen: 8, mod: 'clovertest'}];
 
 /*********************************************************
  * Build search-index.js
@@ -1831,6 +1831,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		const natDexOverrideTier = {};
 		for (const pokemonId of pokemon) {
 			const species = modDex.species.get(pokemonId);
+
 			let modOnlyTier = 'Illegal';
 			let natDexTier = 'Illegal';
 
