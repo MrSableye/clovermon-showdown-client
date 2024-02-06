@@ -2280,6 +2280,9 @@ class BattleTooltips {
 			if (pokemon.volatiles[`fallen${i}`]) {
 				value.abilityModify(1 + 0.1 * i, "Supreme Overlord");
 			}
+			if (pokemon.volatiles[`risen${i}`]) {
+				value.abilityModify(1 + 0.1 * i, "Supreme Underlord");
+			}
 		}
 		if (target) {
 			if (["MF", "FM"].includes(pokemon.gender + target.gender)) {
