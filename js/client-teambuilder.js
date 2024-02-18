@@ -3575,6 +3575,7 @@
 			var dir = gen > 5 ? 'dex' : 'gen' + gen;
 			if ((species.num <= 69386 && species.num >= 69001) || (species.num <= 42999 && species.num >= 42001) || (species.num <= 34999 && species.num >= 34000) || (species.num <= -42001 && species.num >= -42999) || (species.num <= -8000 && species.num >= -8999)) {
 				gen = 'gen5';
+				dir = 'gen5';
 			}
 			if (Dex.prefs('nopastgens')) gen = 'dex';
 			if (Dex.prefs('bwgfx') && dir === 'dex') gen = 'gen5';
