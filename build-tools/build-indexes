@@ -15,8 +15,8 @@ if (!fs.existsSync('data/clovermon-showdown')) {
 }
 
 process.stdout.write("Syncing data from Git repository... ");
-child_process.execSync('git pull', {cwd: 'data/clovermon-showdown'});
-child_process.execSync('npm run build', {cwd: 'data/clovermon-showdown'});
+child_process.execSync('git pull', { cwd: 'data/clovermon-showdown' });
+child_process.execSync('npm run build', { cwd: 'data/clovermon-showdown' });
 console.log("DONE");
 
 const Dex = require('../data/clovermon-showdown/dist/sim/dex').Dex;
@@ -37,7 +37,7 @@ function requireNoCache(pathSpec) {
 	return require(pathSpec);
 }
 
-const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { modGen: 8, mod: 'cloverblobboscap' }, { modGen: 8, mod: 'sandbox' }, {modGen: 8, mod: 'cope'}, {modGen: 8, mod: 'wack'}, {modGen: 8, mod: 'sburbmons'}, {modGen: 8, mod: 'sweet'}, {modGen: 8, mod: 'clovertest'}];
+const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { modGen: 8, mod: 'cloverblobboscap' }, { modGen: 8, mod: 'sandbox' }, { modGen: 8, mod: 'cope' }, { modGen: 8, mod: 'wack' }, { modGen: 8, mod: 'sburbmons' }, { modGen: 8, mod: 'sweet' }, { modGen: 8, mod: 'clovertest' }];
 
 /*********************************************************
  * Build search-index.js
@@ -49,7 +49,7 @@ const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { m
 	let index = [];
 
 	let types = {};
-	for (const {mod} of MODS) {
+	for (const { mod } of MODS) {
 		const modDex = Dex.mod(mod);
 		const modData = modDex.data;
 		for (const type of Object.keys(modData.TypeChart)) {
@@ -273,11 +273,11 @@ const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { m
 		const id = entry[0];
 		let name = '';
 		switch (entry[1]) {
-		case 'pokemon': name = Dex.species.get(id).name; break;
-		case 'move': name = Dex.moves.get(id).name; break;
-		case 'item': name = Dex.items.get(id).name; break;
-		case 'ability': name = Dex.abilities.get(id).name; break;
-		case 'article': name = BattleArticleTitles[id] || ''; break;
+			case 'pokemon': name = Dex.species.get(id).name; break;
+			case 'move': name = Dex.moves.get(id).name; break;
+			case 'item': name = Dex.items.get(id).name; break;
+			case 'ability': name = Dex.abilities.get(id).name; break;
+			case 'article': name = BattleArticleTitles[id] || ''; break;
 		}
 		let res = '';
 		let nonAlnum = 0;
@@ -563,7 +563,7 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		dialgaorigin: 1020 + 237,
 		palkiaorigin: 1020 + 238,
 		basculinwhitestriped: 1020 + 239,
-	
+
 		gumshoostotem: 735,
 		raticatealolatotem: 1020 + 120,
 		marowakalolatotem: 1020 + 136,
@@ -576,7 +576,7 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		mimikyubustedtotem: 778,
 		ribombeetotem: 743,
 		kommoototem: 784,
-	
+
 		venusaurmega: 1260 + 0,
 		charizardmegax: 1260 + 1,
 		charizardmegay: 1260 + 2,
@@ -662,7 +662,7 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		inteleongmax: 1260 + 81,
 		urshifugmax: 1260 + 82,
 		urshifurapidstrikegmax: 1260 + 83,
-	
+
 		syclant: 1452 + 0,
 		revenankh: 1452 + 1,
 		pyroak: 1452 + 2,
@@ -698,7 +698,7 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		venomicon: 1452 + 32,
 		venomiconepilogue: 1452 + 33,
 		saharaja: 1452 + 34,
-	
+
 		syclar: 1488 + 0,
 		embirch: 1488 + 1,
 		flarelm: 1488 + 2,
@@ -778,7 +778,7 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		eccosmicquasar: 1379 + (64 * 12) + 8,
 		eccosmicnebula: 1379 + (64 * 12) + 9,
 		eccosmicmilkyway: 1379 + (64 * 12) + 10,
-	
+
 		// Blobbos CAP
 		blobboshenesys: 1379 + (65 * 12) + 1,
 		blobbosnega: 1379 + (65 * 12) + 2,
@@ -863,56 +863,56 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		blobbosplok: 1379 + (65 * 12) + 82,
 		blobboswack: 1379 + (65 * 12) + 83,
 		blobboszero: 1379 + (65 * 12) + 84,
-		blobbosmushroom:  1379 + (65 * 12) + 85,
-		blobbosnegatandor:  1379 + (65 * 12) + 86,
-		blobbospaper:  1379 + (65 * 12) + 87,
-		blobbosattorney:  1379 + (65 * 12) + 88,
-		blobbosbeetle:  1379 + (65 * 12) + 89,
-		blobboscloud:  1379 + (65 * 12) + 90,
-		blobbosocean:  1379 + (65 * 12) + 91,
-		blobbosvolcano:  1379 + (65 * 12) + 92,
-		blobboscell:  1379 + (65 * 12) + 93,
-		blobbosdemifiend:  1379 + (65 * 12) + 94,
-		blobbosdemon:  1379 + (65 * 12) + 95,
-		blobbosdoll:  1379 + (65 * 12) + 96,
-		blobbosdollpossessed:  1379 + (65 * 12) + 97,
-		blobbosfools:  1379 + (65 * 12) + 98,
-		ironblob:  1379 + (65 * 12) + 99,
-		blobboshisui:  1379 + (65 * 12) + 100,
-		blobboskorea:  1379 + (65 * 12) + 101,
-		blobboswackmega:  1379 + (65 * 12) + 102,
-		blobbosmetaknight:  1379 + (65 * 12) + 103,
-		blobbosmidjourney:  1379 + (65 * 12) + 104,
-		blobbosstarfymonstar:  1379 + (65 * 12) + 105,
-		blobbosnoke:  1379 + (65 * 12) + 106,
-		blobbosogre:  1379 + (65 * 12) + 107,
-		blobbospaldea:  1379 + (65 * 12) + 108,
-		cavernsnore:  1379 + (65 * 12) + 109,
-		blobbosrobotnik:  1379 + (65 * 12) + 110,
-		blobbosstarfyroostar:  1379 + (65 * 12) + 111,
-		blobbossalt:  1379 + (65 * 12) + 112,
-		blobbosshoreline:  1379 + (65 * 12) + 113,
-		blobbosshrimp:  1379 + (65 * 12) + 114,
-		blobbossnek:  1379 + (65 * 12) + 115,
-		sobbolb:  1379 + (65 * 12) + 116,
-		blobbosstarfystarfright:  1379 + (65 * 12) + 117,
-		blobbosstarfy:  1379 + (65 * 12) + 118,
-		blobbosstarfystarpedo:  1379 + (65 * 12) + 119,
-		blobbosswitch:  1379 + (65 * 12) + 120,
-		blobbosswitchblue:  1379 + (65 * 12) + 121,
-		blobbosswitchred:  1379 + (65 * 12) + 122,
-		blobbosdalle:  1379 + (65 * 12) + 123,
-		blobbosdrill:  1379 + (65 * 12) + 124,
-		blobbosengineer:  1379 + (65 * 12) + 125,
-		blobbosgeno:  1379 + (65 * 12) + 126,
-		blobbosrembered:  1379 + (65 * 12) + 127,
-		blobbostapu:  1379 + (65 * 12) + 128,
-		blobbosblackmage:  1379 + (65 * 12) + 129,
-		blobbosflask:  1379 + (65 * 12) + 130,
-		blobbosfossil:  1379 + (65 * 12) + 131,
-		blobboskeks:  1379 + (65 * 12) + 132,
+		blobbosmushroom: 1379 + (65 * 12) + 85,
+		blobbosnegatandor: 1379 + (65 * 12) + 86,
+		blobbospaper: 1379 + (65 * 12) + 87,
+		blobbosattorney: 1379 + (65 * 12) + 88,
+		blobbosbeetle: 1379 + (65 * 12) + 89,
+		blobboscloud: 1379 + (65 * 12) + 90,
+		blobbosocean: 1379 + (65 * 12) + 91,
+		blobbosvolcano: 1379 + (65 * 12) + 92,
+		blobboscell: 1379 + (65 * 12) + 93,
+		blobbosdemifiend: 1379 + (65 * 12) + 94,
+		blobbosdemon: 1379 + (65 * 12) + 95,
+		blobbosdoll: 1379 + (65 * 12) + 96,
+		blobbosdollpossessed: 1379 + (65 * 12) + 97,
+		blobbosfools: 1379 + (65 * 12) + 98,
+		ironblob: 1379 + (65 * 12) + 99,
+		blobboshisui: 1379 + (65 * 12) + 100,
+		blobboskorea: 1379 + (65 * 12) + 101,
+		blobboswackmega: 1379 + (65 * 12) + 102,
+		blobbosmetaknight: 1379 + (65 * 12) + 103,
+		blobbosmidjourney: 1379 + (65 * 12) + 104,
+		blobbosstarfymonstar: 1379 + (65 * 12) + 105,
+		blobbosnoke: 1379 + (65 * 12) + 106,
+		blobbosogre: 1379 + (65 * 12) + 107,
+		blobbospaldea: 1379 + (65 * 12) + 108,
+		cavernsnore: 1379 + (65 * 12) + 109,
+		blobbosrobotnik: 1379 + (65 * 12) + 110,
+		blobbosstarfyroostar: 1379 + (65 * 12) + 111,
+		blobbossalt: 1379 + (65 * 12) + 112,
+		blobbosshoreline: 1379 + (65 * 12) + 113,
+		blobbosshrimp: 1379 + (65 * 12) + 114,
+		blobbossnek: 1379 + (65 * 12) + 115,
+		sobbolb: 1379 + (65 * 12) + 116,
+		blobbosstarfystarfright: 1379 + (65 * 12) + 117,
+		blobbosstarfy: 1379 + (65 * 12) + 118,
+		blobbosstarfystarpedo: 1379 + (65 * 12) + 119,
+		blobbosswitch: 1379 + (65 * 12) + 120,
+		blobbosswitchblue: 1379 + (65 * 12) + 121,
+		blobbosswitchred: 1379 + (65 * 12) + 122,
+		blobbosdalle: 1379 + (65 * 12) + 123,
+		blobbosdrill: 1379 + (65 * 12) + 124,
+		blobbosengineer: 1379 + (65 * 12) + 125,
+		blobbosgeno: 1379 + (65 * 12) + 126,
+		blobbosrembered: 1379 + (65 * 12) + 127,
+		blobbostapu: 1379 + (65 * 12) + 128,
+		blobbosblackmage: 1379 + (65 * 12) + 129,
+		blobbosflask: 1379 + (65 * 12) + 130,
+		blobbosfossil: 1379 + (65 * 12) + 131,
+		blobboskeks: 1379 + (65 * 12) + 132,
 	};
-	
+
 	const BattlePokemonIconIndexesLeft = {
 		pikachubelle: 1344 + 0,
 		pikachupopstar: 1344 + 1,
@@ -1298,7 +1298,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 		})();
 
 		for (const tier of tierOrder) {
-			if (tier in {OU:1, AG:1, Uber:1, UU:1, RU:1, NU:1, PU:1, "(PU)":1, NFE:1, LC:1, DOU:1, DUU:1, "(DUU)":1, New:1, Legal:1, Regular:1, "Restricted Legendary":1, "CAP LC":1}) {
+			if (tier in { OU: 1, AG: 1, Uber: 1, UU: 1, RU: 1, NU: 1, PU: 1, "(PU)": 1, NFE: 1, LC: 1, DOU: 1, DUU: 1, "(DUU)": 1, New: 1, Legal: 1, Regular: 1, "Restricted Legendary": 1, "CAP LC": 1 }) {
 				let usedTier = tier;
 				if (usedTier === "(PU)") usedTier = "ZU";
 				if (usedTier === "(DUU)") usedTier = "DNU";
@@ -1355,189 +1355,189 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 				if (banlist.isBanned('item:' + item.id)) continue;
 			}
 			switch (id) {
-			case 'leftovers':
-			case 'lifeorb':
-			case 'choiceband':
-			case 'choicescarf':
-			case 'choicespecs':
-			case 'eviolite':
-			case 'assaultvest':
-			case 'focussash':
-			case 'powerherb':
-			case 'rockyhelmet':
-			case 'heavydutyboots':
-			case 'expertbelt':
-			case 'salacberry':
-				greatItems.push(id);
-				break;
-			case 'mentalherb':
-				if (genNum > 4) greatItems.push(id);
-				else poorItems.push(id);
-				break;
-			case 'lumberry':
-				if (genNum === 2 || genNum > 6) goodItems.push(id);
-				else greatItems.push(id);
-				break;
-			case 'sitrusberry':
-				if (genNum > 6) goodItems.push(id);
-				else if (genNum > 3 && genNum < 7) greatItems.push(id);
-				else poorItems.push(id);
-				break;
-			case 'aguavberry':
-			case 'figyberry':
-			case 'iapapaberry':
-			case 'magoberry':
-			case 'wikiberry':
-				if (genNum >= 7) greatItems.push(id);
-				else poorItems.push(id);
-				break;
-			case 'berryjuice':
-				if (genNum === 2) poorItems.push(id);
-				else goodItems.push(id);
-				break;
-			case 'dragonfang':
-				if (genNum === 2) badItems.push(id);
-				else goodItems.push(id);
-				break;
-			case 'dragonscale':
-				if (genNum === 2) goodItems.push(id);
-				else badItems.push(id);
-				break;
-			case 'mail':
-				if (genNum >= 6) unreleasedItems.push(id);
-				else goodItems.push(id);
-				break;
-			// Legendaries
-			case 'adamantorb':
-			case 'griseousorb':
-			case 'lustrousorb':
-			case 'blueorb':
-			case 'redorb':
-			case 'souldew':
-			// Other
-			// fallsthrough
-			case 'stick':
-			case 'thickclub':
-			case 'lightball':
-			case 'luckypunch':
-			case 'quickpowder':
-			case 'metalpowder':
-			case 'deepseascale':
-			case 'deepseatooth':
-				specificItems.push(id);
-				break;
-			// Fling-only
-			case 'rarebone':
-			case 'belueberry':
-			case 'blukberry':
-			case 'cornnberry':
-			case 'durinberry':
-			case 'hondewberry':
-			case 'magostberry':
-			case 'nanabberry':
-			case 'nomelberry':
-			case 'pamtreberry':
-			case 'pinapberry':
-			case 'pomegberry':
-			case 'qualotberry':
-			case 'rabutaberry':
-			case 'razzberry':
-			case 'spelonberry':
-			case 'tamatoberry':
-			case 'watmelberry':
-			case 'wepearberry':
-			case 'energypowder':
-			case 'electirizer':
-			case 'oldamber':
-			case 'dawnstone':
-			case 'dubiousdisc':
-			case 'duskstone':
-			case 'firestone':
-			case 'icestone':
-			case 'leafstone':
-			case 'magmarizer':
-			case 'moonstone':
-			case 'ovalstone':
-			case 'prismscale':
-			case 'protector':
-			case 'reapercloth':
-			case 'sachet':
-			case 'shinystone':
-			case 'sunstone':
-			case 'thunderstone':
-			case 'upgrade':
-			case 'waterstone':
-			case 'whippeddream':
-			case 'bottlecap':
-			case 'goldbottlecap':
-			case 'galaricacuff':
-			case 'chippedpot':
-			case 'crackedpot':
-			case 'galaricawreath':
-				badItems.push(id);
-				break;
-			// outclassed items
-			case 'aspearberry':
-			case 'bindingband':
-			case 'cheriberry':
-			case 'destinyknot':
-			case 'enigmaberry':
-			case 'floatstone':
-			case 'ironball':
-			case 'jabocaberry':
-			case 'oranberry':
-			case 'machobrace':
-			case 'pechaberry':
-			case 'persimberry':
-			case 'poweranklet':
-			case 'powerband':
-			case 'powerbelt':
-			case 'powerbracer':
-			case 'powerlens':
-			case 'powerweight':
-			case 'rawstberry':
-			case 'ringtarget':
-			case 'rowapberry':
-			case 'bigroot':
-			case 'focusband':
-			// gen 2
-			case 'psncureberry':
-			case 'przcureberry':
-			case 'burntberry':
-			case 'bitterberry':
-			case 'iceberry':
-			case 'berry':
-				poorItems.push(id);
-				break;
-			default:
-				if (
-					item.name.endsWith(" Ball") || item.name.endsWith(" Fossil") || item.name.startsWith("Fossilized ") ||
-					item.name.endsWith(" Sweet") || item.name.endsWith(" Apple")
-				) {
+				case 'leftovers':
+				case 'lifeorb':
+				case 'choiceband':
+				case 'choicescarf':
+				case 'choicespecs':
+				case 'eviolite':
+				case 'assaultvest':
+				case 'focussash':
+				case 'powerherb':
+				case 'rockyhelmet':
+				case 'heavydutyboots':
+				case 'expertbelt':
+				case 'salacberry':
+					greatItems.push(id);
+					break;
+				case 'mentalherb':
+					if (genNum > 4) greatItems.push(id);
+					else poorItems.push(id);
+					break;
+				case 'lumberry':
+					if (genNum === 2 || genNum > 6) goodItems.push(id);
+					else greatItems.push(id);
+					break;
+				case 'sitrusberry':
+					if (genNum > 6) goodItems.push(id);
+					else if (genNum > 3 && genNum < 7) greatItems.push(id);
+					else poorItems.push(id);
+					break;
+				case 'aguavberry':
+				case 'figyberry':
+				case 'iapapaberry':
+				case 'magoberry':
+				case 'wikiberry':
+					if (genNum >= 7) greatItems.push(id);
+					else poorItems.push(id);
+					break;
+				case 'berryjuice':
+					if (genNum === 2) poorItems.push(id);
+					else goodItems.push(id);
+					break;
+				case 'dragonfang':
+					if (genNum === 2) badItems.push(id);
+					else goodItems.push(id);
+					break;
+				case 'dragonscale':
+					if (genNum === 2) goodItems.push(id);
+					else badItems.push(id);
+					break;
+				case 'mail':
+					if (genNum >= 6) unreleasedItems.push(id);
+					else goodItems.push(id);
+					break;
+				// Legendaries
+				case 'adamantorb':
+				case 'griseousorb':
+				case 'lustrousorb':
+				case 'blueorb':
+				case 'redorb':
+				case 'souldew':
+				// Other
+				// fallsthrough
+				case 'stick':
+				case 'thickclub':
+				case 'lightball':
+				case 'luckypunch':
+				case 'quickpowder':
+				case 'metalpowder':
+				case 'deepseascale':
+				case 'deepseatooth':
+					specificItems.push(id);
+					break;
+				// Fling-only
+				case 'rarebone':
+				case 'belueberry':
+				case 'blukberry':
+				case 'cornnberry':
+				case 'durinberry':
+				case 'hondewberry':
+				case 'magostberry':
+				case 'nanabberry':
+				case 'nomelberry':
+				case 'pamtreberry':
+				case 'pinapberry':
+				case 'pomegberry':
+				case 'qualotberry':
+				case 'rabutaberry':
+				case 'razzberry':
+				case 'spelonberry':
+				case 'tamatoberry':
+				case 'watmelberry':
+				case 'wepearberry':
+				case 'energypowder':
+				case 'electirizer':
+				case 'oldamber':
+				case 'dawnstone':
+				case 'dubiousdisc':
+				case 'duskstone':
+				case 'firestone':
+				case 'icestone':
+				case 'leafstone':
+				case 'magmarizer':
+				case 'moonstone':
+				case 'ovalstone':
+				case 'prismscale':
+				case 'protector':
+				case 'reapercloth':
+				case 'sachet':
+				case 'shinystone':
+				case 'sunstone':
+				case 'thunderstone':
+				case 'upgrade':
+				case 'waterstone':
+				case 'whippeddream':
+				case 'bottlecap':
+				case 'goldbottlecap':
+				case 'galaricacuff':
+				case 'chippedpot':
+				case 'crackedpot':
+				case 'galaricawreath':
 					badItems.push(id);
-				} else if (item.name.startsWith("TR")) {
-					badItems.push(id);
-				} else if (item.name.endsWith(" Gem") && item.name !== "Normal Gem") {
-					if (genNum >= 6) {
-						unreleasedItems.push(id);
-					} else if (item.name === "Flying Gem") {
-						greatItems.push(id);
+					break;
+				// outclassed items
+				case 'aspearberry':
+				case 'bindingband':
+				case 'cheriberry':
+				case 'destinyknot':
+				case 'enigmaberry':
+				case 'floatstone':
+				case 'ironball':
+				case 'jabocaberry':
+				case 'oranberry':
+				case 'machobrace':
+				case 'pechaberry':
+				case 'persimberry':
+				case 'poweranklet':
+				case 'powerband':
+				case 'powerbelt':
+				case 'powerbracer':
+				case 'powerlens':
+				case 'powerweight':
+				case 'rawstberry':
+				case 'ringtarget':
+				case 'rowapberry':
+				case 'bigroot':
+				case 'focusband':
+				// gen 2
+				case 'psncureberry':
+				case 'przcureberry':
+				case 'burntberry':
+				case 'bitterberry':
+				case 'iceberry':
+				case 'berry':
+					poorItems.push(id);
+					break;
+				default:
+					if (
+						item.name.endsWith(" Ball") || item.name.endsWith(" Fossil") || item.name.startsWith("Fossilized ") ||
+						item.name.endsWith(" Sweet") || item.name.endsWith(" Apple")
+					) {
+						badItems.push(id);
+					} else if (item.name.startsWith("TR")) {
+						badItems.push(id);
+					} else if (item.name.endsWith(" Gem") && item.name !== "Normal Gem") {
+						if (genNum >= 6) {
+							unreleasedItems.push(id);
+						} else if (item.name === "Flying Gem") {
+							greatItems.push(id);
+						} else {
+							goodItems.push(id);
+						}
+					} else if (item.name.endsWith(" Drive")) {
+						specificItems.push(id);
+					} else if (item.name.endsWith(" Memory")) {
+						specificItems.push(id);
+					} else if (item.name.startsWith("Rusted")) {
+						specificItems.push(id);
+					} else if (item.itemUser) {
+						specificItems.push(id);
+					} else if (item.megaStone) {
+						specificItems.push(id);
 					} else {
 						goodItems.push(id);
 					}
-				} else if (item.name.endsWith(" Drive")) {
-					specificItems.push(id);
-				} else if (item.name.endsWith(" Memory")) {
-					specificItems.push(id);
-				} else if (item.name.startsWith("Rusted")) {
-					specificItems.push(id);
-				} else if (item.itemUser) {
-					specificItems.push(id);
-				} else if (item.megaStone) {
-					specificItems.push(id);
-				} else {
-					goodItems.push(id);
-				}
 			}
 		}
 		items.push(...greatItems);
@@ -1817,7 +1817,7 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 	// Mods
 	//
 
-	for (const {mod, modGen} of MODS) {
+	for (const { mod, modGen } of MODS) {
 		const modDex = Dex.mod(mod);
 		const modData = modDex.data;
 		const parentDex = Dex.forGen(modGen);
@@ -2223,6 +2223,110 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 	const buf = 'exports.BattleText = ' + es3stringify(Text) + ';';
 	fs.writeFileSync('data/text.js', buf);
 	fs.writeFileSync('data/text.json', JSON.stringify(Text));
+}
+
+/**
+ * Build data/mods/
+ */
+{
+	fs.mkdirSync(`data/mods`, {recursive: true});
+	fs.writeFileSync(`data/mods/mods.json`, JSON.stringify(MODS.reduce((allMods, mod) => {
+		allMods[mod.mod] = mod;
+		return allMods;
+	}, {})));
+
+	for (const { mod } of MODS) {
+		fs.mkdirSync(`data/mods/${mod}`, {recursive: true});
+		const dex = Dex.mod(mod);
+		const dexData = dex.data;
+
+		process.stdout.write(`Building \`data/mods/${mod}/pokedex.json\`...`);
+		{
+			const filteredData = {};
+			for (const id in dexData.Pokedex) {
+				const formatsData = dexData.FormatsData[id];
+				if (formatsData && formatsData.isNonstandard === null) {
+					filteredData[id] = dexData.Pokedex[id];
+				}
+			}
+			fs.writeFileSync(`data/mods/${mod}/pokedex.json`, JSON.stringify(filteredData));
+		}
+		console.log("DONE");
+
+		process.stdout.write(`Building \`data/mods/${mod}/moves.json\`...`);
+		{
+			const filteredData = {};
+			for (const id in dexData.Moves) {
+				if (dexData.Moves[id].isNonstandard === null) {
+					filteredData[id] = dexData.Moves[id];
+				}
+			}
+			fs.writeFileSync(`data/mods/${mod}/moves.json`, JSON.stringify(filteredData));
+		}
+		console.log("DONE");
+
+		process.stdout.write(`Building \`data/mods/${mod}/items.json\`...`);
+		{
+			const filteredData = {};
+			for (const id in dexData.Items) {
+				if (dexData.Items[id].isNonstandard === null) {
+					filteredData[id] = dexData.Items[id];
+				}
+			}
+			fs.writeFileSync(`data/mods/${mod}/items.json`, JSON.stringify(filteredData));
+		}
+		console.log("DONE");
+
+		process.stdout.write(`Building \`data/mods/${mod}/items.json\`...`);
+		{
+			const filteredData = {};
+			for (const id in dexData.Abilities) {
+				if (dexData.Abilities[id].isNonstandard === null) {
+					filteredData[id] = dexData.Abilities[id];
+				}
+			}
+			fs.writeFileSync(`data/mods/${mod}/abilities.json`, JSON.stringify(filteredData));
+		}
+		console.log("DONE");
+
+		{
+			const TypeChart = requireNoCache('../data/clovermon-showdown/dist/data/typechart.js').TypeChart;
+			const buf = 'exports.BattleTypeChart = ' + es3stringify(TypeChart) + ';';
+			fs.writeFileSync('data/typechart.js', buf);
+			fs.writeFileSync('data/typechart.json', JSON.stringify(TypeChart));
+		}
+
+		process.stdout.write(`Building \`data/mods/${mod}/formats-data.json\`...`);
+		{
+			const filteredData = {};
+			for (const id in dexData.FormatsData) {
+				if (dexData.FormatsData[id].isNonstandard === null) {
+					filteredData[id] = dexData.FormatsData[id];
+				}
+			}
+			fs.writeFileSync(`data/mods/${mod}/formats-data.json`, JSON.stringify(filteredData));
+		}
+		console.log("DONE");
+
+		process.stdout.write(`Building \`data/mods/${mod}/learnsets.json\`...`);
+		{
+			const filteredData = {};
+			for (const id in dexData.Learnsets) {
+				const formatsData = dexData.FormatsData[id];
+				if (formatsData && formatsData.isNonstandard === null) {
+					filteredData[id] = dexData.Learnsets[id];
+				}
+			}
+			fs.writeFileSync(`data/mods/${mod}/learnsets.json`, JSON.stringify(filteredData));
+		}
+		console.log("DONE");
+
+		process.stdout.write(`Building \`data/mods/${mod}/typechart.json\`...`);
+		{
+			fs.writeFileSync(`data/mods/${mod}/typechart.json`, JSON.stringify(dexData.TypeChart));
+		}
+		console.log("DONE");
+	}
 }
 
 console.log("DONE");
