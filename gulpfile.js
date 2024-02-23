@@ -6,6 +6,7 @@ function streamTask() {
     'config/config.js',
     'data/*.js',
     'data/*.json',
+    'data/**/*.json',
     'fx/**/*',
     'js/**/*',
     'sprites/**/*',
