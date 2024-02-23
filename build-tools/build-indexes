@@ -2259,6 +2259,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 			for (const id in dexData.Moves) {
 				if (dexData.Moves[id].isNonstandard === null) {
 					filteredData[id] = dexData.Moves[id];
+					const move = dex.moves.get(id);
+					if (move.desc) filteredData[id].desc = move.desc;
+					if (move.shortDesc) filteredData[id].shortDesc = move.shortDesc;
 				}
 			}
 			fs.writeFileSync(`data/mods/${mod}/moves.json`, JSON.stringify(filteredData));
@@ -2271,6 +2274,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 			for (const id in dexData.Items) {
 				if (dexData.Items[id].isNonstandard === null) {
 					filteredData[id] = dexData.Items[id];
+					const item = dex.items.get(id);
+					if (item.desc) filteredData[id].desc = item.desc;
+					if (item.shortDesc) filteredData[id].shortDesc = item.shortDesc;
 				}
 			}
 			fs.writeFileSync(`data/mods/${mod}/items.json`, JSON.stringify(filteredData));
@@ -2283,6 +2289,9 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 			for (const id in dexData.Abilities) {
 				if (dexData.Abilities[id].isNonstandard === null) {
 					filteredData[id] = dexData.Abilities[id];
+					const ability = dex.abilities.get(id);
+					if (ability.desc) filteredData[id].desc = ability.desc;
+					if (ability.shortDesc) filteredData[id].shortDesc = ability.shortDesc;
 				}
 			}
 			fs.writeFileSync(`data/mods/${mod}/abilities.json`, JSON.stringify(filteredData));
