@@ -2257,7 +2257,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 		{
 			const filteredData = {};
 			for (const id in dexData.Moves) {
-				if (dexData.Moves[id].isNonstandard === null) {
+				if ([null, undefined].includes(dexData.Moves[id].isNonstandard)) {
 					filteredData[id] = dexData.Moves[id];
 					const move = dex.moves.get(id);
 					if (move.desc) filteredData[id].desc = move.desc;
@@ -2272,7 +2272,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 		{
 			const filteredData = {};
 			for (const id in dexData.Items) {
-				if (dexData.Items[id].isNonstandard === null) {
+				if ([null, undefined].includes(dexData.Items[id].isNonstandard)) {
 					filteredData[id] = dexData.Items[id];
 					const item = dex.items.get(id);
 					if (item.desc) filteredData[id].desc = item.desc;
@@ -2287,7 +2287,7 @@ process.stdout.write("Building `data/moves,items,abilities,typechart,learnsets.j
 		{
 			const filteredData = {};
 			for (const id in dexData.Abilities) {
-				if (dexData.Abilities[id].isNonstandard === null) {
+				if ([null, undefined].includes(dexData.Abilities[id].isNonstandard)) {
 					filteredData[id] = dexData.Abilities[id];
 					const ability = dex.abilities.get(id);
 					if (ability.desc) filteredData[id].desc = ability.desc;
