@@ -37,7 +37,17 @@ function requireNoCache(pathSpec) {
 	return require(pathSpec);
 }
 
-const MODS = [{ modGen: 8, mod: 'clover' }, { modGen: 8, mod: 'clovercap' }, { modGen: 8, mod: 'cloverblobboscap' }, { modGen: 8, mod: 'sandbox' }, { modGen: 8, mod: 'cope' }, { modGen: 8, mod: 'wack' }, { modGen: 8, mod: 'sburbmons' }, { modGen: 8, mod: 'sweet' }, { modGen: 8, mod: 'clovertest' }];
+const MODS = [
+	{modGen: 8, mod: 'clover', name: 'Pokémon Clover', offset: 69000},
+	{modGen: 8, mod: 'clovercap', name: 'Pokémon Clover CAP', offset: 42000},
+	{modGen: 8, mod: 'cloverblobboscap', name: 'Create-a-Blobbos', offset: 69000},
+	{modGen: 8, mod: 'sandbox', name: 'Sandbox'},
+	{modGen: 8, mod: 'cope', name: 'Pokémon Cope'},
+	{modGen: 8, mod: 'wack', name: 'Pokémon Wack', offset: 666000},
+	{modGen: 8, mod: 'sburbmons', name: 'Sburbmon', offset: 413000},
+	{modGen: 8, mod: 'sweet', name: 'Pokémon Sweet', offset: 999000},
+	{modGen: 8, mod: 'clovertest', name: 'Pokémon Clover (2.0 Test)', offset: 69000},
+];
 
 /*********************************************************
  * Build search-index.js
