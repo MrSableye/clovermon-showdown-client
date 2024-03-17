@@ -668,6 +668,9 @@
 		openOptions: function () {
 			app.addPopup(OptionsPopup, {type: 'semimodal'});
 		},
+		openChallenge: function (challenge) {
+			this.parseCommand('/challenge ' + challenge);
+		},
 
 		// challenges and searching
 
