@@ -553,6 +553,13 @@ const Dex = new class implements ModdedDex {
 			baseDir = 'gen5';
 		}
 
+		// TODO: Better handle this
+		if (options.mod && ['cloveronly', 'clovertestonly'].includes(options.mod)) {
+			if (name === 'substitute') {
+				baseDir = 'clover';
+			}
+		}
+
 		let animationData = null;
 		let miscData = null;
 		let speciesid = species.id;
@@ -631,7 +638,7 @@ const Dex = new class implements ModdedDex {
 		}
 
 		// Mod Cries
-		if (options.mod) {
+		if (options.mod && options.mod === 'digimon') {
 			spriteData.cryurl = `sprites/${options.mod}/audio/${toID(species.baseSpecies)}`;
 			spriteData.cryurl += '.mp3';
 		}
