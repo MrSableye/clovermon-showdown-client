@@ -3505,7 +3505,7 @@ export class Battle {
 		}
 		case 'tier': {
 			this.tier = args[1];
-			if (this.tier.slice(-13) === 'Random Battle') {
+			if (this.tier.slice(-13) === 'Random Battle' && !toID(this.tier).startsWith('gen8cloverblobboscap')) {
 				this.speciesClause = true;
 			}
 			if (this.tier.slice(-8) === ' (Blitz)') {
