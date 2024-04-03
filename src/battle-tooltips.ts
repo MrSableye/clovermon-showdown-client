@@ -1222,7 +1222,7 @@ class BattleTooltips {
 		if (ability === 'purepower' || ability === 'hugepower') {
 			stats.atk *= 2;
 		}
-		if (ability === 'bigbrain') {
+		if (ability === 'brainpower') {
 			stats.spa *= 2;
 		}
 		if (ability === 'asoneblobbos') {
