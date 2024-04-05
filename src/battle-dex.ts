@@ -715,9 +715,9 @@ const Dex = new class implements ModdedDex {
 		} else if (num > 42000 && num <= 42999) { // Clover CAPmons
 			num = 1379 + (49 * 12) + num % 42000;
 		} else if (num > 413000 && num <= 413999) {
-			num = 1379 + (76 * 12) + num % 413000; // Sburbmons
+			num = 1379 + (80 * 12) + num % 413000; // Sburbmons
 		} else if (num > 999000 && num <= 999999) {
-			num = 1379 + (76 * 12) + num % 999000; // TODO: Sweet (but not really, not yet...)
+			num = 1379 + (80 * 12) + num % 999000; // TODO: Sweet (but not really, not yet...)
 		} else if (num > 1010) {
 			num = 0;
 		}
