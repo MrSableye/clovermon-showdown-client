@@ -971,8 +971,8 @@ process.stdout.write("Building `data/battle-icons.js`... ");
 		blobboseedletrue: 1379 + (65 * 12) + 176,
 		blobboseedle: 1379 + (65 * 12) + 177,
 		blobbosgene: 1379 + (65 * 12) + 178,
-		blobbosgalarcrowned: 1379 + (65 * 12) + 178,
-		blobbospartner: 1379 + (65 * 12) + 178,
+		blobbosgalarcrowned: 1379 + (65 * 12) + 179,
+		blobbospartner: 1379 + (65 * 12) + 180,
 	};
 
 	const BattlePokemonIconIndexesLeft = {
