@@ -986,6 +986,10 @@ process.stdout.write("Building `data/battle-icons.js`... ");
       blobbospresent: 1379 + (65 * 12) + 190,
       blobbospuddle: 1379 + (65 * 12) + 191,
       blobbosraiju: 1379 + (65 * 12) + 192,
+      blobbossoda: 1379 + (65 * 12) + 193,
+      blobbosspelunky: 1379 + (65 * 12) + 194,
+      blobbosmoogle: 1379 + (65 * 12) + 195,
+      blobbosprism: 1379 + (65 * 12) + 196,
 	};
 
 	const BattlePokemonIconIndexesLeft = {
