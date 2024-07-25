@@ -8455,6 +8455,12 @@ export const BattleMoveAnims: AnimTable = {
 			BattleOtherAnims.drain.anim(scene, [attacker, defender]);
 		},
 	},
+	absorption: {
+		anim(scene, [attacker, defender]) {
+			scene.backgroundEffect('#4492C2', 900, 0.5);
+			BattleOtherAnims.drain.anim(scene, [attacker, defender]);
+		},
+	},
 	bitterblade: {
 		anim(scene, [attacker, defender]) {
 			scene.backgroundEffect('#000000', 800, 0.3, 400);
@@ -48868,6 +48874,7 @@ BattleMoveAnims['magikarpsrevenge'] = {anim: BattleMoveAnims['outrage'].anim};
 
 BattleMoveAnims['electrify'] = {anim: BattleMoveAnims['thunderwave'].anim};
 BattleMoveAnims['volttackle'] = {anim: BattleMoveAnims['wildcharge'].anim};
+BattleMoveAnims['lightningblastwave'] = {anim: BattleMoveAnims['plasmafists'].anim};
 BattleMoveAnims['zingzap'] = {anim: BattleMoveAnims['wildcharge'].anim};
 BattleMoveAnims['nuzzle'] = {anim: BattleMoveAnims['spark'].anim};
 BattleMoveAnims['thundershock'] = {anim: BattleMoveAnims['electroball'].anim};
@@ -48887,14 +48894,16 @@ BattleMoveAnims['mushroomshot'] = {anim: BattleMoveAnims['bulletseed'].anim};
 BattleMoveAnims['nightdaze'] = {anim: BattleMoveAnims['darkpulse'].anim};
 BattleMoveAnims['hypersomnia'] = {anim: BattleMoveAnims['darkvoid'].anim};
 BattleMoveAnims['nightynight'] = {anim: BattleMoveAnims['darkvoid'].anim};
+BattleMoveAnims['badenergy'] = {anim: BattleMoveAnims['snarl'].anim};
 
 BattleMoveAnims['strengthsap'] = {anim: BattleMoveAnims['leechlife'].anim};
 BattleMoveAnims['hornattack'] = {anim: BattleMoveAnims['megahorn'].anim};
 BattleMoveAnims['lunge'] = {anim: BattleMoveAnims['megahorn'].anim};
-BattleMoveAnims['hivemind'] = {anim: BattleMoveAnims['aerialace'].anim};
+BattleMoveAnims['hivemind'] = {anim: BattleMoveAnims['attackorder'].anim};
 
 BattleMoveAnims['constrict'] = {anim: BattleMoveAnims['bind'].anim};
 BattleMoveAnims['wrap'] = {anim: BattleMoveAnims['bind'].anim};
+BattleMoveAnims['suffocate'] = {anim: BattleMoveAnims['bind'].anim};
 
 BattleMoveAnims['lowsweep'] = {anim: BattleMoveAnims['lowkick'].anim};
 BattleMoveAnims['megakick'] = {anim: BattleMoveAnims['jumpkick'].anim};
@@ -48992,6 +49001,7 @@ BattleMoveAnims['telekinesis'] = {anim: BattleMoveAnims['kinesis'].anim};
 BattleMoveAnims['foulplay'] = {anim: BattleMoveAnims['psyshock'].anim};
 BattleMoveAnims['psywave'] = {anim: BattleMoveAnims['psybeam'].anim};
 BattleMoveAnims['extrasensory'] = {anim: BattleMoveAnims['psychic'].anim};
+BattleMoveAnims['scarletchant'] = {anim: BattleMoveAnims['mysticalpower'].anim};
 BattleMoveAnims['confusion'] = {anim: BattleMoveAnims['psychic'].anim};
 BattleMoveAnims['miracleeye'] = {anim: BattleMoveAnims['mindreader'].anim};
 BattleMoveAnims['futuresight'] = {anim: BattleMoveAnims['doomdesire'].anim};
