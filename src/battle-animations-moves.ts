@@ -49349,6 +49349,7 @@ BattleMoveAnims['scryingwish'] = {
 };
 BattleMoveAnims['bigshot'] = {anim: BattleMoveAnims['laserbeam'].anim};
 BattleMoveAnims['shootingstar'] = {anim: BattleMoveAnims['uturn'].anim};
+BattleMoveAnims['fivenights'] = {anim: BattleMoveAnims['doomdesire'].anim};
 BattleMoveAnims['bilebite'] = {anim: BattleMoveAnims['poisonfang'].anim};
 BattleMoveAnims['amnesiad'] = {anim: BattleMoveAnims['amnesia'].anim};
 BattleMoveAnims['blizzardd'] = {anim: BattleMoveAnims['blizzard'].anim};
