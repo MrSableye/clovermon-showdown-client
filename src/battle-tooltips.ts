@@ -1233,6 +1233,11 @@ class BattleTooltips {
 				stats.atk *= 2;
 			}
 		}
+		if (item === 'usbdrive') {
+			if (speciesName === 'Blobbos-Idiot') {
+				stats.atk *= 2;
+			}
+		}
 		if (item === 'mascotsorb') {
 			if (speciesName === 'Blobbos-Pika') {
 				stats.atk *= 2;
