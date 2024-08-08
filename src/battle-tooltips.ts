@@ -1174,9 +1174,17 @@ class BattleTooltips {
 		}
 
 		if (item === 'thiccbone') {
-			if (species === 'Masdawg' || species === 'Pasdawg' || species === 'Naughtycoot') {
+			if (species === 'Masdawg' || species === 'Pasdawg' || species === 'Bandicute' || species === 'Naughtycoot') {
 				stats.atk *= 2;
 			}
+		}
+
+		if (item === 'cursedfang' && species === 'Winkhulu') {
+			stats.atk *= 2;
+		}
+
+		if (item === 'crimsonlens' && species === 'Winkhulu') {
+			stats.spa *= 2;
 		}
 
 		if (item === 'bigfaggot' && species === 'Flameboyan') {
