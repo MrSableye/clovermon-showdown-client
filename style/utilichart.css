@@ -302,7 +302,8 @@
 .utilichart .movedesccol:not(.teambuildercol) {
 	white-space: normal !important;
 	width: auto !important;
-	overflow: auto !important;
+	height: auto !important;
+	overflow: visible !important;
 }
 
 .utilichart .sortrow {
