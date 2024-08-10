@@ -49271,6 +49271,7 @@ BattleMoveAnims['meddymeds'] = {anim: BattleMoveAnims['dailydose'].anim};
 BattleMoveAnims['bearhug'] = {anim: BattleMoveAnims['bind'].anim};
 BattleMoveAnims['faeblade'] = {anim: BattleMoveAnims['spacialrend'].anim};
 BattleMoveAnims['thunderdrop'] = {anim: BattleMoveAnims['skydrop'].anim};
+BattleMoveAnims['blockbuster'] = {anim: BattleMoveAnims['brickbreak'].anim};
 BattleMoveAnims['potemkinbuster'] = {anim: BattleMoveAnims['skydrop'].anim};
 BattleMoveAnims['garudaimpact'] = {anim: BattleMoveAnims['fireblast'].anim};
 
