@@ -49358,6 +49358,7 @@ BattleMoveAnims['enclose'] = {anim: BattleMoveAnims['banefulbunker'].anim};
 BattleMoveAnims['mawofsight'] = {anim: BattleMoveAnims['crunch'].anim};
 BattleMoveAnims['orbponder'] = {anim: BattleMoveAnims['nastyplot'].anim};
 BattleMoveAnims['overgrownmoss'] = {anim: BattleMoveAnims['grassknot'].anim};
+BattleMoveAnims['mindjack'] = {anim: BattleMoveAnims['psystrike'].anim};
 BattleMoveAnims['bilebite'] = {anim: BattleMoveAnims['poisonfang'].anim};
 BattleMoveAnims['amnesiad'] = {anim: BattleMoveAnims['amnesia'].anim};
 BattleMoveAnims['blizzardd'] = {anim: BattleMoveAnims['blizzard'].anim};
