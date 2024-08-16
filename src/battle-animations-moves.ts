@@ -49351,7 +49351,27 @@ BattleMoveAnims['scryingwish'] = {
 BattleMoveAnims['bigshot'] = {anim: BattleMoveAnims['laserbeam'].anim};
 BattleMoveAnims['shootingstar'] = {anim: BattleMoveAnims['uturn'].anim};
 BattleMoveAnims['fivenights'] = {anim: BattleMoveAnims['doomdesire'].anim};
-BattleMoveAnims['glasshammer'] = {anim: BattleMoveAnims['banhammer'].anim};
+BattleMoveAnims['roidflex'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['bulkup'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['protect'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['edgequake'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['stoneedge'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['earthquake'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['holdit'] = {anim: BattleMoveAnims['taunt'].anim};
+BattleMoveAnims['objection'] = {anim: BattleMoveAnims['boomburst'].anim};
+BattleMoveAnims['takethat'] = {anim: BattleMoveAnims['taunt'].anim};
+BattleMoveAnims['sereneshockwave'] = {anim: BattleMoveAnims['shockwave'].anim};
+BattleMoveAnims['lasagnatoss'] = {anim: BattleMoveAnims['fling'].anim};
+BattleMoveAnims['rocketboost'] = {anim: BattleMoveAnims['growth'].anim};
+BattleMoveAnims['techslash'] = {anim: BattleMoveAnims['brandingblade'].anim};
+BattleMoveAnims['lasagnatoss'] = {anim: BattleMoveAnims['fling'].anim};
+BattleMoveAnims['glasshammer'] = {anim: BattleMoveAnims['icehammer'].anim};
 BattleMoveAnims['rottingkick'] = {anim: BattleMoveAnims['highjumpkick'].anim};
 BattleMoveAnims['icastfireball'] = {anim: BattleMoveAnims['searingshot'].anim}; 
 BattleMoveAnims['enclose'] = {anim: BattleMoveAnims['banefulbunker'].anim};
@@ -49360,6 +49380,7 @@ BattleMoveAnims['orbponder'] = {anim: BattleMoveAnims['nastyplot'].anim};
 BattleMoveAnims['overgrownmoss'] = {anim: BattleMoveAnims['grassknot'].anim};
 BattleMoveAnims['mindjack'] = {anim: BattleMoveAnims['psystrike'].anim};
 BattleMoveAnims['chaosdive'] = {anim: BattleMoveAnims['darkestlariat'].anim};
+BattleMoveAnims['ancientrend'] = {anim: BattleMoveAnims['furycutter'].anim};
 BattleMoveAnims['bilebite'] = {anim: BattleMoveAnims['poisonfang'].anim};
 BattleMoveAnims['amnesiad'] = {anim: BattleMoveAnims['amnesia'].anim};
 BattleMoveAnims['blizzardd'] = {anim: BattleMoveAnims['blizzard'].anim};
