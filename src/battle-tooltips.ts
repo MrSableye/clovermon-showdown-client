@@ -1252,6 +1252,16 @@ class BattleTooltips {
 				stats.spa *= 2;
 			}
 		}
+		if (item === 'partnerspendant') {
+			if (speciesName === 'Blobbos-Partner') {
+				stats.atk *= 1.5;
+				stats.spa *= 1.5;
+				stats.spe *= 1.5;
+				stats.def *= 1.5;
+				stats.spd *= 1.5;
+				stats.accuracy *= 1.5;
+			}
+		}
 		if (ability === 'hustle' || (ability === 'gorillatactics' && !clientPokemon?.volatiles['dynamax']) || (ability === 'boardpowerv')) {
 			stats.atk = Math.floor(stats.atk * 1.5);
 		}
