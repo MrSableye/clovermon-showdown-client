@@ -8461,6 +8461,12 @@ export const BattleMoveAnims: AnimTable = {
 			BattleOtherAnims.drain.anim(scene, [attacker, defender]);
 		},
 	},
+	psychodrain: {
+		anim(scene, [attacker, defender]) {
+			scene.backgroundEffect('#f23acd', 900, 0.5);
+			BattleOtherAnims.drain.anim(scene, [attacker, defender]);
+		},
+	},
 	bitterblade: {
 		anim(scene, [attacker, defender]) {
 			scene.backgroundEffect('#000000', 800, 0.3, 400);
@@ -49381,6 +49387,13 @@ BattleMoveAnims['overgrownmoss'] = {anim: BattleMoveAnims['grassknot'].anim};
 BattleMoveAnims['mindjack'] = {anim: BattleMoveAnims['psystrike'].anim};
 BattleMoveAnims['chaosdive'] = {anim: BattleMoveAnims['darkestlariat'].anim};
 BattleMoveAnims['ancientrend'] = {anim: BattleMoveAnims['furycutter'].anim};
+BattleMoveAnims['phantomjaw'] = {anim: BattleMoveAnims['overbite'].anim};
+BattleMoveAnims['ignitionwing'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['heatwave'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['cloudbreaker'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['bilebite'] = {anim: BattleMoveAnims['poisonfang'].anim};
 BattleMoveAnims['amnesiad'] = {anim: BattleMoveAnims['amnesia'].anim};
 BattleMoveAnims['blizzardd'] = {anim: BattleMoveAnims['blizzard'].anim};
