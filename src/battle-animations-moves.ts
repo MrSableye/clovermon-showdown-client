@@ -49395,6 +49395,7 @@ BattleMoveAnims['ignitionwing'] = {
 	},
 };
 BattleMoveAnims['bilebite'] = {anim: BattleMoveAnims['poisonfang'].anim};
+BattleMoveAnims['consume'] = {anim: BattleMoveAnims['soulcrusher'].anim};
 BattleMoveAnims['amnesiad'] = {anim: BattleMoveAnims['amnesia'].anim};
 BattleMoveAnims['blizzardd'] = {anim: BattleMoveAnims['blizzard'].anim};
 BattleMoveAnims['hyperbeamd'] = {anim: BattleMoveAnims['hyperbeam'].anim};
