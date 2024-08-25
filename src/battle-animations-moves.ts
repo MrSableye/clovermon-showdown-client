@@ -49388,6 +49388,7 @@ BattleMoveAnims['mindjack'] = {anim: BattleMoveAnims['psystrike'].anim};
 BattleMoveAnims['chaosdive'] = {anim: BattleMoveAnims['darkestlariat'].anim};
 BattleMoveAnims['ancientrend'] = {anim: BattleMoveAnims['furycutter'].anim};
 BattleMoveAnims['phantomjaw'] = {anim: BattleMoveAnims['overbite'].anim};
+BattleMoveAnims['tobeornottobe'] = {anim: BattleMoveAnims['boomburst'].anim};
 BattleMoveAnims['ignitionwing'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['heatwave'].anim(scene, [attacker, defender]);
@@ -49395,6 +49396,12 @@ BattleMoveAnims['ignitionwing'] = {
 	},
 };
 BattleMoveAnims['bilebite'] = {anim: BattleMoveAnims['poisonfang'].anim};
+BattleMoveAnims['gripofdivinity'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['this'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['spooperpower'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['consuming'] = {anim: BattleMoveAnims['soulcrusher'].anim};
 BattleMoveAnims['amnesiad'] = {anim: BattleMoveAnims['amnesia'].anim};
 BattleMoveAnims['blizzardd'] = {anim: BattleMoveAnims['blizzard'].anim};
