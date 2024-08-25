@@ -49403,6 +49403,14 @@ BattleMoveAnims['gripofdivinity'] = {
 	},
 };
 BattleMoveAnims['consuming'] = {anim: BattleMoveAnims['soulcrusher'].anim};
+BattleMoveAnims['brainblast'] = {anim: BattleMoveAnims['psystrike'].anim};
+BattleMoveAnims['fistofgod'] = {anim: BattleMoveAnims['focuspunch'].anim};
+BattleMoveAnims['glimmerflare'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['flash'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['inferno'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['amnesiad'] = {anim: BattleMoveAnims['amnesia'].anim};
 BattleMoveAnims['blizzardd'] = {anim: BattleMoveAnims['blizzard'].anim};
 BattleMoveAnims['hyperbeamd'] = {anim: BattleMoveAnims['hyperbeam'].anim};
