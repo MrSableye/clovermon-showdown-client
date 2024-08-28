@@ -8461,6 +8461,12 @@ export const BattleMoveAnims: AnimTable = {
 			BattleOtherAnims.drain.anim(scene, [attacker, defender]);
 		},
 	},
+	assimilate: {
+		anim(scene, [attacker, defender]) {
+			scene.backgroundEffect('#4492c2', 900, 0.5);
+			BattleOtherAnims.drain.anim(scene, [attacker, defender]);
+		},
+	},
 	psychodrain: {
 		anim(scene, [attacker, defender]) {
 			scene.backgroundEffect('#f23acd', 900, 0.5);
