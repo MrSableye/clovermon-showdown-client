@@ -8461,6 +8461,12 @@ export const BattleMoveAnims: AnimTable = {
 			BattleOtherAnims.drain.anim(scene, [attacker, defender]);
 		},
 	},
+	assimilate: {
+		anim(scene, [attacker, defender]) {
+			scene.backgroundEffect('#4492c2', 900, 0.5);
+			BattleOtherAnims.drain.anim(scene, [attacker, defender]);
+		},
+	},
 	psychodrain: {
 		anim(scene, [attacker, defender]) {
 			scene.backgroundEffect('#f23acd', 900, 0.5);
@@ -49278,6 +49284,7 @@ BattleMoveAnims['bearhug'] = {anim: BattleMoveAnims['bind'].anim};
 BattleMoveAnims['faeblade'] = {anim: BattleMoveAnims['spacialrend'].anim};
 BattleMoveAnims['thunderdrop'] = {anim: BattleMoveAnims['skydrop'].anim};
 BattleMoveAnims['blockbuster'] = {anim: BattleMoveAnims['brickbreak'].anim};
+BattleMoveAnims['abyssalwave'] = {anim: BattleMoveAnims['surf'].anim};
 BattleMoveAnims['potemkinbuster'] = {anim: BattleMoveAnims['skydrop'].anim};
 BattleMoveAnims['garudaimpact'] = {anim: BattleMoveAnims['fireblast'].anim};
 
@@ -49404,6 +49411,7 @@ BattleMoveAnims['gripofdivinity'] = {
 };
 BattleMoveAnims['consuming'] = {anim: BattleMoveAnims['soulcrusher'].anim};
 BattleMoveAnims['brainblast'] = {anim: BattleMoveAnims['psystrike'].anim};
+BattleMoveAnims['sunkensanity'] = {anim: BattleMoveAnims['darkvoid'].anim};
 BattleMoveAnims['fistofgod'] = {anim: BattleMoveAnims['focuspunch'].anim};
 BattleMoveAnims['glimmerflare'] = {
 	anim(scene, [attacker, defender]) {
