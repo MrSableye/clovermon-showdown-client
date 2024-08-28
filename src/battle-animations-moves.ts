@@ -49278,6 +49278,7 @@ BattleMoveAnims['bearhug'] = {anim: BattleMoveAnims['bind'].anim};
 BattleMoveAnims['faeblade'] = {anim: BattleMoveAnims['spacialrend'].anim};
 BattleMoveAnims['thunderdrop'] = {anim: BattleMoveAnims['skydrop'].anim};
 BattleMoveAnims['blockbuster'] = {anim: BattleMoveAnims['brickbreak'].anim};
+BattleMoveAnims['abyssalwave'] = {anim: BattleMoveAnims['surf'].anim};
 BattleMoveAnims['potemkinbuster'] = {anim: BattleMoveAnims['skydrop'].anim};
 BattleMoveAnims['garudaimpact'] = {anim: BattleMoveAnims['fireblast'].anim};
 
@@ -49404,6 +49405,7 @@ BattleMoveAnims['gripofdivinity'] = {
 };
 BattleMoveAnims['consuming'] = {anim: BattleMoveAnims['soulcrusher'].anim};
 BattleMoveAnims['brainblast'] = {anim: BattleMoveAnims['psystrike'].anim};
+BattleMoveAnims['sunkensanity'] = {anim: BattleMoveAnims['darkvoid'].anim};
 BattleMoveAnims['fistofgod'] = {anim: BattleMoveAnims['focuspunch'].anim};
 BattleMoveAnims['glimmerflare'] = {
 	anim(scene, [attacker, defender]) {
