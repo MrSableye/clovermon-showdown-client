@@ -49423,6 +49423,15 @@ BattleMoveAnims['amnesiad'] = {anim: BattleMoveAnims['amnesia'].anim};
 BattleMoveAnims['blizzardd'] = {anim: BattleMoveAnims['blizzard'].anim};
 BattleMoveAnims['hyperbeamd'] = {anim: BattleMoveAnims['hyperbeam'].anim};
 BattleMoveAnims['wrapd'] = {anim: BattleMoveAnims['wrap'].anim};
+BattleMoveAnims['theflamesofdisaster'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['heatwave'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['inferno'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['fireblast'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['ember'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['cherrybomb'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['agilityd'] = {anim: BattleMoveAnims['agility'].anim};
 BattleMoveAnims['eternalwalk'] = {anim: BattleMoveAnims['thunderouskick'].anim};
 BattleMoveAnims['sussteelstrike'] = {anim: BattleMoveAnims['sunsteelstrike'].anim};
