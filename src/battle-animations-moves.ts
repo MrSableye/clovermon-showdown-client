@@ -49285,6 +49285,13 @@ BattleMoveAnims['faeblade'] = {anim: BattleMoveAnims['spacialrend'].anim};
 BattleMoveAnims['thunderdrop'] = {anim: BattleMoveAnims['skydrop'].anim};
 BattleMoveAnims['blockbuster'] = {anim: BattleMoveAnims['brickbreak'].anim};
 BattleMoveAnims['abyssalwave'] = {anim: BattleMoveAnims['surf'].anim};
+BattleMoveAnims['earthshatter'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['earthquake'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['stompingtantrum'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['earthpower'].anim(scene, [attacker, defender]);
+	},
+}; 
 BattleMoveAnims['potemkinbuster'] = {anim: BattleMoveAnims['skydrop'].anim};
 BattleMoveAnims['garudaimpact'] = {anim: BattleMoveAnims['fireblast'].anim};
 
@@ -49428,6 +49435,14 @@ BattleMoveAnims['takethat'] = {anim: BattleMoveAnims['taunt'].anim};
 BattleMoveAnims['sereneshockwave'] = {anim: BattleMoveAnims['shockwave'].anim};
 BattleMoveAnims['lasagnatoss'] = {anim: BattleMoveAnims['fling'].anim};
 BattleMoveAnims['rocketboost'] = {anim: BattleMoveAnims['growth'].anim};
+BattleMoveAnims['twintowertumblingterror'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['steelbeam'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['flakcannon'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['inferno'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['earthpower'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['techslash'] = {anim: BattleMoveAnims['brandingblade'].anim};
 BattleMoveAnims['lasagnatoss'] = {anim: BattleMoveAnims['fling'].anim};
 BattleMoveAnims['glasshammer'] = {anim: BattleMoveAnims['icehammer'].anim};
