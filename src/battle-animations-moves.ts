@@ -49396,6 +49396,32 @@ BattleMoveAnims['edgequake'] = {
 		BattleMoveAnims['earthquake'].anim(scene, [attacker, defender]);
 	},
 };
+BattleMoveAnims['anyattack'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['nastyplot'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['outrage'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['anyheal'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['nastyplot'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['recover'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['anystatup'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['nastyplot'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['geomancy'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['anystatus'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['nastyplot'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['thunderwave'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['toxic'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['willowisp'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['holdit'] = {anim: BattleMoveAnims['taunt'].anim};
 BattleMoveAnims['objection'] = {anim: BattleMoveAnims['boomburst'].anim};
 BattleMoveAnims['takethat'] = {anim: BattleMoveAnims['taunt'].anim};
