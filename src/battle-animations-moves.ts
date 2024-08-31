@@ -49343,8 +49343,15 @@ BattleMoveAnims['banana'] = {anim: BattleMoveAnims['fling'].anim};
 BattleMoveAnims['mitosistackle'] = {anim: BattleMoveAnims['bodyslam'].anim};
 BattleMoveAnims['mitosismash'] = {anim: BattleMoveAnims['focuspunch'].anim};
 BattleMoveAnims['sunburst'] = {anim: BattleMoveAnims['lusterpurge'].anim};
-BattleMoveAnims['downpour'] = {anim: BattleMoveAnims['originpulse'].anim};
 BattleMoveAnims['dustbowl'] = {anim: BattleMoveAnims['sandtomb'].anim};
+BattleMoveAnims['downpour'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['watergun'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['originpulse'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['powerwasher'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['whirlpool'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['swamp'] = {anim: BattleMoveAnims['junglehealing'].anim};
 BattleMoveAnims['trashtalk'] = {
 	anim(scene, [attacker, defender]) {
@@ -49363,6 +49370,19 @@ BattleMoveAnims['scryingwish'] = {
 };
 BattleMoveAnims['bigshot'] = {anim: BattleMoveAnims['laserbeam'].anim};
 BattleMoveAnims['shootingstar'] = {anim: BattleMoveAnims['uturn'].anim};
+BattleMoveAnims['moonstrike'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['pixiepummel'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['wish'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['squash'] = {anim: BattleMoveAnims['crashhopper'].anim};
+BattleMoveAnims['secretstrength'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['bulkup'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['hiddenpower'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['fivenights'] = {anim: BattleMoveAnims['doomdesire'].anim};
 BattleMoveAnims['roidflex'] = {
 	anim(scene, [attacker, defender]) {
