@@ -49271,6 +49271,7 @@ BattleMoveAnims['blobbybop'] = {anim: BattleMoveAnims['splash'].anim};
 BattleMoveAnims['slimegulp'] = {anim: BattleMoveAnims['sludgebomb'].anim};
 
 BattleMoveAnims['awaken'] = {anim: BattleMoveAnims['geomancy'].anim};
+BattleMoveAnims['memepunch'] = {anim: BattleMoveAnims['megapunch'].anim};
 BattleMoveAnims['voltaiccyclone'] = {anim: BattleMoveAnims['discharge'].anim};
 BattleMoveAnims['boilover'] = {anim: BattleMoveAnims['steameruption'].anim};
 BattleMoveAnims['trickstab'] = {anim: BattleMoveAnims['nightslash'].anim};
@@ -49545,6 +49546,14 @@ BattleMoveAnims['theflamesofdisaster'] = {
 		BattleMoveAnims['fireblast'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['ember'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['cherrybomb'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['mrterrorscreech'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['poltergeist'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['boomburst'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['hex'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['shadowscales'].anim(scene, [attacker, defender]);
 	},
 };
 BattleMoveAnims['agilityd'] = {anim: BattleMoveAnims['agility'].anim};
