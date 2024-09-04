@@ -49505,6 +49505,20 @@ BattleMoveAnims['bugout'] = {
 BattleMoveAnims['holdit'] = {anim: BattleMoveAnims['taunt'].anim};
 BattleMoveAnims['objection'] = {anim: BattleMoveAnims['boomburst'].anim};
 BattleMoveAnims['takethat'] = {anim: BattleMoveAnims['taunt'].anim};
+BattleMoveAnims['qualityrip'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['discharge'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['sing'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['highqualityrip'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['discharge'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['boomburst'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['nastyplot'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['thunder'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['sereneshockwave'] = {anim: BattleMoveAnims['shockwave'].anim};
 BattleMoveAnims['lasagnatoss'] = {anim: BattleMoveAnims['fling'].anim};
 BattleMoveAnims['rocketboost'] = {anim: BattleMoveAnims['growth'].anim};
