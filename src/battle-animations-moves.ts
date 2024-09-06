@@ -49298,6 +49298,12 @@ BattleMoveAnims['blockbuster'] = {
 		BattleMoveAnims['earthpower'].anim(scene, [attacker, defender]);
 	},
 }; 
+BattleMoveAnims['carvingbeak'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['glare'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['drillrun'].anim(scene, [attacker, defender]);
+	},
+}; 																	  
 BattleMoveAnims['brainfreeze'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['flash'].anim(scene, [attacker, defender]);
