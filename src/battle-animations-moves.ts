@@ -49275,6 +49275,13 @@ BattleMoveAnims['hulkup'] = {anim: BattleMoveAnims['bulkup'].anim};
 BattleMoveAnims['gayagenda'] = {anim: BattleMoveAnims['attract'].anim};
 BattleMoveAnims['blobbybop'] = {anim: BattleMoveAnims['splash'].anim};
 BattleMoveAnims['slimegulp'] = {anim: BattleMoveAnims['sludgebomb'].anim};
+BattleMoveAnims['anattack'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['geomancy'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['tackle'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['this'].anim(scene, [attacker, defender]);
+	},
+}; 
 
 BattleMoveAnims['awaken'] = {anim: BattleMoveAnims['geomancy'].anim};
 BattleMoveAnims['memepunch'] = {anim: BattleMoveAnims['megapunch'].anim};
@@ -49302,6 +49309,7 @@ BattleMoveAnims['carvingbeak'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['glare'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['drillrun'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['fractus'].anim(scene, [attacker, defender]);
 	},
 }; 																	  
 BattleMoveAnims['brainfreeze'] = {
@@ -49367,6 +49375,13 @@ BattleMoveAnims['cherrynobyl'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['seedbomb'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['explosion'].anim(scene, [attacker, defender]);
+	},
+}; 
+BattleMoveAnims['gmaxblobbomb'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['flakcannon'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['coinflip'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['icestorm'].anim(scene, [attacker, defender]);
 	},
 }; 
 BattleMoveAnims['sugarrush'] = {
