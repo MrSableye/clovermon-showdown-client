@@ -49324,7 +49324,13 @@ BattleMoveAnims['frozensong'] = {
 		BattleMoveAnims['sheercold'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['boomburst'].anim(scene, [attacker, defender]);
 	},
-}; 
+};
+BattleMoveAnims['real'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['coinflip'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['makeitrain'].anim(scene, [attacker, defender]);
+	},
+}; 			
 BattleMoveAnims['brutalmauling'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['nightslash'].anim(scene, [attacker, defender]);
@@ -49333,6 +49339,8 @@ BattleMoveAnims['brutalmauling'] = {
 	},
 };
 BattleMoveAnims['abyssalwave'] = {anim: BattleMoveAnims['surf'].anim};
+BattleMoveAnims['trickedblow'] = {anim: BattleMoveAnims['trickstab'].anim};
+BattleMoveAnims['brazilwings'] = {anim: BattleMoveAnims['wingsofcorrection'].anim};
 BattleMoveAnims['crustaceancombat'] = {anim: BattleMoveAnims['closecombat'].anim};
 BattleMoveAnims['earthshatter'] = {
 	anim(scene, [attacker, defender]) {
