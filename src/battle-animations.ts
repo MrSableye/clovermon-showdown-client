@@ -45,6 +45,7 @@ const cloverTracks: Track[] = [
 	{ file: 'audio/battle-terry.mp3', start: 41332, end: 299997 },
 	{ file: 'audio/battle-vivaiger.mp3', start: 145231, end: 254827 },
 	{ file: 'audio/battle-vyglass.mp3', start: 4800, end: 156980 },
+	{ file: 'audio/battle-biteki.mp3', start: 6363, end: 184140 },
 	{ file: 'audio/battle-biteki.mp3', start: 6363, end: 18414 },
 ];
 
