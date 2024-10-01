@@ -49667,11 +49667,31 @@ BattleMoveAnims['mrterrorscreech'] = {
 		BattleMoveAnims['shadowscales'].anim(scene, [attacker, defender]);
 	},
 };
-BattleMoveAnims['agilityd'] = {anim: BattleMoveAnims['agility'].anim};
+BattleMoveAnims['biteof87'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['firefang'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['icefang'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['thunderfang'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['poisonfang'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['crunch'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['bite'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['worldbreaker'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['fusionflare'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['flakcannon'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['lusterpurge'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['earthquake'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['earthpower'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['eternalwalk'] = {anim: BattleMoveAnims['thunderouskick'].anim};
 BattleMoveAnims['sussteelstrike'] = {anim: BattleMoveAnims['sunsteelstrike'].anim};
 BattleMoveAnims['penetrate'] = {anim: BattleMoveAnims['leechlife'].anim};
 BattleMoveAnims['krackocean'] = {anim: BattleMoveAnims['originpulse'].anim};
+BattleMoveAnims['supernovaultimate'] = {anim: BattleMoveAnims['fusionflare'].anim};
+BattleMoveAnims['agilityd'] = {anim: BattleMoveAnims['agility'].anim};
 BattleMoveAnims['extinction'] = {anim: BattleMoveAnims['dragonenergy'].anim};
 BattleMoveAnims['frostbite'] = {anim: BattleMoveAnims['icywind'].anim};
 BattleMoveAnims['braindamage'] = {anim: BattleMoveAnims['headsmash'].anim};
