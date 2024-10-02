@@ -49686,6 +49686,19 @@ BattleMoveAnims['worldbreaker'] = {
 		BattleMoveAnims['earthpower'].anim(scene, [attacker, defender]);
 	},
 };
+BattleMoveAnims['obliviontears'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['faketears'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['extinctionwave'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['whirlingrods'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['wingsofcorrection'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['voltaiccyclone'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['hurricane'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['eternalwalk'] = {anim: BattleMoveAnims['thunderouskick'].anim};
 BattleMoveAnims['sussteelstrike'] = {anim: BattleMoveAnims['sunsteelstrike'].anim};
 BattleMoveAnims['penetrate'] = {anim: BattleMoveAnims['leechlife'].anim};
