@@ -49699,6 +49699,13 @@ BattleMoveAnims['whirlingrods'] = {
 		BattleMoveAnims['hurricane'].anim(scene, [attacker, defender]);
 	},
 };
+	BattleMoveAnims['enragingshadowflurry'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['crusadercrash'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['hyperspacefury'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['alloutpummeling'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['eternalwalk'] = {anim: BattleMoveAnims['thunderouskick'].anim};
 BattleMoveAnims['sussteelstrike'] = {anim: BattleMoveAnims['sunsteelstrike'].anim};
 BattleMoveAnims['penetrate'] = {anim: BattleMoveAnims['leechlife'].anim};
