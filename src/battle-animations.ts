@@ -1890,6 +1890,7 @@ export class PokemonSprite extends Sprite {
 		formechange: null,
 		typechange: null,
 		typeadd: null,
+		typereset: null,
 		dynamax: ['Dynamaxed', 'good'],
 		trapped: null, // linked volatiles are not implemented yet
 		throatchop: ['Throat Chop', 'bad'],
