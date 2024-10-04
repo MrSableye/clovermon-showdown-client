@@ -2633,6 +2633,10 @@ export class Battle {
 				if (kwArgs.silent) break;
 				this.scene.typeAnim(poke, type);
 				break;
+			case 'typereset':
+				poke.removeVolatile('typeadd' as ID);
+				poke.removeVolatile('typechange' as ID);
+				break;
 			case 'dynamax':
 				poke.addVolatile('dynamax' as ID, !!args[3]);
 				this.scene.animTransform(poke, true);

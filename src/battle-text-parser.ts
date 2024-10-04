@@ -582,6 +582,10 @@ class BattleTextParser {
 				const template = this.template('typeAdd', kwArgs.from);
 				return line1 + template.replace('[POKEMON]', this.pokemon(pokemon)).replace('[TYPE]', arg3);
 			}
+			if (id === 'typereset') {
+				const template = this.template('typeReset', kwArgs.from);
+				return line1 + template.replace('[POKEMON]', this.pokemon(pokemon));
+			}
 			if (id.startsWith('stockpile')) {
 				const num = id.slice(9);
 				const template = this.template('start', 'stockpile');
