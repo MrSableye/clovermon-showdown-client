@@ -34934,6 +34934,48 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'linear');
 		},
 	},
+	atombomb: {
+		anim(scene, [attacker]) {
+			scene.backgroundEffect('#4d9166', 700, 0.5);
+			scene.showEffect('bluefireball', {
+				x: attacker.x + 40,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0,
+				opacity: 0.6,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'decel');
+			scene.showEffect('bluefireball', {
+				x: attacker.x - 40,
+				y: attacker.y - 20,
+				z: attacker.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 150,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'decel');
+			scene.showEffect('bluefireball', {
+				x: attacker.x + 10,
+				y: attacker.y + 20,
+				z: attacker.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 300,
+			}, {
+				scale: 6,
+				opacity: 0,
+			}, 'decel');
+			attacker.delay(450).anim({
+				scale: 4,
+				time: 400,
+				opacity: 0,
+			}, 'linear');
+		},
+	},
 	futababreak: {
 		anim(scene, [attacker, defender]) {
 			scene.backgroundEffect('#99FF99', 1400, 0.5);
