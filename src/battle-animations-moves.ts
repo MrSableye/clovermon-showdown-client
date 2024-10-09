@@ -49597,6 +49597,13 @@ BattleMoveAnims['cuttingwaves'] = {
 	   BattleMoveAnims['wingsofcorrection'].anim(scene, [attacker, defender]);
 	},
 };
+BattleMoveAnims['waddlecopter'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['aircutter'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['fractus'].anim(scene, [attacker, defender]);
+	   BattleMoveAnims['spikecannon'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['bugout'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['savagespinout'].anim(scene, [attacker, defender]);
