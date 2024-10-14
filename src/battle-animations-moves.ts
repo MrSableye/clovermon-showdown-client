@@ -49630,6 +49630,7 @@ BattleMoveAnims['highqualityrip'] = {
 BattleMoveAnims['sereneshockwave'] = {anim: BattleMoveAnims['shockwave'].anim};
 BattleMoveAnims['lasagnatoss'] = {anim: BattleMoveAnims['fling'].anim};
 BattleMoveAnims['rocketboost'] = {anim: BattleMoveAnims['growth'].anim};
+BattleMoveAnims['blobascent'] = {anim: BattleMoveAnims['dragonascent'].anim};
 BattleMoveAnims['peptalk'] = {anim: BattleMoveAnims['snarl'].anim};
 BattleMoveAnims['annoy'] = {anim: BattleMoveAnims['snarl'].anim};
 BattleMoveAnims['sadpoem'] = {anim: BattleMoveAnims['snarl'].anim};
