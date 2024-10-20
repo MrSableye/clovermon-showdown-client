@@ -49651,6 +49651,14 @@ BattleMoveAnims['bombrock'] = {
 		BattleMoveAnims['explosion'].anim(scene, [attacker, defender]);
 	},
 };
+BattleMoveAnims['winterwhiteout'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['sheercold'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['icebeam'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['blizzard'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['wingsofcorrection'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['glasshammer'] = {anim: BattleMoveAnims['icehammer'].anim};
 BattleMoveAnims['hardcrash'] = {
 	anim(scene, [attacker, defender]) {
