@@ -49815,7 +49815,15 @@ BattleMoveAnims['voltaicshadow'] = {
 		BattleMoveAnims['shadowball'].anim(scene, [attacker, defender]);
 	},
 };
+BattleMoveAnims['spitfire'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['torchsong'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['boomburst'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['eternalwalk'] = {anim: BattleMoveAnims['thunderouskick'].anim};
+BattleMoveAnims['psychicd'] = {anim: BattleMoveAnims['psychic'].anim};
+BattleMoveAnims['recoverd'] = {anim: BattleMoveAnims['recover'].anim};
 BattleMoveAnims['sussteelstrike'] = {anim: BattleMoveAnims['sunsteelstrike'].anim};
 BattleMoveAnims['penetrate'] = {anim: BattleMoveAnims['leechlife'].anim};
 BattleMoveAnims['krackocean'] = {anim: BattleMoveAnims['originpulse'].anim};
