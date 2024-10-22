@@ -680,6 +680,10 @@ export const BattleMoveAnims: AnimTable = {
 	acidicrainfall: {
 		anim: BattleOtherAnims.dance.anim,
 	},
+	gayagenda: {
+		anim: BattleOtherAnims.dance.anim,
+	},
+	
 	chillyreception: {
 		anim(scene, [attacker, defender]) {
 			scene.backgroundEffect('#000000', 750, 1, 50);
@@ -49314,7 +49318,6 @@ BattleMoveAnims['weirdflex'] = {anim: BattleMoveAnims['followme'].anim};
 BattleMoveAnims['1000folds'] = {anim: BattleMoveAnims['sacredsword'].anim};
 BattleMoveAnims['banhammer'] = {anim: BattleMoveAnims['hammerarm'].anim};
 BattleMoveAnims['hulkup'] = {anim: BattleMoveAnims['bulkup'].anim};
-BattleMoveAnims['gayagenda'] = {anim: BattleMoveAnims['attract'].anim};
 BattleMoveAnims['blobbybop'] = {anim: BattleMoveAnims['splash'].anim};
 BattleMoveAnims['slimegulp'] = {anim: BattleMoveAnims['sludgebomb'].anim};
 BattleMoveAnims['anattack'] = {
