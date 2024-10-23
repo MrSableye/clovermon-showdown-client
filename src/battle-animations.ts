@@ -997,6 +997,7 @@ export class BattleScene implements BattleSceneStub {
 				deltastream: 'Strong Winds',
 				densefog: 'Dense Fog',
 				acidicrainfall: 'Acidic Rainfall',
+				seaoffire: 'Sea Of Fire',
 				timefall: 'Timefall',
 				acidrain: 'Acid Rain',
 				midnight: 'Midnight',

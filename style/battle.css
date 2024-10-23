@@ -468,6 +468,10 @@ License: GPLv2
 	background: #073f0f url(../fx/weather-acidicrainfall.jpg) no-repeat scroll left top;
 	color: #145008;
 }
+.seaoffireweather {
+	background: #073f0f url(../fx/weather-sea_of_fire.jpg) no-repeat scroll left top;
+	color: #f04f54;
+}
 .mistyterrainweather {
 	background: #EEAACC url(../fx/weather-mistyterrain.png) no-repeat scroll left top;
 	color: #551144;

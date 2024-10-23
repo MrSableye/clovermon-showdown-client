@@ -680,6 +680,9 @@ export const BattleMoveAnims: AnimTable = {
 	acidicrainfall: {
 		anim: BattleOtherAnims.dance.anim,
 	},
+	seaoffire: {
+		anim: BattleOtherAnims.dance.anim,
+	},
 	gayagenda: {
 		anim(scene, [attacker, defender]) {
 			BattleOtherAnims.shake.anim(scene, [attacker]);
