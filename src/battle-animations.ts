@@ -1027,7 +1027,7 @@ export class BattleScene implements BattleSceneStub {
 		return buf;
 	}
 	upkeepWeather() {
-		const isIntense = ['desolateland', 'primordialsea', 'deltastream'].includes(this.curWeather);
+		const isIntense = ['desolateland', 'primordialsea', 'deltastream', 'hyperboreanarctic'].includes(this.curWeather);
 		this.$weather.animate({
 			opacity: 1.0,
 		}, 300).animate({
@@ -1045,7 +1045,7 @@ export class BattleScene implements BattleSceneStub {
 		for (const pseudoWeatherData of this.battle.pseudoWeather) {
 			terrain = toID(pseudoWeatherData[0]);
 		}
-		if (weather === 'desolateland' || weather === 'primordialsea' || weather === 'deltastream') {
+		if (weather === 'desolateland' || weather === 'primordialsea' || weather === 'deltastream' || weather === 'hyperboreanarctic') {
 			isIntense = true;
 		}
 
