@@ -48908,7 +48908,52 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'linear');
 		},
 	},
-	
+	transrights: {
+		anim(scene, [attacker]) {
+
+			scene.backgroundEffect(`url('${Config.routes.clientProtocol}://${Config.routes.client}/fx/trans.png')`, 800, 1);
+			
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0,
+				opacity: 0.5,
+				time: 0,
+			}, {
+				z: attacker.behind(-50),
+				scale: 7,
+				opacity: 0,
+				time: 400,
+			}, 'linear');
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0,
+				opacity: 0.5,
+				time: 150,
+			}, {
+				z: attacker.behind(-50),
+				scale: 7,
+				opacity: 0,
+				time: 600,
+			}, 'linear');
+			scene.showEffect('iceball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0,
+				opacity: 0.5,
+				time: 300,
+			}, {
+				z: attacker.behind(-50),
+				scale: 7,
+				opacity: 0,
+				time: 800,
+			}, 'linear');
+		},
+	},
 
 	/* 
 	attacker.anim({
@@ -49707,6 +49752,7 @@ BattleMoveAnims['winterwhiteout'] = {
 	},
 };
 BattleMoveAnims['glasshammer'] = {anim: BattleMoveAnims['icehammer'].anim};
+BattleMoveAnims['lovelyhug'] = {anim: BattleMoveAnims['trapcard'].anim};
 BattleMoveAnims['hardcrash'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['charge'].anim(scene, [attacker, defender]);
@@ -49715,6 +49761,25 @@ BattleMoveAnims['hardcrash'] = {
 		BattleMoveAnims['thunderbolt'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['discharge'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['holyduty'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['ufftoyyoyoing'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['firstimpression'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['inferno'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['snappingfrost'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['slipturn'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['iciclecrash'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['ultimateflex'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['bulkup'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['growth'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['geomancy'].anim(scene, [attacker, defender]);
 	},
 };
 BattleMoveAnims['rottingkick'] = {anim: BattleMoveAnims['highjumpkick'].anim};
