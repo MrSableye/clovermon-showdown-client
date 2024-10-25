@@ -49473,7 +49473,6 @@ BattleMoveAnims['brutalmauling'] = {
 		BattleMoveAnims['slash'].anim(scene, [attacker, defender]);
 	},
 };
-BattleMoveAnims['abyssalwave'] = {anim: BattleMoveAnims['surf'].anim};
 BattleMoveAnims['trickedblow'] = {anim: BattleMoveAnims['trickstab'].anim};
 BattleMoveAnims['brazilwings'] = {anim: BattleMoveAnims['wingsofcorrection'].anim};
 BattleMoveAnims['crustaceancombat'] = {anim: BattleMoveAnims['closecombat'].anim};
@@ -49482,6 +49481,19 @@ BattleMoveAnims['earthshatter'] = {
 		BattleMoveAnims['earthquake'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['stompingtantrum'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['earthpower'].anim(scene, [attacker, defender]);
+	},
+}; 
+BattleMoveAnims['drumroll'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['followme'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['celebrate'].anim(scene, [attacker, defender]);
+	},
+}; 
+BattleMoveAnims['abyssalwave'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['focusenergy'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['jetpunch'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['extinctionwave'].anim(scene, [attacker, defender]);
 	},
 }; 
 BattleMoveAnims['earrape'] = {
