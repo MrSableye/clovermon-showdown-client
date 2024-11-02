@@ -49634,6 +49634,7 @@ BattleMoveAnims['flashfreeze'] = {
 	},
 };
 BattleMoveAnims['banana'] = {anim: BattleMoveAnims['fling'].anim};
+BattleMoveAnims['foolsgambit'] = {anim: BattleMoveAnims['amogus'].anim};
 BattleMoveAnims['mitosistackle'] = {anim: BattleMoveAnims['bodyslam'].anim};
 BattleMoveAnims['mitosismash'] = {anim: BattleMoveAnims['focuspunch'].anim};
 BattleMoveAnims['sunburst'] = {
@@ -49669,6 +49670,12 @@ BattleMoveAnims['lavadapt'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['crashhopper'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['blazekick'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['crystalslash'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['rockpolish'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['slash'].anim(scene, [attacker, defender]);
 	},
 };
 BattleMoveAnims['berserkersoul'] = {
