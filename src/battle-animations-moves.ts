@@ -49484,7 +49484,7 @@ BattleMoveAnims['blockbuster'] = {
 		BattleMoveAnims['focuspunch'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['earthpower'].anim(scene, [attacker, defender]);
 	},
-}; 
+};
 BattleMoveAnims['carvingbeak'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['glare'].anim(scene, [attacker, defender]);
@@ -49666,10 +49666,15 @@ BattleMoveAnims['trashtalk'] = {
 		BattleMoveAnims['hypervoice'].anim(scene, [attacker, defender]);
 	},
 };
+BattleMoveAnims['thunderblitz'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['flareblitz'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['thunder'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['lavadapt'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['crashhopper'].anim(scene, [attacker, defender]);
-		BattleMoveAnims['blazekick'].anim(scene, [attacker, defender]);
 	},
 };
 BattleMoveAnims['crystalslash'] = {
