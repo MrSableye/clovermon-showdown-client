@@ -49531,7 +49531,6 @@ BattleMoveAnims['earthshatter'] = {
 BattleMoveAnims['drumroll'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['followme'].anim(scene, [attacker, defender]);
-		BattleMoveAnims['celebrate'].anim(scene, [attacker, defender]);
 	},
 }; 
 BattleMoveAnims['abyssalwave'] = {
