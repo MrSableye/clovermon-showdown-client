@@ -49970,6 +49970,14 @@ BattleMoveAnims['carcrash'] = {
 		BattleMoveAnims['headsmash'].anim(scene, [attacker, defender]);
 	},
 }; 
+BattleMoveAnims['psiblobbin'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['psychic'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['hypnosis'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['futuresight'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['psychoboost'].anim(scene, [attacker, defender]);
+	},
+}; 
 BattleMoveAnims['bloodletting'] = {anim: BattleMoveAnims['sudoku'].anim};
 BattleMoveAnims['swamp'] = {anim: BattleMoveAnims['grassknot'].anim};
 BattleMoveAnims['meteor'] = {anim: BattleMoveAnims['ancientpower'].anim};
