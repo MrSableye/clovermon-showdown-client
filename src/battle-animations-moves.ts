@@ -49882,6 +49882,12 @@ BattleMoveAnims['faeblade'] = {anim: BattleMoveAnims['spacialrend'].anim};
 BattleMoveAnims['clobber'] = {anim: BattleMoveAnims['trapcard'].anim};
 BattleMoveAnims['thunderdrop'] = {anim: BattleMoveAnims['skydrop'].anim};
 BattleMoveAnims['grandbat'] = {anim: BattleMoveAnims['hammerarm'].anim};
+BattleMoveAnims['mirrorcannon'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['warhead'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['flashbang'].anim(scene, [attacker, defender]);
+	},
+}; 
 BattleMoveAnims['blockbuster'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['focuspunch'].anim(scene, [attacker, defender]);
