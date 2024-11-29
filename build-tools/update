@@ -175,6 +175,7 @@ function updateURL(a, b, c, d) {
 	c = c.replace('/dex.pokemonshowdown.com/', '/' + routes.dex + '/');
 	c = c.replace('/play.pokemonshowdown.com', '/' + routes.client);
 	c = c.replace('/pokemonshowdown.com/', '/' + routes.root + '/');
+	c = c.replace('/calc.pokemonshowdown.com/', '/' + routes.calc + '/');
 
 	if (d) {
 		let hash = Math.random(); // just in case creating the hash fails

@@ -40,6 +40,7 @@ function runReplace(a, b, c) {
 	c = c.replace('/play.pokemonshowdown.com/', '/' + routes.client + '/');
 	c = c.replace('/pokemonshowdown.com/users/', '/' + routes.users + '/');
 	c = c.replace('/pokemonshowdown.com/', '/' + routes.root + '/');
+	c = c.replace('/calc.pokemonshowdown.com/', '/' + routes.calc + '/');
 
 	return b + '="/' + c + '?' + hash + '"';
 }
