@@ -1239,6 +1239,11 @@ class BattleTooltips {
 		if (ability === 'brainpower') {
 			stats.spa *= 2;
 		}
+		if (ability === 'hunter') {
+			stats.spe *= 2;
+			stats.def *= 0.5;
+			stats.spd *= 0.5;
+		}
 		if (ability === 'asoneblobbos') {
 			stats.atk *= 4;
 		}
@@ -1249,7 +1254,7 @@ class BattleTooltips {
 		}
 		if (item === 'usbdrive') {
 			if (speciesName === 'Blobbos-Idiot') {
-				stats.atk *= 2;
+				stats.spa *= 2;
 			}
 		}
 		if (item === 'mascotsorb') {
@@ -1257,6 +1262,10 @@ class BattleTooltips {
 				stats.atk *= 2;
 				stats.spa *= 2;
 			}
+		}
+		if (item === 'vortexorb' && serverPokemon.hp <= serverPokemon.maxhp / 2) {
+			stats.spe = Math.floor(stats.spe * 2);
+			stats.spa = Math.floor(stats.spa * 2;
 		}
 		if (item === 'partnerspendant') {
 			if (speciesName === 'Blobbos-Partner') {
