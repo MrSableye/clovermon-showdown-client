@@ -1178,6 +1178,12 @@ class BattleTooltips {
 				stats.atk *= 2;
 			}
 		}
+		if (item === 'magicianswand') {
+			if (species === 'Bitician' || species === 'Mysticket') {
+				stats.spa *= 2;
+			}
+		}
+		
 
 		if (item === 'cursedfang' && species === 'Winkhulu') {
 			stats.atk *= 2;
