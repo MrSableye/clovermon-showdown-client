@@ -49483,6 +49483,82 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'linear');
 		},
 	},
+	unabletograsp: {
+		anim(scene, [attacker, ...defenders]) {
+			for (const defender of defenders) {
+				defender.delay(125);
+				defender.anim({
+					z: defender.behind(5),
+					time: 75,
+				}, 'swing');
+				defender.anim({
+					time: 75,
+				}, 'swing');
+				defender.anim({
+					z: defender.behind(5),
+					time: 75,
+				}, 'swing');
+				defender.anim({
+					time: 75,
+				}, 'swing');
+				defender.anim({
+					z: defender.behind(5),
+					time: 75,
+				}, 'swing');
+				defender.anim({
+					time: 75,
+				}, 'swing');
+				defender.anim({
+					z: defender.behind(5),
+					time: 75,
+				}, 'swing');
+				defender.anim({
+					time: 150,
+				}, 'swing');
+			}
+
+			scene.backgroundEffect('#C43025', 900, 0.5);
+			scene.showEffect('mistball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0,
+				opacity: 0.5,
+				time: 0,
+			}, {
+				z: attacker.behind(-50),
+				scale: 7,
+				opacity: 0,
+				time: 400,
+			}, 'linear');
+			scene.showEffect('mistball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0,
+				opacity: 0.5,
+				time: 150,
+			}, {
+				z: attacker.behind(-50),
+				scale: 7,
+				opacity: 0,
+				time: 600,
+			}, 'linear');
+			scene.showEffect('mistball', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0,
+				opacity: 0.5,
+				time: 300,
+			}, {
+				z: attacker.behind(-50),
+				scale: 7,
+				opacity: 0,
+				time: 800,
+			}, 'linear');
+		},
+	},
 
 	/* 
 	attacker.anim({
@@ -50376,6 +50452,41 @@ BattleMoveAnims['gripofdivinity'] = {
 BattleMoveAnims['consuming'] = {anim: BattleMoveAnims['soulcrusher'].anim};
 BattleMoveAnims['brainblast'] = {anim: BattleMoveAnims['psystrike'].anim};
 BattleMoveAnims['sunkensanity'] = {anim: BattleMoveAnims['darkvoid'].anim};
+BattleMoveAnims['nethercoating'] = {anim: BattleMoveAnims['acidarmor'].anim};
+BattleMoveAnims['phasingsand'] = {anim: BattleMoveAnims['quicksand'].anim};
+BattleMoveAnims['backpetal'] = {anim: BattleMoveAnims['petaldance'].anim};
+BattleMoveAnims['gutsypunch'] = {anim: BattleMoveAnims['megapunch'].anim};
+BattleMoveAnims['boostcharge'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['spinout'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['charge'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['gotobed'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['darkvoid'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['nightshade'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['bubbleburst'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['bubblebeam'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['bubble'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['bloomdesire'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['solarbeam'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['uproot'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['itsbleak'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['snarl'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['darkpulse'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['nightshade'].anim(scene, [attacker, defender]);
+	},
+};
 BattleMoveAnims['fistofgod'] = {anim: BattleMoveAnims['focuspunch'].anim};
 BattleMoveAnims['glimmerflare'] = {
 	anim(scene, [attacker, defender]) {
