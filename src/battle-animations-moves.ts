@@ -49483,82 +49483,6 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'linear');
 		},
 	},
-	unabletograsp: {
-		anim(scene, [attacker, ...defenders]) {
-			for (const defender of defenders) {
-				defender.delay(125);
-				defender.anim({
-					z: defender.behind(5),
-					time: 75,
-				}, 'swing');
-				defender.anim({
-					time: 75,
-				}, 'swing');
-				defender.anim({
-					z: defender.behind(5),
-					time: 75,
-				}, 'swing');
-				defender.anim({
-					time: 75,
-				}, 'swing');
-				defender.anim({
-					z: defender.behind(5),
-					time: 75,
-				}, 'swing');
-				defender.anim({
-					time: 75,
-				}, 'swing');
-				defender.anim({
-					z: defender.behind(5),
-					time: 75,
-				}, 'swing');
-				defender.anim({
-					time: 150,
-				}, 'swing');
-			}
-
-			scene.backgroundEffect('#C43025', 900, 0.5);
-			scene.showEffect('mistball', {
-				x: attacker.x,
-				y: attacker.y,
-				z: attacker.z,
-				scale: 0,
-				opacity: 0.5,
-				time: 0,
-			}, {
-				z: attacker.behind(-50),
-				scale: 7,
-				opacity: 0,
-				time: 400,
-			}, 'linear');
-			scene.showEffect('mistball', {
-				x: attacker.x,
-				y: attacker.y,
-				z: attacker.z,
-				scale: 0,
-				opacity: 0.5,
-				time: 150,
-			}, {
-				z: attacker.behind(-50),
-				scale: 7,
-				opacity: 0,
-				time: 600,
-			}, 'linear');
-			scene.showEffect('mistball', {
-				x: attacker.x,
-				y: attacker.y,
-				z: attacker.z,
-				scale: 0,
-				opacity: 0.5,
-				time: 300,
-			}, {
-				z: attacker.behind(-50),
-				scale: 7,
-				opacity: 0,
-				time: 800,
-			}, 'linear');
-		},
-	},
 
 	/* 
 	attacker.anim({
@@ -50460,6 +50384,13 @@ BattleMoveAnims['boostcharge'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['spinout'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['charge'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['unabletograsp'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['boomburst'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['lusterpurge'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['nightshade'].anim(scene, [attacker, defender]);
 	},
 };
 BattleMoveAnims['gotobed'] = {
