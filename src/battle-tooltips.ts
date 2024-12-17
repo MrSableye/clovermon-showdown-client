@@ -1265,7 +1265,7 @@ class BattleTooltips {
 		}
 		if (item === 'vortexorb' && serverPokemon.hp <= serverPokemon.maxhp / 2) {
 			stats.spe = Math.floor(stats.spe * 2);
-			stats.spa = Math.floor(stats.spa * 2;
+			stats.spa = Math.floor(stats.spa * 2);
 		}
 		if (item === 'partnerspendant') {
 			if (speciesName === 'Blobbos-Partner') {
