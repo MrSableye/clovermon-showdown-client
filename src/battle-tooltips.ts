@@ -1274,7 +1274,6 @@ class BattleTooltips {
 				stats.spe *= 1.5;
 				stats.def *= 1.5;
 				stats.spd *= 1.5;
-				stats.accuracy *= 1.5;
 			}
 		}
 		if (ability === 'hustle' || (ability === 'gorillatactics' && !clientPokemon?.volatiles['dynamax']) || (ability === 'boardpowerv')) {
@@ -2004,6 +2003,10 @@ class BattleTooltips {
 			value.modify(5 / 3, "Gravity");
 		}
 		value.abilityModify(1.3, "Compound Eyes");
+		const species = this.battle.dex.species.get(pokemon.speciesForme)
+		if (species.name === 'Blobbos-Partner' && value.tryItem("Partner's Pendant")) {
+			value.modify(1.5, "Partner's Pendant");
+		}
 		value.abilityModify(1.3, "Illuminate");
 		for (const active of pokemon.side.active) {
 			if (!active || active.fainted) continue;
