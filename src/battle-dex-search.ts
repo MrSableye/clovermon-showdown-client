@@ -1487,6 +1487,9 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 
 		const moveData = BattleMovedex[id];
 		if (!moveData) return true;
+		if (BattleMoveSearch.ALWAYS_GOOD_MOVES.includes(id)) {
+			return true;
+		}
 		if (moveData.category === 'Status') {
 			return BattleMoveSearch.GOOD_STATUS_MOVES.includes(id);
 		}
@@ -1518,6 +1521,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 	static readonly GOOD_DOUBLES_MOVES = [
 		'allyswitch', 'bulldoze', 'coaching', 'electroweb', 'faketears', 'fling', 'followme', 'healpulse', 'helpinghand', 'junglehealing', 'lifedew', 'lunarblessing', 'muddywater', 'pollenpuff', 'psychup', 'ragepowder', 'safeguard', 'skillswap', 'snipeshot', 'wideguard',
 	] as ID[] as readonly ID[];
+	static readonly ALWAYS_GOOD_MOVES = [] as ID[] as readonly ID[];
 	getBaseResults() {
 		if (!this.species) return this.getDefaultResults();
 		const dex = this.dex;
