@@ -1522,7 +1522,7 @@ class BattleMoveSearch extends BattleTypedSearch<'move'> {
 		'allyswitch', 'bulldoze', 'coaching', 'electroweb', 'faketears', 'fling', 'followme', 'healpulse', 'helpinghand', 'junglehealing', 'lifedew', 'lunarblessing', 'muddywater', 'pollenpuff', 'psychup', 'ragepowder', 'safeguard', 'skillswap', 'snipeshot', 'wideguard',
 	] as ID[] as readonly ID[];
 	static readonly ALWAYS_GOOD_MOVES = [
-		'blobbybop','boltbeam','checkem','comengo','dildocannon','focusmunch','gayagenda','hulkup','inverseroom','lickclean','meme','mop','punchout','quicksand','regenerate','scorchedearth','sleazyspores','slipturn','speedweed','spookout','sudoku','thinkfast','toke','weirdflex','wowweiner'
+		'blobbybop','boltbeam','checkem','comengo','dildocannon','focusmunch','gayagenda','hulkup','inverseroom','lickclean','meme','mop','punchout','quicksand','regenerate','scorchedearth','sleazyspores','slipturn','speedweed','spookout','sudoku','thinkfast','toke','trigger','weirdflex','wowweiner'
 	] as ID[] as readonly ID[];
 	getBaseResults() {
 		if (!this.species) return this.getDefaultResults();
