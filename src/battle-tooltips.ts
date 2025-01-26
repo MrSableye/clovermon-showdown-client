@@ -1861,6 +1861,10 @@ class BattleTooltips {
 		if (move.id === 'aurawheel' && pokemon.getSpeciesForme() === 'Morpeko-Hangry') {
 			moveType = 'Dark';
 		}
+		// Brutal Punishment as Disbeary-Ebil changes the type to Dark
+		if (move.id === 'brutalpunishment' && pokemon.getSpeciesForme() === 'Disbeary-Ebil') {
+			moveType = 'Dark';
+		}
 		// Raging Bull's type depends on the Tauros forme
 		if (move.id === 'ragingbull') {
 			switch (pokemon.getSpeciesForme()) {
