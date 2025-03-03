@@ -1181,6 +1181,26 @@ export class BattleScene implements BattleSceneStub {
 				opacity: 0.3,
 				time: instant ? 0 : 300,
 			});
+			switch (id) {
+		case 'mirageveil':
+			const mirageveil = new Sprite(BattleEffects.mirageveil, {
+				display: 'block',
+				x,
+				y,
+				z: side.behind(-14),
+				xscale: 1,
+				yscale: 0,
+				opacity: 0.1,
+			}, this);
+			this.$spritesFront[spriteIndex].append(mirageveil.$el!);
+			this.sideConditions[siden][id] = [mirageveil];
+			mirageveil.anim({
+				opacity: 0.7,
+				time: instant ? 0 : 400,
+			}).anim({
+				opacity: 0.3,
+				time: instant ? 0 : 300,
+			});
 			break;
 		case 'reflect':
 			const reflect = new Sprite(BattleEffects.reflect, {
@@ -3279,6 +3299,10 @@ const BattleEffects: {[k: string]: SpriteData} = {
 	},
 	auroraveil: {
 		rawHTML: '<div class="sidecondition-auroraveil" style="display:none;position:absolute" />',
+		w: 100, h: 50,
+	},
+	mirageveil: {
+		rawHTML: '<div class="sidecondition-mirageveil" style="display:none;position:absolute" />',
 		w: 100, h: 50,
 	},
 	reflect: {
