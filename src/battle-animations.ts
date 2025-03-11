@@ -1737,7 +1737,11 @@ export class BattleScene implements BattleSceneStub {
 	rollBgm() {
 		if (['wackonly', 'wacknatdex'].includes(this.battle.modName || '')) {
 			this.setRandomTrack(wackTracks);
-		} else {
+		}  
+		if (['clovercaponly', 'copeonly'].includes(this.battle.modName || '')) {
+			this.setRandomTrack(clovercapTracks);
+		}
+else {
 			this.setRandomTrack(cloverTracks);
 		}
 	}
