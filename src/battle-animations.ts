@@ -71,6 +71,11 @@ const wackTracks: Track[] = [
 	{ file: 'audio/zaydolfreturn.mp3', start: 0, end: 319000 },
 ];
 
+const clovercapTracks: Track[] = [
+	{ file: 'audio/battle-deadgitrio.mp3', start: 0, end: 400406 },
+];
+
+
 type SpecialTrack = 'kojimakino';
 
 const specialTracks: Record<SpecialTrack, Track> = {
