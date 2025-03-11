@@ -50754,3 +50754,18 @@ BattleMoveAnims['devilsharvest'] = {anim: BattleMoveAnims['milkdrink'].anim};
 BattleMoveAnims['oceanhorn'] = {anim: BattleMoveAnims['wavecrash'].anim};
 BattleMoveAnims['blazingwheel'] = {anim: BattleMoveAnims['flamecharge'].anim};
 BattleMoveAnims['prisonroots'] = {anim: BattleMoveAnims['enema'].anim};
+
+BattleMoveAnims['gemblast'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['powergem'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['dragonenergy'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['moonblast'].anim(scene, [attacker, defender]);
+	},
+};
+BattleMoveAnims['yearningbrambles'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['enema'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['sudoku'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['bloodshot'].anim(scene, [attacker, defender]);
+	},
+};
