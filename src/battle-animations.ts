@@ -79,7 +79,6 @@ const clovercapTracks: Track[] = [
 	{ file: 'audio/battle-bugtrio.mp3', start: 51111, end: 97778 },
 	{ file: 'audio/battle-doomsday.mp3', start: 126150, end: 237370 },
 	{ file: 'audio/battle-stormchaser.mp3', start: 95080, end: 183566 },
-	{ file: 'audio/battle-bugtrio.mp3', start: 51111, end: 97778 },
 ];
 
 
