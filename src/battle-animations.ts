@@ -1742,13 +1742,11 @@ export class BattleScene implements BattleSceneStub {
 	}
 	rollBgm() {
 		const mod = this.battle.modName || this.battle.id || (this.battle.tier && toID(this.battle.tier)) || '';
-		if (['wackonly', 'wacknatdex'].includes(mod)) {
+		if (['wackonly', 'wacknatdex'].some((match) => mod.includes(match))) {
 			this.setRandomTrack(wackTracks);
-		}  
-		if (['clovercaponly', 'copeonly'].includes(mod)) {
+		} else if (['clovercaponly', 'copeonly'].some((match) => mod.includes(match))) {
 			this.setRandomTrack(clovercapTracks);
-		}
-else {
+		} else {
 			this.setRandomTrack(cloverTracks);
 		}
 	}
