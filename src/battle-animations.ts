@@ -1741,10 +1741,11 @@ export class BattleScene implements BattleSceneStub {
 		this.preloadImage(Dex.resourcePrefix + 'sprites/ani-back/substitute.gif');
 	}
 	rollBgm() {
-		if (['wackonly', 'wacknatdex'].includes(this.battle.modName || this.battle.id || '')) {
+		const mod = this.battle.modName || this.battle.id || (this.battle.tier && toID(this.battle.tier)) || '';
+		if (['wackonly', 'wacknatdex'].includes(mod)) {
 			this.setRandomTrack(wackTracks);
 		}  
-		if (['clovercaponly', 'copeonly'].includes(this.battle.modName || this.battle.id || '')) {
+		if (['clovercaponly', 'copeonly'].includes(mod)) {
 			this.setRandomTrack(clovercapTracks);
 		}
 else {
