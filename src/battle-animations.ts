@@ -72,7 +72,14 @@ const wackTracks: Track[] = [
 ];
 
 const clovercapTracks: Track[] = [
-	{ file: 'audio/battle-deadgitrio.mp3', start: 0, end: 400406 },
+	{ file: 'audio/battle-deadgitrio.mp3', start: 151765, end: 289412 },
+	{ file: 'audio/battle-wild.mp3', start: 70598, end: 135815 },
+	{ file: 'audio/battle-nmn.mp3', start: 138416, end: 264951 },
+	{ file: 'audio/battle-ultrabeastcope.mp3', start: 96676, end: 135594 },
+	{ file: 'audio/battle-bugtrio.mp3', start: 51111, end: 97778 },
+	{ file: 'audio/battle-doomsday.mp3', start: 126150, end: 237370 },
+	{ file: 'audio/battle-stormchaser.mp3', start: 95080, end: 183566 },
+	{ file: 'audio/battle-bugtrio.mp3', start: 51111, end: 97778 },
 ];
 
 
