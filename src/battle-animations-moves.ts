@@ -50207,6 +50207,9 @@ BattleMoveAnims['faeblade'] = {anim: BattleMoveAnims['spacialrend'].anim};
 BattleMoveAnims['clobber'] = {anim: BattleMoveAnims['trapcard'].anim};
 BattleMoveAnims['thunderdrop'] = {anim: BattleMoveAnims['skydrop'].anim};
 BattleMoveAnims['grandbat'] = {anim: BattleMoveAnims['hammerarm'].anim};
+BattleMoveAnims['criticalmass'] = {anim: BattleMoveAnims['holyduty'].anim};
+BattleMoveAnims['extremeedge'] = {anim: BattleMoveAnims['owtheedge'].anim};
+BattleMoveAnims['swordbreaker'] = {anim: BattleMoveAnims['sacredsword'].anim};
 BattleMoveAnims['mirrorcannon'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['warhead'].anim(scene, [attacker, defender]);
