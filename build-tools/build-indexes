@@ -39,6 +39,7 @@ function requireNoCache(pathSpec) {
 
 const MODS = [
 	{modGen: 8, mod: 'clover', name: 'Pokémon Clover', offset: 69000},
+	{modGen: 8, mod: 'wackclover', name: 'Wack Clover', offset: 69000},
 	{modGen: 8, mod: 'clovercap', name: 'Pokémon Clover CAP', offset: 42000},
 	{modGen: 8, mod: 'cloverblobboscap', name: 'Create-a-Blobbos', offset: 69000},
 	{modGen: 8, mod: 'sandbox', name: 'Sandbox'},
