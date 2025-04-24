@@ -2576,7 +2576,7 @@ class BattleTooltips {
 		// Gems
 		if (BattleTooltips.noGemMoves.includes(moveName)) return value;
 		if (itemName === moveType + ' Gem') {
-			value.itemModify(this.battle.gen < 6 ? 1.5 : this.battle.gen === 8 ? 1.5 : 1.3);
+			value.itemModify((this.battle.gen < 6 || ['cloveronly'].includes(this.battle.modName || '')) ? 1.5 : this.battle.gen === 8 ? 1.5 : 1.3);
 			return value;
 		}
 
