@@ -50,6 +50,7 @@ const MODS = [
 	{modGen: 8, mod: 'clovertest', name: 'Pokémon Clover (2.0 Test)', offset: 69000},
 	{modGen: 8, mod: 'copecapcabdraft', name: 'Pokémon Cope CAP CAB Draft'},
 	{modGen: 8, mod: 'wipmons', name: 'WIPMons'},
+	{modGen: 8, mod: 'wackcap', name: 'Pokémon Wack CAP', offset: 1000001},
 ];
 
 /*********************************************************
