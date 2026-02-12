@@ -50210,6 +50210,7 @@ BattleMoveAnims['grandbat'] = {anim: BattleMoveAnims['hammerarm'].anim};
 BattleMoveAnims['criticalmass'] = {anim: BattleMoveAnims['holyduty'].anim};
 BattleMoveAnims['extremeedge'] = {anim: BattleMoveAnims['owtheedge'].anim};
 BattleMoveAnims['swordbreaker'] = {anim: BattleMoveAnims['sacredsword'].anim};
+BattleMoveAnims['quantumpounce'] = {anim: BattleMoveAnims['shadowforce'].anim};
 BattleMoveAnims['mirrorcannon'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['warhead'].anim(scene, [attacker, defender]);
