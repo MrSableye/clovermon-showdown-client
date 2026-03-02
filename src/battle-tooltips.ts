@@ -1174,7 +1174,7 @@ class BattleTooltips {
 		}
 
 		if (item === 'thiccbone') {
-			if (species === 'Masdawg' || species === 'Pasdawg' || species === 'Bandicute' || species === 'Naughtycoot') {
+			if (species === 'Masdawg' || species === 'Pasdawg') {
 				stats.atk *= 2;
 			}
 		}
@@ -1193,8 +1193,10 @@ class BattleTooltips {
 			stats.spa *= 2;
 		}
 
-		if (item === 'powermask' && species === 'Naughtycoot') {
-			stats.atk *= 2;
+		if (item === 'madnessmask') {
+			if (species === 'Bandicute' || species === 'Naughtycoot') {
+				stats.atk *= 2;
+			}
 		}
 
 		if (item === 'chargedmicrophone' && species === 'Ampstar') {
