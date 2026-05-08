@@ -51307,7 +51307,13 @@ BattleMoveAnims['discoveredattack'] = {
 		BattleMoveAnims['behemothblade'].anim(scene, [attacker, defender]);
 	},
 };
-
+BattleMoveAnims['bulbclinch'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['kingsshield'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['moonlight'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['cosmicpower'].anim(scene, [attacker, defender]);
+	},
+};
 
 BattleMoveAnims['gemblast'] = {
 	anim(scene, [attacker, defender]) {
