@@ -51294,6 +51294,7 @@ BattleMoveAnims['monument'] = {anim: BattleMoveAnims['continentalcrush'].anim};
 BattleMoveAnims['fiveofakind'] = {anim: BattleMoveAnims['makeitrain'].anim};
 BattleMoveAnims['blusteryfront'] = {anim: BattleMoveAnims['aeroblast'].anim};
 BattleMoveAnims['trample'] = {anim: BattleMoveAnims['highhorsepower'].anim};
+BattleMoveAnims['landslide'] = {anim: BattleMoveAnims['muddywater'].anim};
 BattleMoveAnims['cloudburst'] = {
 	anim(scene, [attacker, defender]) {
 		BattleMoveAnims['waterspout'].anim(scene, [attacker, defender]);
@@ -51318,7 +51319,13 @@ BattleMoveAnims['discoveredattack'] = {
 		BattleMoveAnims['behemothblade'].anim(scene, [attacker, defender]);
 	},
 };
-
+BattleMoveAnims['bulbclinch'] = {
+	anim(scene, [attacker, defender]) {
+		BattleMoveAnims['kingsshield'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['moonlight'].anim(scene, [attacker, defender]);
+		BattleMoveAnims['cosmicpower'].anim(scene, [attacker, defender]);
+	},
+};
 
 BattleMoveAnims['gemblast'] = {
 	anim(scene, [attacker, defender]) {
