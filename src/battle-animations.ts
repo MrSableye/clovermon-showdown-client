@@ -1961,6 +1961,7 @@ export class PokemonSprite extends Sprite {
 		futuresight: null,
 		finalhour: null,
 		crashbomber: null,
+		cometfall: null,
 		mimic: ['Mimic', 'good'],
 		watersport: ['Water Sport', 'good'],
 		mudsport: ['Mud Sport', 'good'],
@@ -1976,6 +1977,17 @@ export class PokemonSprite extends Sprite {
 		sharpen1: ['Sharpen', 'good'],
 		sharpen2: ['Sharpen&times;2', 'good'],
 		sharpen3: ['Sharpen&times;3', 'good'],
+		timepassing1: ['Time Passing', 'good'],
+		timepassing2: ['Time Passing&times;2', 'good'],
+		timepassing3: ['Time Passing&times;3', 'good'],
+		timepassing4: ['Time Passing&times;4', 'good'],
+		timepassing5: ['Time Passing&times;5', 'good'],
+		timepassing6: ['Time Passing&times;6', 'good'],
+		timepassing7: ['Time Passing&times;7', 'good'],
+		timepassing8: ['Time Passing&times;8', 'good'],
+		timepassing9: ['Time Passing&times;9', 'good'],
+		timepassing10: ['Time Passing&times;10', 'good'],
+		timepassing11: ["Oh, it's gonna be one of those games.", 'good'],
 		// sub graphics are handled elsewhere, see Battle.Sprite.animSub()
 		uproar: ['Uproar', 'neutral'],
 		rage: ['Rage', 'neutral'],
@@ -4903,6 +4915,65 @@ export const BattleOtherAnims: AnimTable = {
 				time: 300,
 			}, {
 				scale: 6,
+				opacity: 0,
+			}, 'linear');
+
+			defender.delay(100);
+			defender.anim({
+				x: defender.x - 30,
+				time: 75,
+			});
+			defender.anim({
+				x: defender.x + 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x - 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x + 30,
+				time: 100,
+			});
+			defender.anim({
+				x: defender.x,
+				time: 100,
+			});
+		},
+	},
+	cometfall: {
+		anim(scene, [defender]) {
+			scene.backgroundEffect('#ffffff', 600, 0.6);
+			scene.showEffect('shine', {
+				x: defender.x + 40,
+				y: defender.y,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+			}, {
+				scale: 5,
+				opacity: 0,
+			}, 'linear');
+			scene.showEffect('shine', {
+				x: defender.x - 40,
+				y: defender.y - 20,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 150,
+			}, {
+				scale: 5,
+				opacity: 0,
+			}, 'linear');
+			scene.showEffect('shine', {
+				x: defender.x + 10,
+				y: defender.y + 20,
+				z: defender.z,
+				scale: 0,
+				opacity: 0.6,
+				time: 300,
+			}, {
+				scale: 5,
 				opacity: 0,
 			}, 'linear');
 
