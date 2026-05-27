@@ -27041,6 +27041,32 @@ export const BattleMoveAnims: AnimTable = {
 			}, 'swing');
 		},
 	},
+	chaos: {
+		anim(scene,[attacker]) {
+			scene.showEffect('chaos', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 0.6,
+				opacity: 0.5,
+			}, {
+				scale: 2,
+				opacity: 0.9,
+				time: 200,
+			}, 'decel', 'fade');
+			scene.showEffect('chaos', {
+				x: attacker.x,
+				y: attacker.y,
+				z: attacker.z,
+				scale: 2,
+				opacity: 0.9,
+				time: 150,
+			}, {
+				scale: 3,
+				opacity: 0,
+			}, 'decel', 'fade');
+		}
+	},
 	bestow: {
 		anim(scene, [attacker, defender]) {
 			scene.showEffect('pokeball', {
