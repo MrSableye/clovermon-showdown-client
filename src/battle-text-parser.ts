@@ -927,6 +927,12 @@ class BattleTextParser {
 					.replace('[TASKREQUIREMENT]', kwArgs.taskrequirement)
 					.replace('[TASKPROGRESSTEXT]', kwArgs.taskprogresstext);
 			}
+			if (['boundary', 'boundary2'].includes(id)) {
+				const template = this.template('activate', 'boundary');
+				return line1 + template
+					.replace('[POKEMON]', this.pokemon(pokemon))
+					.replace('[TYPELIST]', kwArgs.typelist);
+			}
 
 			let templateId = 'activate';
 			if (id === 'forewarn' && pokemon === target) {
