@@ -10,6 +10,7 @@
  */
 
 import {AnimTable, BattleOtherAnims} from './battle-animations';
+import { BattleSound } from './battle-sound';
 
 export const BattleMoveAnims: AnimTable = {
 	taunt: {
@@ -50980,6 +50981,7 @@ BattleMoveAnims['crystalslash'] = {
 };
 BattleMoveAnims['berserkersoul'] = {
 	anim(scene, [attacker, defender]) {
+		BattleSound.playEffect('audio/ygo-sting.mp3');
 		BattleMoveAnims['aurasphere'].anim(scene, [attacker, defender]);
 		BattleMoveAnims['infernalparade'].anim(scene, [attacker, defender]);
 	},
